@@ -11,6 +11,7 @@ exports.getAllSalesman = function (req, res){
     const db = req.app.get('db');
 
     salesmanService.getAllSalesman(db).then(salesman => {
+        // remove _id from salesman
         salesman = salesman.map(({_id, ...rest}) => rest);
 
         res.status(200).send(salesman);
@@ -29,8 +30,7 @@ exports.getSalesman = function (req, res){
     let sid = req.params.id;
 
     salesmanService.getSalesman(db, sid).then(salesman => {
-        console.log(salesman);
-
+        // remove _id from salesman
         const {_id, ...salesmanData} = salesman;
 
         res.status(200).send(salesmanData);
@@ -67,6 +67,7 @@ exports.createSalesman = function (req, res) {
     const salesman = Salesman.fromJSON(body);
 
     salesmanService.getSalesman(db, salesman.sid).then(exSalesman => {
+        // check if salesman with sid already exists
         if(exSalesman)
             throw new Error(`Salesman with sid ${salesman.sid} already exists!`);
 
@@ -142,6 +143,7 @@ exports.deleteSocialPerformanceRecord = function (req, res) {
  */
 exports.updateSalesman = function (req, res) {
     const db = req.app.get('db');
+
     const salesman = Salesman.fromJSON(req.body);
 
     salesmanService.updateSalesman(db, salesman).then(_ => {
@@ -159,6 +161,7 @@ exports.updateSalesman = function (req, res) {
 exports.updateSocialPerformanceRecord = function (req, res) {
     const db = req.app.get('db');
     let sid = req.params.id;
+
     const record = SocialPerformanceRecord.fromJSON(req.body);
 
     salesmanService.getSalesman(db, sid).then(salesman => {

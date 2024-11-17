@@ -27,10 +27,13 @@ exports.getSalesman = async function (db, sid){
  * @returns {Promise<SocialPerformanceRecord>}
  */
 exports.getSocialPerformanceRecord = async function (db, sid, year){
+    // get salesman by sid
     const salesman = await db.collection('salesman').findOne({sid: sid});
 
+    // check if salesman exists
     if(!salesman) throw new Error(`Salesman with sid ${sid} not found!`);
 
+    // return social performance record by year
     return salesman.socialPerformanceRecords.find(r => r.year === year);
 }
 
@@ -52,12 +55,13 @@ exports.createSalesman = async function (db, salesman){
  * @returns {Promise<any>}
  */
 exports.createSocialPerformanceRecord = async function (db, salesman, record){
+    // get salesman by sid
     if (!salesman) throw new Error(`Salesman with sid ${salesman.sid} not found!`);
 
-    console.log(record);
-
+    // check if record already exists
     Salesman.addSocialPerformanceRecord(salesman, record);
 
+    // update salesman
     return this.updateSalesman(db, salesman);
 }
 
@@ -79,10 +83,13 @@ exports.deleteSalesman = async function (db, sid){
  * @returns {Promise<any>}
  */
 exports.deleteSocialPerformanceRecord = async function (db, sid, year){
-    const record = await this.getSocialPerformanceRecord(db, sid, year); //check if record exists
+    // get record by year from salesman with sid
+    const record = await this.getSocialPerformanceRecord(db, sid, year);
 
+    // check if record exists
     if(!record) throw new Error(`Record for year ${year} not found!`);
 
+    // delete record from salesman
     return db.collection('salesman').updateOne(
         { sid: sid },
         { $pull: { socialPerformanceRecords: record } }
@@ -96,14 +103,15 @@ exports.deleteSocialPerformanceRecord = async function (db, sid, year){
  * @returns {Promise<any>}
  */
 exports.updateSalesman = async function (db, salesman){
+    // check if salesman exists
     if (!salesman || !salesman.sid) {
         throw new Error('Salesman not found!');
     }
 
+    // remove _id from object
     const {_id, ...salesmanData} = salesman; // remove _id from object
 
-    console.log(salesmanData);
-
+    // update salesman
     return await db.collection('salesman').updateOne(
         { sid: salesman.sid },
         { $set: {...salesmanData} }
@@ -118,6 +126,7 @@ exports.updateSalesman = async function (db, salesman){
  * @returns {Promise<any>}
  */
 exports.updateSocialPerformanceRecord = async function (db, salesman, record){
+    // check if salesman and record exist
     if (!salesman || !salesman.sid) {
         throw new Error('Salesman not found!');
     }
@@ -126,13 +135,17 @@ exports.updateSocialPerformanceRecord = async function (db, salesman, record){
         throw new Error('Record not found!');
     }
 
+    // get record by year from salesman
     const recordIndex = salesman.socialPerformanceRecords.findIndex(r => r.year === record.year);
 
+    // check if record exists
     if (recordIndex === -1) {
         throw new Error(`Record for year ${record.year} not found!`);
     }
 
+    // update record
     salesman.socialPerformanceRecords[recordIndex] = record;
 
+    // update salesman
     return await this.updateSalesman(db, salesman);
 }
