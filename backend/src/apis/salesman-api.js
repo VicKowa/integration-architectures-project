@@ -1,18 +1,38 @@
 const express = require('express');
+const salesmanService = require('../services/salesman-service');
 
-// GET Requests
-//getAllSalesman
-exports.getAllSalesman= function (req, res){
+
+exports.getAllSalesman = function (req, res){
+    const db = req.app.get('db');
+
+    salesmanService.getAllSalesman(db).then(salesman => {
+        res.status(200).send(salesman);
+    }).catch(_ => {
+        res.status(500).send('No Salesman found!');
+    });
 }
 
-// getSalesman(int id)
 exports.getSalesman = function (req, res){
+    const db = req.app.get('db');
+    let sid = req.params.sid;
+
+    try {
+        sid = parseInt(sid);
+    } catch (e) {
+        res.status(400).send('Invalid Salesman ID!');
+        return;
+    }
+
+    salesmanService.getSalesman(db, sid).then(salesman => {
+        res.status(200).send(salesman);
+    }).catch(_ => {
+        res.status(500).send(`No Salesman with ${sid} found!`);
+    });
 }
-//getSocialPerformanceRecord(int id)
+
 exports.getSocialPerformanceRecord = function (req, res){}
 
-// Post Requests
-// createSalesman(int sid, String firstname, String lastname)
+
 exports.createSalesman = function (req, res){
 }
 

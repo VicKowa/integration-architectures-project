@@ -3,6 +3,7 @@ class SalesMan {
         this.firstname = firstname;
         this.lastname = lastname;
         this.sid = sid;
+
         this.socialPerformanceRecords = this.#validateRecords(socialPerformanceRecords);
     }
 
