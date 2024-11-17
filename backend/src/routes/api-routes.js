@@ -19,17 +19,17 @@ router.get('/people', checkAuthorization(), peopleDemoApi.getPeople);
 
 const salesmanApi = require('../apis/salesman-api'); //api for salesman
 // GET Requests
-router.get('/salesman', checkAuthorization(), salesmanApi.getAllSalesman);
-router.get('/salesman/:id', checkAuthorization(), salesmanApi.getSalesman);
-router.get('/salesman/:id/spr/:year', checkAuthorization(), salesmanApi.getSocialPerformanceRecord);
+router.get('/salesman', salesmanApi.getAllSalesman);
+router.get('/salesman/:id', salesmanApi.getSalesman);
+router.get('/salesman/:id/spr/:year', salesmanApi.getSocialPerformanceRecord);
 // Post Requests
-router.post('/salesman', checkAuthorization(), salesmanApi.createSalesman);
-router.post('/salesman/:id/spr', checkAuthorization(), salesmanApi.createSocialPerformanceRecord);
+router.post('/salesman', salesmanApi.createSalesman);
+router.post('/salesman/:id/spr', salesmanApi.createSocialPerformanceRecord);
 // Delete Requests
-router.delete('/salesman/:id', checkAuthorization(), salesmanApi.deleteSalesman);
-router.delete('/salesman/:id/spr/:year', checkAuthorization(), salesmanApi.deleteSocialPerformanceRecord);
+router.delete('/salesman/:id', salesmanApi.deleteSalesman);
+router.delete('/salesman/:id/spr/:year', salesmanApi.deleteSocialPerformanceRecord);
 // Put Requests
-router.put('/salesman/:id', checkAuthorization(), salesmanApi.updateSalesman);
-router.put('/salesman/:id/spr', checkAuthorization(), salesmanApi.updateSocialPerformanceRecord);
+router.put('/salesman', salesmanApi.updateSalesman);
+router.put('/salesman/:id/spr', salesmanApi.updateSocialPerformanceRecord);
 
 module.exports = router;
