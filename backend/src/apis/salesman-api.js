@@ -30,29 +30,121 @@ exports.getSalesman = function (req, res){
     });
 }
 
-exports.getSocialPerformanceRecord = function (req, res){}
+exports.getSocialPerformanceRecord = function (req, res) {
+    const db = req.app.get('db');
+    let sid = req.params.sid;
+    let year = req.params.year;
 
+    try {
+        sid = parseInt(sid);
+        year = parseInt(year);
+    } catch (e) {
+        res.status(400).send('Invalid Salesman ID or Year!');
+        return;
+    }
 
-exports.createSalesman = function (req, res){
+    salesmanService.getSocialPerformanceRecord(db, sid, year).then(record => {
+        res.status(200).send(record);
+    }).catch(_ => {
+        res.status(500).send(`No Social Performance Record for ${sid} found!`);
+    });
 }
 
-// addSocialPerformanceRecord(int sid, SPR record)
-exports.createSocialPerformanceRecord = function (req, res){
+
+exports.createSalesman = function (req, res) {
+    const db = req.app.get('db');
+    const salesman = req.body;
+
+    salesmanService.createSalesman(db, salesman).then(_ => {
+        res.status(200).send('Salesman created!');
+    }).catch(_ => {
+        res.status(500).send('Salesman could not be created!');
+    });
 }
 
-// DELETE Requests
-// deleteSalesman(int id)
-exports.deleteSalesman = function (req, res){
+exports.createSocialPerformanceRecord = function (req, res) {
+    const db = req.app.get('db');
+    let sid = req.params.sid;
+    const record = req.body;
+
+    try {
+        sid = parseInt(sid);
+    } catch (e) {
+        res.status(400).send('Invalid Salesman ID!');
+        return;
+    }
+
+    salesmanService.createSocialPerformanceRecord(db, sid, record).then(_ => {
+        res.status(200).send('Social Performance Record created!');
+    }).catch(_ => {
+        res.status(500).send('Social Performance Record could not be created!');
+    });
 }
 
-// deleteSocialPerformanceRecord(int id, SPR record)
-exports.deleteSocialPerformanceRecord = function (req, res){
+exports.deleteSalesman = function (req, res) {
+    const db = req.app.get('db');
+    let sid = req.params.sid;
+
+    try {
+        sid = parseInt(sid);
+    } catch (e) {
+        res.status(400).send('Invalid Salesman ID!');
+        return;
+    }
+
+    salesmanService.deleteSalesman(db, sid).then(_ => {
+        res.status(200).send('Salesman deleted!');
+    }).catch(_ => {
+        res.status(500).send('Salesman could not be deleted!');
+    });
 }
 
-// PUT Requests
-// updateSalesman(int id, String firstname, String lastname)
-exports.updateSalesman = function (req, res){
+exports.deleteSocialPerformanceRecord = function (req, res) {
+    const db = req.app.get('db');
+    let sid = req.params.sid;
+    let year = req.params.year;
+
+    try {
+        sid = parseInt(sid);
+        year = parseInt(year);
+    } catch (e) {
+        res.status(400).send('Invalid Salesman ID or Year!');
+        return;
+    }
+
+    salesmanService.deleteSocialPerformanceRecord(db, sid, year).then(_ => {
+        res.status(200).send('Social Performance Record deleted!');
+    }).catch(_ => {
+        res.status(500).send('Social Performance Record could not be deleted!');
+    });
 }
-// updateSocialPerformanceRecord(int id, SPR record)
-exports.updateSocialPerformanceRecord = function (req, res){
+
+exports.updateSalesman = function (req, res) {
+    const db = req.app.get('db');
+    const salesman = req.body;
+
+    salesmanService.updateSalesman(db, salesman).then(_ => {
+        res.status(200).send('Salesman updated!');
+    }).catch(_ => {
+        res.status(500).send('Salesman could not be updated!');
+    });
+}
+
+exports.updateSocialPerformanceRecord = function (req, res) {
+    const db = req.app.get('db');
+    let sid = req.params.sid;
+    const record = req.body;
+
+    try {
+        sid = parseInt(sid);
+    } catch (e) {
+        res.status(400).send('Invalid Salesman ID!');
+        return;
+    }
+
+    salesmanService.updateSocialPerformanceRecord(db, sid, record).then(_ => {
+        res.status(200).send('Social Performance Record updated!');
+    }).catch(_ => {
+        res.status(500).send('Social Performance Record could not be updated!');
+    });
 }

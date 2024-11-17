@@ -21,13 +21,13 @@ const salesmanApi = require('../apis/salesman-api'); //api for salesman
 // GET Requests
 router.get('/salesman', checkAuthorization(), salesmanApi.getAllSalesman);
 router.get('/salesman/:id', checkAuthorization(), salesmanApi.getSalesman);
-router.get('/salesman/:id/spr', checkAuthorization(), salesmanApi.getSocialPerformanceRecord);
+router.get('/salesman/:id/spr/:year', checkAuthorization(), salesmanApi.getSocialPerformanceRecord);
 // Post Requests
 router.post('/salesman', checkAuthorization(), salesmanApi.createSalesman);
 router.post('/salesman/:id/spr', checkAuthorization(), salesmanApi.createSocialPerformanceRecord);
 // Delete Requests
 router.delete('/salesman/:id', checkAuthorization(), salesmanApi.deleteSalesman);
-router.delete('/salesman/:id/spr', checkAuthorization(), salesmanApi.deleteSocialPerformanceRecord);
+router.delete('/salesman/:id/spr/:year', checkAuthorization(), salesmanApi.deleteSocialPerformanceRecord);
 // Put Requests
 router.put('/salesman/:id', checkAuthorization(), salesmanApi.updateSalesman);
 router.put('/salesman/:id/spr', checkAuthorization(), salesmanApi.updateSocialPerformanceRecord);
