@@ -16,7 +16,7 @@ exports.getAllSalesman = function (req, res){
 
         res.status(200).send(salesman);
     }).catch(_ => {
-        res.status(500).send('No Salesman found!');
+        res.status(404).send('No Salesman found!');
     });
 }
 
@@ -35,7 +35,7 @@ exports.getSalesman = function (req, res){
 
         res.status(200).send(salesmanData);
     }).catch(_ => {
-        res.status(500).send(`No Salesman with ${sid} found!`);
+        res.status(404).send(`No Salesman with ${sid} found!`);
     });
 }
 
@@ -50,9 +50,12 @@ exports.getSocialPerformanceRecord = function (req, res) {
     let year = req.params.year;
 
     salesmanService.getSocialPerformanceRecord(db, sid, year).then(record => {
+        if (!record)
+            throw new Error(`No Social Performance Record for ${sid} and ${year} found!`);
+
         res.status(200).send(record);
     }).catch(_ => {
-        res.status(500).send(`No Social Performance Record for ${sid} found!`);
+        res.status(404).send(`No Social Performance Record for ${sid} and ${year} found!`);
     });
 }
 
@@ -63,16 +66,15 @@ exports.getSocialPerformanceRecord = function (req, res) {
  */
 exports.createSalesman = function (req, res) {
     const db = req.app.get('db');
-    const body = req.body;
-    const salesman = Salesman.fromJSON(body);
+    const salesman = Salesman.fromJSON(req.body);
 
     salesmanService.getSalesman(db, salesman.sid).then(exSalesman => {
         // check if salesman with sid already exists
         if(exSalesman)
             throw new Error(`Salesman with sid ${salesman.sid} already exists!`);
 
-        salesmanService.createSalesman(db, salesman).then(sid => {
-            res.status(200).send(`Salesman with sid ${sid} created!`);
+        salesmanService.createSalesman(db, salesman).then(_ => {
+            res.status(200).send(`Salesman with sid ${salesman.sid} created!`);
         }).catch(_ => {
             res.status(500).send('Salesman could not be created!');
         });
@@ -129,10 +131,14 @@ exports.deleteSocialPerformanceRecord = function (req, res) {
     let sid = req.params.id;
     let year = req.params.year;
 
-    salesmanService.deleteSocialPerformanceRecord(db, sid, year).then(_ => {
-        res.status(200).send('Social Performance Record deleted!');
+    salesmanService.getSalesman(db, sid).then(salesman => {
+        salesmanService.deleteSocialPerformanceRecord(db, salesman.sid, year).then(_ => {
+            res.status(200).send('Social Performance Record deleted!');
+        }).catch(_ => {
+            res.status(500).send('Social Performance Record could not be deleted!');
+        });
     }).catch(_ => {
-        res.status(500).send('Social Performance Record could not be deleted!');
+        res.status(500).send('Salesman not found!');
     });
 }
 
@@ -171,6 +177,6 @@ exports.updateSocialPerformanceRecord = function (req, res) {
             res.status(500).send('Social Performance Record could not be updated!');
         });
     }).catch(_ => {
-        res.status(500).send('Salesman not found!');
+        res.status(404).send('Salesman not found!');
     });
 }

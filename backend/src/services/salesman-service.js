@@ -28,7 +28,7 @@ exports.getSalesman = async function (db, sid){
  */
 exports.getSocialPerformanceRecord = async function (db, sid, year){
     // get salesman by sid
-    const salesman = await db.collection('salesman').findOne({sid: sid});
+    const salesman = await this.getSalesman(db, sid);
 
     // check if salesman exists
     if(!salesman) throw new Error(`Salesman with sid ${sid} not found!`);
@@ -109,7 +109,7 @@ exports.updateSalesman = async function (db, salesman){
     }
 
     // remove _id from object
-    const {_id, ...salesmanData} = salesman; // remove _id from object
+    const {_id, ...salesmanData} = salesman;
 
     // update salesman
     return await db.collection('salesman').updateOne(
