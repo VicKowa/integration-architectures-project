@@ -17,4 +17,19 @@ router.get('/user', checkAuthorization(), userApi.getSelf);
 const peopleDemoApi = require('../apis/people-demo-api');
 router.get('/people', checkAuthorization(), peopleDemoApi.getPeople);
 
+const salesmanApi = require('../apis/salesman-api'); //api for salesman
+// GET Requests
+router.get('/salesman', salesmanApi.getAllSalesman);
+router.get('/salesman/:id', salesmanApi.getSalesman);
+router.get('/salesman/:id/spr/:year', salesmanApi.getSocialPerformanceRecord);
+// Post Requests
+router.post('/salesman', salesmanApi.createSalesman);
+router.post('/salesman/:id/spr', salesmanApi.createSocialPerformanceRecord);
+// Delete Requests
+router.delete('/salesman/:id', salesmanApi.deleteSalesman);
+router.delete('/salesman/:id/spr/:year', salesmanApi.deleteSocialPerformanceRecord);
+// Put Requests
+router.put('/salesman', salesmanApi.updateSalesman);
+router.put('/salesman/:id/spr', salesmanApi.updateSocialPerformanceRecord);
+
 module.exports = router;
