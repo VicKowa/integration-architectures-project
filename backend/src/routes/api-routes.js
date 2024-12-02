@@ -32,4 +32,8 @@ router.delete('/salesman/:id/spr/:year', salesmanApi.deleteSocialPerformanceReco
 router.put('/salesman', salesmanApi.updateSalesman);
 router.put('/salesman/:id/spr', salesmanApi.updateSocialPerformanceRecord);
 
+const productApi = require('../apis/product-api'); //api for product
+router.get('/products/sales', productApi.getAllSales);
+router.get('/products/sales/:sid', productApi.getSales);
+
 module.exports = router;
