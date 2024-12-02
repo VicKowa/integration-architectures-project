@@ -17,6 +17,6 @@ exports.getSales = async function (req, res){
         res.status(200).send(sales);
 
     }).catch(_ => {
-        res.status(404).send(`No Sales for ${salesman} found!`);
+        res.status(404).send(`No Sales for Salesman with ${sid} found!`);
     });
 }
