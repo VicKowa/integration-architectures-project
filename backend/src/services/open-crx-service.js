@@ -1,5 +1,7 @@
 const axios = require('axios');
 const {response} = require("express");
+const Sale = require('../models/OpenCRX/Sale');
+const Product = require('../models/OpenCRX/Product');
 
 const SalesAPI = "https://sepp-crm.inf.h-brs.de/opencrx-rest-CRX/org.opencrx.kernel.contract1/provider/CRX/segment/Standard";
 
@@ -12,7 +14,17 @@ const headers = {
 }
 
 exports.getAllSales = async function (){
+    try {
+        // fetch all SalesOrders from OpenCRX
+        const { data } = await axios.get(`${SalesAPI}/salesOrder`, { headers});
+        const salesOrders = data.objects;
 
+        return await Promise.all(salesOrders.map(sale => Sale.fromJSON(sale)));
+
+    } catch (error) {
+        console.error('Error fetching sales from OpenCRX', error);
+        throw new Error('Error fetching sales from OpenCRX');
+    }
 }
 
 exports.getSales = async function (sid){
@@ -21,21 +33,19 @@ exports.getSales = async function (sid){
         const { data } = await axios.get(`${SalesAPI}/salesOrder`, { headers});
         const salesOrders = data.objects;
 
-        return (await Promise.all(
+        const filtered_salesOrders =  (await Promise.all(
             salesOrders
                 .map(async (order) => {
                     // check if order has href to order
-                    const salesRep = order['salesRep']['@href'];
-                    if (!salesRep) return null;
 
-                    const response = await axios.get(salesRep, {headers});
-
-                    const governmentId = response.data['governmentId'];
+                    const governmentId = await Sale.getSalesRep(order);
                     if (!governmentId) return null;
 
                     return governmentId.toString() === sid ? order : null;
                 })
         )).filter(order => order !== null);
+
+        return await Promise.all(filtered_salesOrders.map(sale => Sale.fromJSON(sale)));
 
     } catch (error) {
         console.error('Error fetching sales from OpenCRX', error);
@@ -43,3 +53,19 @@ exports.getSales = async function (sid){
     }
 }
 
+exports.getProductsFromSale = async function (oid){
+    try {
+        const { data } = await axios.get(`${SalesAPI}/salesOrder/${oid}/position`, { headers });
+        const positions = data.objects;
+
+        return await Promise.all(positions.map(async position => Product.fromJSON(position)));
+
+    } catch (error) {
+        console.error('Error fetching products from OpenCRX', error);
+        throw new Error('Error fetching products from OpenCRX');
+    }
+}
+
+exports.getProduct = async function (pid){
+
+}

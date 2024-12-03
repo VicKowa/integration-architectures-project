@@ -33,7 +33,12 @@ router.put('/salesman', salesmanApi.updateSalesman);
 router.put('/salesman/:id/spr', salesmanApi.updateSocialPerformanceRecord);
 
 const productApi = require('../apis/product-api'); //api for product
+// GET Requests
 router.get('/products/sales', productApi.getAllSales);
-router.get('/products/sales/:sid', productApi.getSales);
+router.get('/products/sales/:oid', productApi.getProductsFromSale);
+router.get('/products/:pid', productApi.getProduct);
+// PUT Requests
+router.put('/products/:pid', productApi.updateProduct);
+router.put('/products/sales/:oid', productApi.updateSale);
 
 module.exports = router;
