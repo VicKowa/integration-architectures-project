@@ -4,6 +4,7 @@ const Sale = require('../models/OpenCRX/Sale');
 const Product = require('../models/OpenCRX/Product');
 
 const SalesAPI = "https://sepp-crm.inf.h-brs.de/opencrx-rest-CRX/org.opencrx.kernel.contract1/provider/CRX/segment/Standard";
+const ProductAPI = "https://sepp-crm.inf.h-brs.de/opencrx-rest-CRX/org.opencrx.kernel.product1/provider/CRX/segment/Standard/";
 
 const username = "guest";
 const password = "guest";
@@ -58,7 +59,7 @@ exports.getProductsFromSale = async function (oid){
         const { data } = await axios.get(`${SalesAPI}/salesOrder/${oid}/position`, { headers });
         const positions = data.objects;
 
-        return await Promise.all(positions.map(async position => Product.fromJSON(position)));
+        return await Promise.all(positions.map(async position => Product.fromJSON_position(position)));
 
     } catch (error) {
         console.error('Error fetching products from OpenCRX', error);
@@ -67,5 +68,10 @@ exports.getProductsFromSale = async function (oid){
 }
 
 exports.getProduct = async function (pid){
-
+    try {
+        const { data } = await axios.get(`${ProductAPI}/product/${pid}`, { headers });
+        return await Product.fromJSON_product(data);
+    } catch (error) {
+        throw new Error('Error fetching product from OpenCRX');
+    }
 }

@@ -40,13 +40,10 @@ exports.getProductsFromSale = async function (req, res){
 }
 
 exports.getProduct = async function (req, res) {
-
-}
-
-exports.updateProduct = async function (req, res) {
-
-}
-
-exports.updateSale = async function (req, res) {
-
+    let pid = req.params.pid;
+    openCRXService.getProduct(pid).then(product => {
+        res.status(200).send(product);
+    }).catch(_ => {
+        res.status(404).send('No Product found!');
+    });
 }

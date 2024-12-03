@@ -37,8 +37,5 @@ const productApi = require('../apis/product-api'); //api for product
 router.get('/products/sales', productApi.getAllSales);
 router.get('/products/sales/:oid', productApi.getProductsFromSale);
 router.get('/products/:pid', productApi.getProduct);
-// PUT Requests
-router.put('/products/:pid', productApi.updateProduct);
-router.put('/products/sales/:oid', productApi.updateSale);
 
 module.exports = router;

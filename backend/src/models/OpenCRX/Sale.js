@@ -20,7 +20,7 @@ class Sale {
         try {
             const positions = await axios.get(`${sale['@href']}/position`, { headers: { ...Sale.headers } }).then(response => response.data);
             if(!positions.objects) return {};
-            return await Promise.all(positions.objects.map(async position => Product.fromJSON(position)));
+            return await Promise.all(positions.objects.map(async position => Product.fromJSON_position(position)));
         } catch (error) {
             console.error('Error fetching orders from OpenCRX', error);
             throw new Error('Error fetching orders from OpenCRX');
