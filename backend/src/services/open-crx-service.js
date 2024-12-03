@@ -69,8 +69,7 @@ exports.getProductsFromSale = async function (oid){
 
 exports.getProduct = async function (pid){
     try {
-        const { data } = await axios.get(`${ProductAPI}/product/${pid}`, { headers });
-        return await Product.fromJSON_product(data);
+        return await Product.fromJSON_product(`${ProductAPI}/product/${pid}`);
     } catch (error) {
         throw new Error('Error fetching product from OpenCRX');
     }

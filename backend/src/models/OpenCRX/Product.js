@@ -17,7 +17,7 @@ class Product {
     }
     static async fromJSON_position(position = {}) {
         try {
-            const product = await this.fromJSON_product(position['product']);
+            const product = await this.fromJSON_product(position['product']['@href']);
         return {
             ...product,
             quantity: position['quantity'],
@@ -29,12 +29,12 @@ class Product {
         }
     }
 
-    static async fromJSON_product(product = {}) {
-
+    static async fromJSON_product(productURL) {
+        const { data } = await axios.get(productURL, { headers: { ...Product.headers } });
         return {
-            pid: extractIdentityFromURL(product['@href']),
-            productNr: product.productNumber,
-            name: product.name,
+            pid: extractIdentityFromURL(productURL),
+            productNr: data.productNumber,
+            name: data.name,
         }
     }
 }
