@@ -59,7 +59,7 @@ function convertToSalesman(json) {
 /**
  * Get all salesmen from the HRM system (working!)
  * */
-exports.getSalesmen = async function () {
+exports.getSalesmen = async function (mapped = true) {
     await getToken();
 
     const response = await axios.get('https://sepp-hrm.inf.h-brs.de/symfony/web/index.php/api/v1/employee/search', {
@@ -68,9 +68,12 @@ exports.getSalesmen = async function () {
         }
     });
 
-    return response.data.data.map(salesman => {
-        return convertToSalesman(salesman);
-    });
+    if (mapped)
+        return response.data.data.map(salesman => {
+            return convertToSalesman(salesman);
+        });
+    else
+        return response.data.data;
 }
 
 /**
@@ -78,10 +81,13 @@ exports.getSalesmen = async function () {
  * needs to be fixed: we give code (sid), but the employee is searched by id. possibly extension of Salesman class needed
  *
  * @param code
+ * @param mapped
  * @returns {Promise<Salesman>}
  */
-exports.getSalesman = async function (code) {
+exports.getSalesman = async function (code, mapped = true) {
     await getToken();
+
+    console.log(code);
 
     if (!code)
         throw new Error('Code is required!');
@@ -95,8 +101,12 @@ exports.getSalesman = async function (code) {
      */
 
     // possible fix, but not nice
-    const salesmen = await this.getSalesmen();
-    return salesmen.find(salesman => salesman.code === code);
+    const salesmen = await this.getSalesmen(mapped);
+
+    if (mapped)
+        return salesmen.find(salesman => salesman.sid === code);
+    else
+        return salesmen.find(salesman => salesman.code === code);
 }
 
 /**
@@ -109,6 +119,8 @@ exports.updateSalesman = async function (json) {
 
     if (!json)
         throw new Error('To be changed data is required');
+
+    const code = json.code;
 
     // check if json has only allowed keys and remove banned keys
     Object.keys(json).forEach(key => {
@@ -123,15 +135,18 @@ exports.updateSalesman = async function (json) {
     });
 
     // fill empty values with corresponding values from the original salesman
-    const original = await this.getSalesman(json.code);
+    const original = await this.getSalesman(code, false);
+
     Object.keys(original).forEach(key => {
         if (json[key] === '')
             json[key] = original[key];
     });
 
+    json['id'] = original.employeeId; // special case
+
     // update salesman
     const response =
-        await axios.put(`https://sepp-hrm.inf.h-brs.de/symfony/web/index.php/api/v1/employee/${json.code}`,
+        await axios.put(`https://sepp-hrm.inf.h-brs.de/symfony/web/index.php/api/v1/employee/${json.id}`,
             json, {
             headers: {
                 Authorization: `Bearer ${access_token}`
