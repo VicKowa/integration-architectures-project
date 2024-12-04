@@ -1,0 +1,29 @@
+<table mat-table class="mat-elevation-z8 cdk-table" [dataSource]="salesmen">
+
+    <!-- SID Column -->
+    <ng-container matColumnDef="sid">
+        <th mat-header-cell *matHeaderCellDef>SID</th>
+        <td mat-cell *matCellDef="let salesman">{{ salesman.sid }}</td>
+    </ng-container>
+
+    <!-- First Name Column -->
+    <ng-container matColumnDef="firstname">
+        <th mat-header-cell *matHeaderCellDef>First Name</th>
+        <td mat-cell *matCellDef="let salesman">{{ salesman.firstname }}</td>
+    </ng-container>
+
+    <!-- Last Name Column -->
+    <ng-container matColumnDef="lastname">
+        <th mat-header-cell *matHeaderCellDef>Last Name</th>
+        <td mat-cell *matCellDef="let salesman">{{ salesman.lastname }}</td>
+    </ng-container>
+
+    <!-- Record Count Column -->
+    <ng-container matColumnDef="recordCount">
+        <th mat-header-cell *matHeaderCellDef>Record Count</th>
+        <td mat-cell *matCellDef="let salesman">{{ getRecordCount(salesman) }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
