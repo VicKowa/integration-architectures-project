@@ -33,6 +33,12 @@ router.delete('/salesman/:id/spr/:year', salesmanApi.deleteSocialPerformanceReco
 router.put('/salesman', salesmanApi.updateSalesman);
 router.put('/salesman/:id/spr', salesmanApi.updateSocialPerformanceRecord);
 
+const productApi = require('../apis/product-api'); //api for product
+// GET Requests
+router.get('/products/sales', productApi.getAllSales);
+router.get('/products/sales/:oid', productApi.getProductsFromSale);
+router.get('/products/:pid', productApi.getProduct);
+
 router.get('/salesmanohrm', ohrmApi.getAllSalesmanOHRM);
 router.get('/salesmanohrm/:id', ohrmApi.getSalesmanOHRM);
 router.put('/salesmanohrm', ohrmApi.updateSalesmanOHRM);

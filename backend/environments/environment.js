@@ -16,3 +16,4 @@ const environment = {
 };
 
 exports.default = environment;
+
