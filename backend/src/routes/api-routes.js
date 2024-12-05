@@ -19,6 +19,7 @@ router.get('/people', checkAuthorization(), peopleDemoApi.getPeople);
 
 const salesmanApi = require('../apis/salesman-api'); //api for salesman
 const ohrmApi = require('../apis/ohrm-api'); //api for ohrm
+const odooApi = require('../apis/odoo-api'); //api for odoo
 // GET Requests
 router.get('/salesman', salesmanApi.getAllSalesman);
 router.get('/salesman/:id', salesmanApi.getSalesman);
@@ -36,5 +37,10 @@ router.put('/salesman/:id/spr', salesmanApi.updateSocialPerformanceRecord);
 router.get('/salesmanohrm', ohrmApi.getAllSalesmanOHRM);
 router.get('/salesmanohrm/:id', ohrmApi.getSalesmanOHRM);
 router.put('/salesmanohrm', ohrmApi.updateSalesmanOHRM);
+
+// Testing Odoo
+router.get('/odoo/salesman', odooApi.getAllSalesman);
+router.get('/odoo/salesman/:id', odooApi.getSalesman);
+router.get('/odoo/bonus', odooApi.getBonus);
 
 module.exports = router;

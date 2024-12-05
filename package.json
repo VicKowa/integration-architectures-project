@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "async-odoo-xmlrpc": "^2.0.0"
+  }
+}
