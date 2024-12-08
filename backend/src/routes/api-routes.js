@@ -18,6 +18,7 @@ const peopleDemoApi = require('../apis/people-demo-api');
 router.get('/people', checkAuthorization(), peopleDemoApi.getPeople);
 
 const salesmanApi = require('../apis/salesman-api'); //api for salesman
+const ohrmApi = require('../apis/ohrm-api'); //api for ohrm
 // GET Requests
 router.get('/salesman', salesmanApi.getAllSalesman);
 router.get('/salesman/:id', salesmanApi.getSalesman);
@@ -31,5 +32,15 @@ router.delete('/salesman/:id/spr/:year', salesmanApi.deleteSocialPerformanceReco
 // Put Requests
 router.put('/salesman', salesmanApi.updateSalesman);
 router.put('/salesman/:id/spr', salesmanApi.updateSocialPerformanceRecord);
+
+const productApi = require('../apis/product-api'); //api for product
+// GET Requests
+router.get('/products/sales', productApi.getAllSales);
+router.get('/products/sales/:oid', productApi.getProductsFromSale);
+router.get('/products/:pid', productApi.getProduct);
+
+router.get('/salesmanohrm', ohrmApi.getAllSalesmanOHRM);
+router.get('/salesmanohrm/:id', ohrmApi.getSalesmanOHRM);
+router.put('/salesmanohrm', ohrmApi.updateSalesmanOHRM);
 
 module.exports = router;
