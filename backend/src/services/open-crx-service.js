@@ -2,22 +2,13 @@ const axios = require('axios');
 const {response} = require("express");
 const Sale = require('../models/OpenCRX/Sale');
 const Product = require('../models/OpenCRX/Product');
-
-const SalesAPI = "https://sepp-crm.inf.h-brs.de/opencrx-rest-CRX/org.opencrx.kernel.contract1/provider/CRX/segment/Standard";
-const ProductAPI = "https://sepp-crm.inf.h-brs.de/opencrx-rest-CRX/org.opencrx.kernel.product1/provider/CRX/segment/Standard/";
-
-const username = "guest";
-const password = "guest";
-
-const headers = {
-    'Authorization': 'Basic ' + Buffer.from(`${username}:${password}`).toString('base64'),
-    'Accept': 'application/json',
-}
+const Environment = require('../../environments/environment');
+const envOpenCRX = Environment.default.openCRX;
 
 exports.getAllSales = async function (){
     try {
         // fetch all SalesOrders from OpenCRX
-        const { data } = await axios.get(`${SalesAPI}/salesOrder`, { headers});
+        const { data } = await axios.get(`${envOpenCRX.salesURL}/salesOrder`, { headers: envOpenCRX.headers });
         const salesOrders = data.objects;
 
         return await Promise.all(salesOrders.map(sale => Sale.fromJSON(sale)));
@@ -28,13 +19,13 @@ exports.getAllSales = async function (){
     }
 }
 
-exports.getSales = async function (sid){
+exports.getSales = async function (sid, year){
     try {
         // fetch all SalesOrders from OpenCRX
-        const { data } = await axios.get(`${SalesAPI}/salesOrder`, { headers});
+        const { data } = await axios.get(`${envOpenCRX.salesURL}/salesOrder`, { headers: envOpenCRX.headers });
         const salesOrders = data.objects;
 
-        const filtered_salesOrders =  (await Promise.all(
+        let filtered_salesOrders =  (await Promise.all(
             salesOrders
                 .map(async (order) => {
                     // check if order has href to order
@@ -45,6 +36,13 @@ exports.getSales = async function (sid){
                     return governmentId.toString() === sid ? order : null;
                 })
         )).filter(order => order !== null);
+        // filter by year if year is given
+        if (year) {
+            filtered_salesOrders = filtered_salesOrders.filter(order=> {
+                if(!order.activeOn) return false;
+                return order && order.activeOn.includes(year);
+            });
+        }
 
         return await Promise.all(filtered_salesOrders.map(sale => Sale.fromJSON(sale)));
 
@@ -56,7 +54,7 @@ exports.getSales = async function (sid){
 
 exports.getProductsFromSale = async function (oid){
     try {
-        const { data } = await axios.get(`${SalesAPI}/salesOrder/${oid}/position`, { headers });
+        const { data } = await axios.get(`${envOpenCRX.salesURL}/salesOrder/${oid}/position`, { headers: envOpenCRX.headers });
         const positions = data.objects;
 
         return await Promise.all(positions.map(async position => Product.fromJSON_position(position)));
@@ -69,7 +67,7 @@ exports.getProductsFromSale = async function (oid){
 
 exports.getProduct = async function (pid){
     try {
-        return await Product.fromJSON_product(`${ProductAPI}/product/${pid}`);
+        return await Product.fromJSON_product(`${envOpenCRX.productURL}/product/${pid}`);
     } catch (error) {
         throw new Error('Error fetching product from OpenCRX');
     }

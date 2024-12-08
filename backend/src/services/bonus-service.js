@@ -17,13 +17,14 @@ exports.getSPRBonus = async function(db, sid, year) {
     if(!socialPerformanceRecord)
         throw new Error("SocialPerformanceRecord not found");
 
-    return Object.values(socialPerformanceRecord.specifiedRecords).reduce((totalBonus, specifiedRecord) => {
-        return totalBonus + specifiedRecord.bonus;
-    },0);
+    // return Object.values(socialPerformanceRecord.specifiedRecords).reduce((totalBonus, specifiedRecord) => {
+    //     return totalBonus + specifiedRecord.bonus;
+    // },0);
+    return socialPerformanceRecord.totalBonus;
 }
 
-exports.getOEBonus = async function(sid){
-    const sales = await openCrxService.getSales(sid);
+exports.getOEBonus = async function(sid, year) {
+    const sales = await openCrxService.getSales(sid, year);
 
     return sales.reduce((totalBonus, sale) => {
         return totalBonus +  bonusFactorMap.find(bonusFactor => bonusFactor.productName === sale.order[0].name).bonusPerSale;
@@ -31,6 +32,6 @@ exports.getOEBonus = async function(sid){
 }
 
 exports.getTotalBonus = async function(db, sid, year){
-    return await this.getSPRBonus(db, sid, year) + await this.getOEBonus(db, sid, year);
+    return await this.getSPRBonus(db, sid, year) + await this.getOEBonus( sid, year);
 }
 

@@ -2,23 +2,22 @@ const axios = require('axios');
 const { response } = require("express");
 const Product = require('./Product');
 
+const headersOpenCRX = require('../../../environments/environment').default.openCRX.headers;
+
 class Sale {
-    constructor(oid, priority, name, description, contractRole, order, costumer) {
+    constructor(oid, priority, name, activeOn, order, costumer) {
         this.oid = oid;
         this.priority = priority;
         this.name = name;
         this.order = order;
         this.customer = costumer;
-    }
+        this.activeOn = activeOn;
 
-    static headers = {
-        'Authorization': 'Basic ' + Buffer.from("guest:guest").toString('base64'),
-        'Accept': 'application/json',
     }
 
     static async getOrders(sale={}) {
         try {
-            const positions = await axios.get(`${sale['@href']}/position`, { headers: { ...Sale.headers } }).then(response => response.data);
+            const positions = await axios.get(`${sale['@href']}/position`, { headers: headersOpenCRX }).then(response => response.data);
             if(!positions.objects) return {};
             return await Promise.all(positions.objects.map(async position => Product.fromJSON_position(position)));
         } catch (error) {
@@ -33,13 +32,14 @@ class Sale {
             oid: extractIdentityFromURL(sale['@href']),
             priority: sale.priority,
             name: sale.name,
+            activeOn: sale.activeOn,
             customer: await this.getCustomer(sale),
             order: await this.getOrders(sale),
         }
     }
 
     static async getCustomer(sale={}) {
-        const {data} = await axios.get(sale['customer']['@href'], {headers: Sale.headers}).catch(
+        const {data} = await axios.get(sale['customer']['@href'], {headers: headersOpenCRX}).catch(
             _ => {
                 throw new Error('Error fetching costumer from OpenCRX');
             }
@@ -50,7 +50,7 @@ class Sale {
     }
 
     static async getSalesRep(sale={}) {
-        const response = await axios.get(sale['salesRep']['@href'], { headers: Sale.headers }).catch(
+        const response = await axios.get(sale['salesRep']['@href'], { headers: headersOpenCRX }).catch(
             _ => {
                 throw new Error('Error fetching salesRep from OpenCRX');
             }
@@ -64,6 +64,7 @@ class Sale {
     }
 }
 module.exports = Sale;
+
 
 function extractIdentityFromURL(url) {
     const urlParts = url.split('/');

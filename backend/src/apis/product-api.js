@@ -3,9 +3,10 @@ const {checkAuthorization} = require('../middlewares/auth-middleware');
 
 exports.getAllSales = async function (req, res){
     const sid= req.query.salesman;
+    const year = req.query.year;
 
     if(sid) {
-        openCRXService.getSales(sid).then(sales => {
+        openCRXService.getSales(sid, year).then(sales => {
             res.status(200).send(sales);
         }).catch(_ => {
             res.status(404).send(`No Sales for ${sid} found!`);
@@ -17,17 +18,6 @@ exports.getAllSales = async function (req, res){
             res.status(404).send('No Sales found!');
         });
     }
-}
-
-exports.getSales = async function (req, res){
-    let sid = req.params.sid;
-
-    openCRXService.getSales(sid).then(sales => {
-        res.status(200).send(sales);
-
-    }).catch(_ => {
-        res.status(404).send(`No Sales for salesman with sid found!`);
-    });
 }
 
 exports.getProductsFromSale = async function (req, res){
