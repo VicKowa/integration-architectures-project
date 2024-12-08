@@ -14,6 +14,12 @@ const cors = require('cors');
 const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
 
+const swaggerUi = require('swagger-ui-express');
+const fs = require('fs');
+const YAML = require('yaml');
+const swaggerFile = fs.readFileSync('./swagger.yaml', 'utf8');
+const swaggerDocument = YAML.parse(swaggerFile);
+
 let environment;
 if(process.env.NODE_ENV === 'development'){
     environment = require('../environments/environment.js').default;
@@ -71,3 +77,10 @@ async function initDb(db){
         console.log('created admin user with password: '+adminPassword);
     }
 }
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+app.use("/api-docs", swaggerUi.serve, (req, res, next) => {
+    const swaggerDocument = YAML.load(path.join(__dirname, "./swagger.yaml"));
+    swaggerUi.setup(swaggerDocument)(req, res, next);
+});
