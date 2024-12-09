@@ -428,18 +428,18 @@ components:
           department:
             type: string
           leadershipCompetence:
-            $ref: '#/components/schemas/SocialPerformanceRecord'
+            $ref: '#/components/schemas/SpecifiedRecords'
           opennessToEmployee:
-            $ref: '#/components/schemas/SocialPerformanceRecord'
+            $ref: '#/components/schemas/SpecifiedRecords'
           socialBehaviorToEmployee:
-            $ref: '#/components/schemas/SocialPerformanceRecord'
+            $ref: '#/components/schemas/SpecifiedRecords'
           attitudeToClients:
-            $ref: '#/components/schemas/SocialPerformanceRecord'
+            $ref: '#/components/schemas/SpecifiedRecords'
           communicationSkills:
-            $ref: '#/components/schemas/SocialPerformanceRecord'
+            $ref: '#/components/schemas/SpecifiedRecords'
           integrityToCompany:
-            $ref: '#/components/schemas/SocialPerformanceRecord'
-    specifiedRecords:
+            $ref: '#/components/schemas/SpecifiedRecords'
+    SpecifiedRecords:
       type: object
       additionalProperties:
         type: object
@@ -450,6 +450,36 @@ components:
             type: number
           bonus:
             type: number
+    Product:
+      type: object
+      properties:
+        pid:
+          type: string
+        productNr:
+          type: string
+        name:
+          type: string
+        pricePerUnit:
+          type: number
+        quantity:
+          type: integer
+        amountWithTax:
+          type: number
+    Sale:
+      type: object
+      properties:
+        oid:
+          type: string
+        priority:
+          type: integer
+        name:
+          type: string
+        order:
+          type: string
+        customer:
+          type: string
+        activeOn:
+          type: string
   securitySchemes:
     bearerAuth:
       type: http
