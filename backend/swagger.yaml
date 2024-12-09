@@ -1,0 +1,457 @@
+openapi: 3.0.0
+info:
+  title: API Documentation
+  version: 1.0.0
+  description: Documentation for the REST API
+servers:
+  - url: http://localhost:4200/api
+    description: Local development server
+tags:
+  - name: User
+    description: Endpoints for user authentication
+  - name: Salesman
+    description: Endpoints for managing salesmen
+  - name: Products
+    description: Endpoints for managing products and sales-orders
+  - name: Bonus
+    description: Endpoints for calculating and fetching bonuses
+  - name: OrangeHRM
+    description: Endpoints for fetching and updating data from OrangeHRM
+paths:
+  /login:
+    post:
+      tags:
+        - User
+      summary: User login
+      description: Login with username and password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Login successful
+        '401':
+          description: Unauthorized
+    delete:
+      tags:
+        - User
+      summary: User logout
+      description: Logout the current user
+      responses:
+        '200':
+          description: Logout successful
+        '401':
+          description: Unauthorized
+  /user:
+    get:
+      tags:
+        - User
+      summary: Get user information
+      description: Retrieve information about the authenticated user
+      security:
+        - bearerAuth: [ ]
+      responses:
+        '200':
+          description: User information retrieved successfully
+        '401':
+          description: Unauthorized
+  /salesman:
+    get:
+      tags:
+        - Salesman
+      summary: Get all salesmen
+      description: Retrieve a list of all salesmen
+      security:
+        - bearerAuth: [ ]
+      responses:
+        '200':
+          description: List of salesmen retrieved successfully
+        '401':
+          description: Unauthorized
+    post:
+      tags:
+        - Salesman
+      summary: Create a new salesman
+      description: Create a new salesman with the provided data
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Salesman'
+      responses:
+        '201':
+          description: Salesman created successfully
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+    put:
+      tags:
+        - Salesman
+      summary: Update a salesman
+      description: Update an existing salesman with the provided data
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Salesman'
+      responses:
+        '200':
+          description: Salesman updated successfully
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+  /salesman/{id}:
+    get:
+      tags:
+        - Salesman
+      summary: Get a salesman by ID
+      description: Retrieve a salesman by their ID
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Salesman retrieved successfully
+        '404':
+          description: Salesman not found
+        '401':
+          description: Unauthorized
+    delete:
+      tags:
+        - Salesman
+      summary: Delete a salesman by ID
+      description: Delete a salesman by their ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Salesman deleted successfully
+        '404':
+          description: Salesman not found
+        '401':
+          description: Unauthorized
+  /salesman/{id}/spr/{year}:
+    get:
+      tags:
+        - Salesman
+      summary: Get social performance record for a salesman
+      description: Retrieve the social performance record for a salesman by year
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: year
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Social performance record retrieved successfully
+        '404':
+          description: Social performance record not found
+        '401':
+          description: Unauthorized
+    post:
+      tags:
+        - Salesman
+      summary: Create social performance record for a salesman
+      description: Create a new social performance record for a salesman
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SocialPerformanceRecord'
+      responses:
+        '201':
+          description: Social performance record created successfully
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+    put:
+      tags:
+        - Salesman
+      summary: Update social performance record for a salesman
+      description: Update an existing social performance record for a salesman
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SocialPerformanceRecord'
+      responses:
+        '200':
+          description: Social performance record updated successfully
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+    delete:
+      tags:
+        - Salesman
+      summary: Delete social performance record for a salesman
+      description: Delete a social performance record for a salesman by year
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: year
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Social performance record deleted successfully
+        '404':
+          description: Social performance record not found
+        '401':
+          description: Unauthorized
+  /products/sales:
+    get:
+      tags:
+        - Products
+      summary: Get all sales
+      description: Retrieve a list of all sales
+      responses:
+        '200':
+          description: List of sales retrieved successfully
+        '404':
+          description: No sales found
+  /products/sales/{oid}:
+    get:
+      tags:
+        - Products
+      summary: Get products from a specific sale
+      description: Retrieve products from a specific sale by order ID
+      parameters:
+        - name: oid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Products retrieved successfully
+        '404':
+          description: No products found
+  /products/{pid}:
+    get:
+      tags:
+        - Products
+      summary: Get product by ID
+      description: Retrieve a product by its ID
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Product retrieved successfully
+        '404':
+          description: Product not found
+  /salesmanohrm:
+    get:
+      tags:
+        - OrangeHRM
+      summary: Get all salesmen from OHRM
+      description: Retrieve a list of all salesmen from OrangeHRM
+      responses:
+        '200':
+          description: Salesmen retrieved successfully
+        '404':
+          description: No salesmen found
+    put:
+      tags:
+        - OrangeHRM
+      summary: Update salesman data in OHRM
+      description: Update salesman data in OrangeHRM
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Salesman'
+      responses:
+        '200':
+          description: Salesman data updated successfully
+        '400':
+          description: Bad request
+        '404':
+          description: Salesman not found
+  /salesmanohrm/{id}:
+    get:
+      tags:
+        - OrangeHRM
+      summary: Get salesman from OHRM by ID
+      description: Retrieve a salesman from OrangeHRM by their ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Salesman data retrieved successfully
+        '404':
+          description: Salesman not found
+  /bonus/spr/{sid}/{year}:
+    get:
+      tags:
+        - Bonus
+      summary: Get social performance bonus for a salesman
+      description: Retrieve the social performance bonus for a salesman by year
+      parameters:
+        - name: sid
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: year
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Social performance bonus retrieved successfully
+        '404':
+          description: Social performance bonus not found
+  /bonus/oe/{sid}/{year}:
+    get:
+      tags:
+        - Bonus
+      summary: Get order evaluation bonus for a salesman
+      description: Retrieve the order evaluation bonus for a salesman by year
+      parameters:
+        - name: sid
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: year
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Order evaluation bonus retrieved successfully
+        '404':
+          description: Order evaluation bonus not found
+  /bonus/total/{sid}/{year}:
+    get:
+      tags:
+        - Bonus
+      summary: Get total bonus for a salesman
+      description: Retrieve the total bonus for a salesman by year
+      parameters:
+        - name: sid
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: year
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Total bonus retrieved successfully
+        '404':
+          description: Total bonus not found
+components:
+  schemas:
+    Salesman:
+      type: object
+      properties:
+        firstname:
+          type: string
+        lastname:
+          type: string
+        sid:
+          type: string
+        socialPerformanceRecords:
+          type: array
+          items:
+            $ref: '#/components/schemas/SocialPerformanceRecord'
+    SocialPerformanceRecord:
+        type: object
+        properties:
+          year:
+            type: integer
+          totalBonus:
+            type: number
+          department:
+            type: string
+          leadershipCompetence:
+            $ref: '#/components/schemas/SocialPerformanceRecord'
+          opennessToEmployee:
+            $ref: '#/components/schemas/SocialPerformanceRecord'
+          socialBehaviorToEmployee:
+            $ref: '#/components/schemas/SocialPerformanceRecord'
+          attitudeToClients:
+            $ref: '#/components/schemas/SocialPerformanceRecord'
+          communicationSkills:
+            $ref: '#/components/schemas/SocialPerformanceRecord'
+          integrityToCompany:
+            $ref: '#/components/schemas/SocialPerformanceRecord'
+    specifiedRecords:
+      type: object
+      additionalProperties:
+        type: object
+        properties:
+          targetValue:
+            type: number
+          actualValue:
+            type: number
+          bonus:
+            type: number
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
