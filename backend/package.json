@@ -19,6 +19,7 @@
     "reporter-options": "configFile=mocha-reporters-conf.json"
   },
   "dependencies": {
+    "async-odoo-xmlrpc": "^2.0.0",
     "axios": "^1.7.8",
     "cookie-session": "^2.0.0",
     "cors": "^2.8.5",
