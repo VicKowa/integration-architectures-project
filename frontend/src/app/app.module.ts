@@ -19,6 +19,8 @@ import { ExamplePageComponent } from './pages/example-page/example-page.componen
 import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.component';
 import {MatTableModule} from '@angular/material/table';
 import { TestPageComponent } from './pages/test-page/test-page.component';
+import { SalesmanDetailsComponent } from './pages/salesman-details-page/salesman-details.component';
+import {MatTabsModule} from "@angular/material/tabs";
 
 @NgModule({
     declarations: [
@@ -29,7 +31,8 @@ import { TestPageComponent } from './pages/test-page/test-page.component';
         MenuBarComponent,
         ExamplePageComponent,
         NotFoundPageComponent,
-        TestPageComponent
+        TestPageComponent,
+        SalesmanDetailsComponent
     ],
     imports: [
         BrowserModule,
@@ -42,7 +45,8 @@ import { TestPageComponent } from './pages/test-page/test-page.component';
         MatCardModule,
         MatToolbarModule,
         MatIconModule,
-        MatTableModule
+        MatTableModule,
+        MatTabsModule
     ],
     providers: [],
     bootstrap: [AppComponent]
