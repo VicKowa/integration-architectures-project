@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
-  title: API Documentation
+  title: HighPerformance Api documentation
   version: 1.0.0
-  description: Documentation for the REST API
+  description: Documentation of the REST API
 servers:
   - url: http://localhost:4200/api
     description: Local development server
