@@ -1,7 +1,7 @@
 const axios = require('axios');
 const {response} = require("express");
-const Sale = require('../models/OpenCRX/Sale');
-const Product = require('../models/OpenCRX/Product');
+const Sale = require('../dtos/OpenCRX/OpenCRXSaleDTO');
+const Product = require('../dtos/OpenCRX/OpenCRXProductDTO');
 const Environment = require('../../environments/environment');
 const envOpenCRX = Environment.default.openCRX;
 
@@ -44,7 +44,10 @@ exports.getSales = async function (sid, year){
             });
         }
 
-        return await Promise.all(filtered_salesOrders.map(sale => Sale.fromJSON(sale)));
+        // TODO: Here error
+        /**
+        return await Promise.all(filtered_salesOrders.map(return await Promise.all(filtered_salesOrders.map(sale => Sale.fromJSON(sale))) => Sale.fromJSON(sale)));
+        */
 
     } catch (error) {
         console.error('Error fetching sales from OpenCRX', error);
@@ -72,3 +75,31 @@ exports.getProduct = async function (pid){
         throw new Error('Error fetching product from OpenCRX');
     }
 }
+
+/*
+
+exports.getCustomer = async function(sale={}) {
+    const {data} = await axios.get(sale['customer']['@href'], {headers: headersOpenCRX}).catch(
+        _ => {
+            throw new Error('Error fetching costumer from OpenCRX');
+        }
+    );
+    const name = data['name'];
+    if (!name) throw new Error('Error fetching costumer from OpenCRX');
+    return name;
+}
+
+exports.getSalesRep = async function(sale={}) {
+    const response = await axios.get(sale['salesRep']['@href'], { headers: headersOpenCRX }).catch(
+        _ => {
+            throw new Error('Error fetching salesRep from OpenCRX');
+        }
+    );
+    if (!response.data) throw new Error("No salesRep data found!");
+
+    const governmentId = response.data['governmentId'];
+    if (!governmentId) return null;
+
+    return governmentId.toString();
+}
+*/

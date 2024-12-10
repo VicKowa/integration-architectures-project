@@ -1,12 +1,12 @@
 const axios = require('axios');
+const {serveFiles} = require("swagger-ui-express");
 
 
-class Product {
-    constructor(pid, name, productNr ,quantity, pricePerUnit, amountWithTax) {
-        this.pid = pid;
-        this.productNr = productNr;
+class OpenCRXProductDTO {
+    constructor(xri, name, productNumber, quantity, pricePerUnit, amountWithTax) {
+        this.xri = xri;
+        this.productNumber = productNumber;
         this.name = name;
-        this.quantity = quantity;
         this.pricePerUnit = pricePerUnit;
         this.amountWithTax = amountWithTax;
     }
@@ -30,9 +30,9 @@ class Product {
     }
 
     static async fromJSON_product(productURL) {
-        const { data } = await axios.get(productURL, { headers: { ...Product.headers } });
+        const { data } = await axios.get(productURL, { headers: { ...OpenCRXProductDTO.headers } });
         return {
-            pid: extractIdentityFromURL(productURL),
+            productNumber: extractIdentityFromURL(productURL),
             productNr: data.productNumber,
             name: data.name,
         }
@@ -44,6 +44,6 @@ function extractIdentityFromURL(url) {
     return urlParts[urlParts.length - 1];
 }
 
-module.exports = Product;
+module.exports = OpenCRXProductDTO;
 
 

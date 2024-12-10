@@ -1,10 +1,10 @@
 const axios = require('axios');
 const { response } = require("express");
-const Product = require('./Product');
+const Product = require('./OpenCRXProductDTO');
 
 const headersOpenCRX = require('../../../environments/environment').default.openCRX.headers;
 
-class Sale {
+class OpenCRXSaleDTO {
     constructor(oid, priority, name, activeOn, order, costumer) {
         this.oid = oid;
         this.priority = priority;
@@ -63,7 +63,7 @@ class Sale {
         return governmentId.toString();
     }
 }
-module.exports = Sale;
+module.exports = OpenCRXSaleDTO;
 
 
 function extractIdentityFromURL(url) {
