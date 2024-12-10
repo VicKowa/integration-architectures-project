@@ -61,6 +61,15 @@ paths:
       responses:
         '200':
           description: User information retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                  role:
+                    type: string
         '401':
           description: Unauthorized
   /salesman:
@@ -74,6 +83,12 @@ paths:
       responses:
         '200':
           description: List of salesmen retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Salesman'
         '401':
           description: Unauthorized
     post:
@@ -129,6 +144,10 @@ paths:
       responses:
         '200':
           description: Salesman retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Salesman'
         '404':
           description: Salesman not found
         '401':
@@ -171,6 +190,10 @@ paths:
       responses:
         '200':
           description: Social performance record retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SocialPerformanceRecord'
         '404':
           description: Social performance record not found
         '401':
@@ -255,6 +278,12 @@ paths:
       responses:
         '200':
           description: List of sales retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Sale'
         '404':
           description: No sales found
   /products/sales/{oid}:
@@ -272,6 +301,12 @@ paths:
       responses:
         '200':
           description: Products retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
         '404':
           description: No products found
   /products/{pid}:
@@ -289,6 +324,10 @@ paths:
       responses:
         '200':
           description: Product retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
         '404':
           description: Product not found
   /salesmanohrm:
@@ -300,6 +339,12 @@ paths:
       responses:
         '200':
           description: Salesmen retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Salesman'
         '404':
           description: No salesmen found
     put:
@@ -335,6 +380,10 @@ paths:
       responses:
         '200':
           description: Salesman data retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Salesman'
         '404':
           description: Salesman not found
   /bonus/spr/{sid}/{year}:
