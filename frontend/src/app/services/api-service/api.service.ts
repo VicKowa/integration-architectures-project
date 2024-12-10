@@ -9,12 +9,12 @@ import {map} from "rxjs/operators";
 })
 export class ApiService {
 
-    private apiURL = 'http://localhost:4200/api/salesmanohrm';
+    private URL = 'http://localhost:4200/api';
 
     constructor(private http: HttpClient) { }
 
     getSalesman(): Observable<Salesman[]> {
-        return this.http.get<any[]>(this.apiURL).pipe(
+        return this.http.get<any[]>(`${this.URL}/salesmanohrm`).pipe(
             map(response => response.map(data =>
                 new Salesman(data.firstname, data.lastname, data.sid))
             )
@@ -22,20 +22,20 @@ export class ApiService {
     }
 
     getSalesmanById(sid: string): Observable<Salesman> {
-        return this.http.get<any>(`${this.apiURL}/${sid}`).pipe(
+        return this.http.get<any>(`${this.URL}/salesmanohrm/${sid}`).pipe(
             map(data => new Salesman(data.firstname, data.lastname, data.sid))
         );
     }
 
     getSalesOrders(sid: string): Observable<any[]> {
-        return this.http.get<any[]>(`${this.apiURL}/salesmen/${sid}/orders`);
+        return this.http.get<any[]>(`${this.URL}/products/sales/${sid}`); // TODO: Implement sales orders endpoint
     }
 
     getOrderDetails(orderId: string): Observable<any[]> {
-        return this.http.get<any[]>(`${this.apiURL}/orders/${orderId}/details`);
+        return this.http.get<any[]>(`${this.URL}/products/sales/${orderId}`);
     }
 
     getBonuses(sid: string): Observable<string[]> {
-        return this.http.get<string[]>(`${this.apiURL}/salesmen/${sid}/bonuses`);
+        return this.http.get<string[]>(`${this.URL}/bonus/total/${sid}`); // TODO: Implement bonus endpoint for bonuses from all years
     }
 }
