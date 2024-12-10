@@ -12,6 +12,7 @@ let token_expires = null;
 
 /**
  * Get the access token from the HRM system (with specified tenant name)
+ * Save the access token and its expiration time.
  * */
 async function getToken() {
     if (!access_token)
@@ -23,6 +24,8 @@ async function getToken() {
 
 /**
  * Check if the token is still valid
+ *
+ * @returns {boolean}
  * */
 function isTokenValid() {
     return token_expires && token_expires > Date.now();
@@ -30,6 +33,11 @@ function isTokenValid() {
 
 /**
  * Get the access token from the HRM system
+ *
+ * @param username - default is 'elmer'
+ * @param password - default is '*Safb02da42Demo$'
+ *
+ * @returns {Promise<string>}
  * */
 async function getBearerToken(username, password = '*Safb02da42Demo$'){
     return requestToken({
@@ -43,6 +51,8 @@ async function getBearerToken(username, password = '*Safb02da42Demo$'){
 
 /**
  * Refresh the access token from the HRM system
+ *
+ * @returns {Promise<string>}
  * */
 async function refreshToken() {
     return requestToken({
@@ -56,8 +66,8 @@ async function refreshToken() {
 /**
  * Request the access token from the HRM system
  *
- * @param data
- * @returns String access_token
+ * @param data - JSON data with the required fields
+ * @returns {Promise<string>} - access token
  * */
 async function requestToken(data) {
     const response = await axios.post(auth_url, data);
@@ -71,6 +81,9 @@ async function requestToken(data) {
 
 /**
  * Convert JSON to Salesman object only regarding specific keys
+ *
+ * @param json - JSON data to be converted
+ * @returns {Salesman}
  * */
 function convertToSalesman(json) {
     const {firstName, lastName, code} = json;
@@ -81,6 +94,7 @@ function convertToSalesman(json) {
  * Get all salesmen from the HRM system
  *
  * @param mapped - if true, return Salesman objects, otherwise return JSON objects
+ * @returns {Promise<Salesman[]> | Promise<*>}
  * */
 exports.getSalesmen = async function (mapped = true) {
     // get access token

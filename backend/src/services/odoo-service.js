@@ -7,6 +7,11 @@ const odoo = new Odoo({
     password: '8c330b05a0607944da7f84291fed9aa936ca4bdb'
 });
 
+/**
+ * Get all Salesman from Odoo service via XMLRPC
+ *
+ * @returns {Promise<*>}
+ * */
 exports.getAllSalesman = async () => {
     await odoo.connect();
     return await odoo.execute_kw('hr.employee', 'search_read', [
@@ -15,6 +20,12 @@ exports.getAllSalesman = async () => {
     ]);
 }
 
+/**
+ * Get a specific Salesman from Odoo service via XMLRPC by ID
+ *
+ * @param {number} id
+ * @returns {Promise<*>}
+ * */
 exports.getSalesman = async (id) => {
     if (!id)
         throw new Error('No ID given!');
@@ -26,6 +37,11 @@ exports.getSalesman = async (id) => {
     ]);
 }
 
+/**
+ * Get all Bonuses from Odoo service via XMLRPC
+ *
+ * @returns {Promise<*>}
+ * */
 exports.getBonus = async () => {
 
     await odoo.connect();
