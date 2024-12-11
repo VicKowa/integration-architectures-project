@@ -43,7 +43,7 @@ router.get('/products/:pid', productApi.getProduct);
 const ohrmApi = require('../apis/ohrm-api'); //api for ohrm
 router.get('/salesmanohrm', ohrmApi.getAllSalesmanOHRM);
 router.get('/salesmanohrm/:id', ohrmApi.getSalesmanOHRM);
-router.put('/salesmanohrm', ohrmApi.updateSalesmanOHRM);
+router.put('/salesmanohrm/:id/salary/:year', ohrmApi.createBonusSalary);
 
 const odooApi = require('../apis/odoo-api'); //api for odoo
 // Testing Odoo
