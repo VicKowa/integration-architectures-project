@@ -273,6 +273,20 @@ paths:
     get:
       tags:
         - Products
+      parameters:
+        - name: sid
+          in: query
+          description: Salesman ID to filter the sales.
+          required: false
+          schema:
+            type: string
+        - name: year
+          in: query
+          description: Year to filter the sales by.
+          required: false
+          schema:
+            type: integer
+            format: string
       summary: Get all sales
       description: Retrieve a list of all sales
       responses:
@@ -286,50 +300,6 @@ paths:
                   $ref: '#/components/schemas/Sale'
         '404':
           description: No sales found
-  /products/sales/{oid}:
-    get:
-      tags:
-        - Products
-      summary: Get products from a specific sale
-      description: Retrieve products from a specific sale by order ID
-      parameters:
-        - name: oid
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Products retrieved successfully
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Product'
-        '404':
-          description: No products found
-  /products/{pid}:
-    get:
-      tags:
-        - Products
-      summary: Get product by ID
-      description: Retrieve a product by its ID
-      parameters:
-        - name: pid
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Product retrieved successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Product'
-        '404':
-          description: Product not found
   /salesmanohrm:
     get:
       tags:
