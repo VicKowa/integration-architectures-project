@@ -1,14 +1,15 @@
-
 class OpenCRXSalesmanDTO {
-    constructor(xri, governmentId) {
-        this.xri = xri;
+    constructor(href, governmentId) {
+        this.href = href;
         this.govermentId = governmentId;
     }
 
     static fromJSON(account = {}) {
         return new OpenCRXSalesmanDTO(
-            account["saleRep"]["@href"] || '',
+            account["@href"] || '',
             account["governmentId"] || ''
         )
     }
 }
+
+module.exports = OpenCRXSalesmanDTO;
