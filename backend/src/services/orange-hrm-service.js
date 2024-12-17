@@ -1,4 +1,5 @@
 const axios = require('axios');
+const OrangeHRMSalesmanDTO = require('../dtos/OrangeHRM/OrangeHRMSalesmanDTO');
 
 const auth_url = 'https://sepp-hrm.inf.h-brs.de/symfony/web/index.php/oauth/issueToken';
 let access_token = null;

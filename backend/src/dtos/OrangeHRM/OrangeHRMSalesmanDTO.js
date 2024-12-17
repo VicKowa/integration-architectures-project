@@ -15,7 +15,9 @@ class OrangeHRMSalesmanDTO {
             json['middleName'] || '',
             json['code'] || '',
             json['jobTitle'] || '',
-            json['id'] || '' // special case because of different name
+            json['employeeId'] || ''
         );
     }
 }
+
+module.exports = OrangeHRMSalesmanDTO;

@@ -16,14 +16,14 @@ export class ApiService {
     getSalesman(): Observable<Salesman[]> {
         return this.http.get<any[]>(`${this.URL}/salesmanohrm`).pipe(
             map(response => response.map(data =>
-                new Salesman(data.firstname, data.lastname, data.sid))
+                new Salesman(data.firstName, data.lastName, data.employeeId))
             )
         );
     }
 
     getSalesmanById(sid: string): Observable<Salesman> {
         return this.http.get<any>(`${this.URL}/salesmanohrm/${sid}`).pipe(
-            map(data => new Salesman(data.firstname, data.lastname, data.sid))
+            map(data => new Salesman(data.firstName, data.lastName, data.employeeId))
         );
     }
 
