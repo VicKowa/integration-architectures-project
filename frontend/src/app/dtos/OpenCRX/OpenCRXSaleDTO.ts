@@ -21,7 +21,9 @@ class OpenCRXSaleDTO {
         customer_href: string,
         activeOn: string,
         contractNumber: string,
-        priority: string
+        priority: string,
+        orders: OpenCRXOrderDTO[] = [],
+        customer: OpenCRXCustomerDTO | null = null
     ) {
         this.href = href;
         this.salesRep_href = salesRep_href;
@@ -31,20 +33,32 @@ class OpenCRXSaleDTO {
         this.activeOn = activeOn;
         this.contractNumber = contractNumber;
         this.priority = priority;
-        this.orders = []; // List of OpenCRXOrderDTOs
-        this.customer = null; // OpenCRXCustomerDTO
+        this.orders = orders; // List of OpenCRXOrderDTOs
+        this.customer = customer; // OpenCRXCustomerDTO
     }
 
     static fromJSON(salesOrder: Partial<OpenCRXSaleDTO> = {}): OpenCRXSaleDTO {
+        // Erstelle die Liste der Bestellungen (orders), wenn Daten vorhanden sind
+        const orders = (salesOrder.orders || []).map(order =>
+            OpenCRXOrderDTO.fromJSON(order)
+        );
+
+        // Erstelle das Kundenobjekt (customer), wenn Daten vorhanden sind
+        const customer = salesOrder.customer
+            ? OpenCRXCustomerDTO.fromJSON(salesOrder.customer)
+            : null;
+
         return new OpenCRXSaleDTO(
-            salesOrder['@href'] || '',
-            salesOrder['salesRep']?.['@href'] || '',
+            salesOrder['href'] || '',
+            salesOrder['salesRep']?.['href'] || '',
             salesOrder['totalAmountIncludingTax'] || '',
             salesOrder['name'] || '',
-            salesOrder['customer']?.['@href'] || '',
+            salesOrder['customer']?.['href'] || '',
             salesOrder['activeOn'] || '',
             salesOrder['contractNumber'] || '',
-            salesOrder['priority'] || ''
+            salesOrder['priority'] || '',
+            orders,
+            customer
         );
     }
 

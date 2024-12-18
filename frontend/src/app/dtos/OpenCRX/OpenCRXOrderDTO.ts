@@ -7,7 +7,7 @@ class OpenCRXOrderDTO {
     product_href: string;
     pricePerUnit: string;
     amountWithTax: string;
-    product: OpenCRXProductDTO | null;
+    product_: OpenCRXProductDTO | null;
 
     constructor(
         href: string,
@@ -15,7 +15,8 @@ class OpenCRXOrderDTO {
         quantity: string,
         product_href: string,
         pricePerUnit: string,
-        amountWithTax: string
+        amountWithTax: string,
+        product: OpenCRXProductDTO | null = null
     ) {
         this.href = href;
         this.amount = amount;
@@ -23,17 +24,21 @@ class OpenCRXOrderDTO {
         this.product_href = product_href;
         this.pricePerUnit = pricePerUnit;
         this.amountWithTax = amountWithTax;
-        this.product = null; // OpenCRXProductDTO
+        this.product_ = product;
     }
 
     static fromJSON(position: Partial<OpenCRXOrderDTO> = {}): OpenCRXOrderDTO {
+        // @ts-ignore
+        const product = OpenCRXProductDTO.fromJSON(position.product);
+
         return new OpenCRXOrderDTO(
-            position['@href'] || '',
+            position['href'] || '',
             position['amount'] || '',
             position['quantity'] || '',
-            position['product']?.['@href'] || '',
+            position['product_href'] || '',
             position['pricePerUnit'] || '',
-            position['amount'] || ''
+            position['amountWithTax'] || '',
+            product
         );
     }
 
@@ -45,7 +50,7 @@ class OpenCRXOrderDTO {
         amountWithTax: string
     } {
         return {
-            product: this.product?.toJSON() || '',
+            product: this.product_?.toJSON() || '',
             amount: this.amount || '',
             quantity: this.quantity || '',
             pricePerUnit: this.pricePerUnit || '',

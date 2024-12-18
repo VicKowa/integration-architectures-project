@@ -36,7 +36,7 @@ router.put('/salesman/:id/spr', checkAuthorization, salesmanApi.updateSocialPerf
 
 const productApi = require('../apis/product-api'); //api for product
 // GET Requests
-router.get('/products/sales', checkAuthorization, productApi.getAllSales);
+router.get('/products/sales', productApi.getAllSales);
 
 const ohrmApi = require('../apis/ohrm-api'); //api for ohrm
 

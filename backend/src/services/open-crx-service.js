@@ -29,7 +29,7 @@ exports.getAllSales = async function (){
     let listOfSales = salesOrders.map(order => OpenCRXSaleDTO.fromJSON(order));
 
     // fetch the customer and orders for each sale
-    return await Promise.all(listOfSales.map(async sale => {
+    return Promise.all(listOfSales.map(async sale => {
         sale.customer = await this.getCustomer(sale);
         sale.orders = await this.getOrders(sale);
         return sale;
@@ -43,8 +43,6 @@ exports.getAllSales = async function (){
  * @returns {Promise<List<OpenCRXSaleDTO>>} List of sales
  */
 exports.getSales = async function (sid, year) {
-
-
     // fetch a OpenCRXSalesmanDTO with the given governmentId if sid is given
     const salesmanCRX = await this.getSalesman(sid);
 
@@ -56,6 +54,7 @@ exports.getSales = async function (sid, year) {
     );
 
     const salesOrders = data.objects;
+
     if (!salesOrders) throw new Error('No sales found in OpenCRX');
 
     // create a list of OpenCRXSaleDTOs of the sales for the given sid
@@ -118,9 +117,10 @@ exports.getSalesman = async function (sid){
         }
     );
 
-    if (!data.objects) throw new Error(`No salesman found with governmentId ${sid}`);
+    if (!Object.hasOwn(data, 'objects')) throw new Error(`No salesman found with governmentId ${sid}`);
+    else if (data.objects.length === 0) throw new Error(`No salesman found with governmentId ${sid}`);
 
-    return OpenCRXSalesmanDTO.fromJSON(data.objects[0]);
+    return OpenCRXSalesmanDTO.fromJSON(data['objects'][0]);
 }
 
 /**

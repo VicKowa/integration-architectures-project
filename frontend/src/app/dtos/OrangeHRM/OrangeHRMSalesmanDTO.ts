@@ -34,4 +34,4 @@ class OrangeHRMSalesmanDTO {
     }
 }
 
-export default OrangeHRMSalesmanDTO;
+export { OrangeHRMSalesmanDTO };

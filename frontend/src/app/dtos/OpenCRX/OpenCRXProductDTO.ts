@@ -11,7 +11,7 @@ class OpenCRXProductDTO {
 
     static fromJSON(product: Partial<OpenCRXProductDTO> = {}): OpenCRXProductDTO {
         return new OpenCRXProductDTO(
-            product['@href'] || '',
+            product['href'] || '',
             product['name'] || '',
             product['productNumber'] || ''
         );

@@ -11,7 +11,7 @@ class OpenCRXCustomerDTO {
 
     static fromJSON(customer: Partial<OpenCRXCustomerDTO> = {}): OpenCRXCustomerDTO {
         return new OpenCRXCustomerDTO(
-            customer['@href'] || '',
+            customer['href'] || '',
             customer['name'] || '',
             customer['accountRating'] || ''
         );

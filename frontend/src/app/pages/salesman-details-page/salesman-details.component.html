@@ -1,43 +1,63 @@
 <div *ngIf="salesman">
-    <h1>{{ salesman.firstname }} {{ salesman.lastname }}</h1>
+    <h1>{{ salesman.firstName }} {{ salesman.lastName }}</h1>
     <!-- <h3>{{ salesman.position }}</h3> TODO: Refactor Salesman model-->
 
-    <mat-tab-group>
+    <mat-tab-group #tabGroup>
         <!-- Tab 1: Sales Orders -->
         <mat-tab label="Sales Orders">
-            <table mat-table [dataSource]="salesOrders" class="mat-elevation-z8">
-                <ng-container matColumnDef="orderId">
-                    <th mat-header-cell *matHeaderCellDef>Order ID</th>
-                    <td mat-cell *matCellDef="let order" (click)="selectOrder(order)">{{ order.id }}</td>
+            <table mat-table [dataSource]="sales" class="mat-elevation-z8">
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef>Name</th>
+                    <td mat-cell *matCellDef="let sale"
+                        (click)="selectSale(sale)"
+                        [ngClass]="{ 'selected': selectedSale === sale }">
+                        {{ sale.name }}
+                    </td>
                 </ng-container>
-                <ng-container matColumnDef="amount">
-                    <th mat-header-cell *matHeaderCellDef>Amount</th>
-                    <td mat-cell *matCellDef="let order">{{ order.amount }}</td>
+                <ng-container matColumnDef="customer">
+                    <th mat-header-cell *matHeaderCellDef>Customer</th>
+                    <td mat-cell *matCellDef="let sale" [ngClass]="{ 'selected': selectedSale === sale }">
+                        {{ sale.customer.name }}
+                    </td>
                 </ng-container>
-                <tr mat-header-row *matHeaderRowDef="['orderId', 'amount']"></tr>
-                <tr mat-row *matRowDef="let row; columns: ['orderId', 'amount'];" style="cursor: pointer;"></tr>
+                <ng-container matColumnDef="priority">
+                    <th mat-header-cell *matHeaderCellDef>Priority</th>
+                    <td mat-cell *matCellDef="let sale" [ngClass]="{ 'selected': selectedSale === sale }">
+                        {{ sale.priority }}
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="['name', 'customer', 'priority']"></tr>
+                <tr mat-row *matRowDef="let row; columns: ['name', 'customer', 'priority'];" style="cursor: pointer;"></tr>
             </table>
         </mat-tab>
 
         <!-- Tab 2: Order Details -->
         <mat-tab label="Order Details">
-            <div *ngIf="selectedOrder">
-                <h2>Details for Order ID: {{ selectedOrder.id }}</h2>
+            <div *ngIf="selectedSale">
+                <h2>Orders for Sale: {{ selectedSale.name }}</h2>
                 <table mat-table [dataSource]="orderDetails" class="mat-elevation-z8">
-                    <ng-container matColumnDef="product">
-                        <th mat-header-cell *matHeaderCellDef>OpenCRXProductDTO</th>
-                        <td mat-cell *matCellDef="let detail">{{ detail.product }}</td>
+                    <ng-container matColumnDef="productNumber">
+                        <th mat-header-cell *matHeaderCellDef>Product Number</th>
+                        <td mat-cell *matCellDef="let detail">{{ detail.product_.productNumber }}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="productName">
+                        <th mat-header-cell *matHeaderCellDef>Product Name</th>
+                        <td mat-cell *matCellDef="let detail">{{ detail.product_.name }}</td>
                     </ng-container>
                     <ng-container matColumnDef="quantity">
                         <th mat-header-cell *matHeaderCellDef>Quantity</th>
                         <td mat-cell *matCellDef="let detail">{{ detail.quantity }}</td>
                     </ng-container>
-                    <tr mat-header-row *matHeaderRowDef="['product', 'quantity']"></tr>
-                    <tr mat-row *matRowDef="let row; columns: ['product', 'quantity'];"></tr>
+                    <ng-container matColumnDef="amount">
+                        <th mat-header-cell *matHeaderCellDef>Amount</th>
+                        <td mat-cell *matCellDef="let detail">{{ detail.amount }}</td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="['productNumber', 'productName', 'quantity', 'amount']"></tr>
+                    <tr mat-row *matRowDef="let row; columns: ['productNumber', 'productName', 'quantity', 'amount'];"></tr>
                 </table>
             </div>
-            <div *ngIf="!selectedOrder">
-                <p>Please select an order from the Sales Orders tab to view details.</p>
+            <div *ngIf="!selectedSale">
+                <p>Please select a Sale from the Sales Orders tab to view details.</p>
             </div>
         </mat-tab>
 

@@ -90,9 +90,13 @@ exports.getSalesmen = async function () {
         }
     });
 
-    return response.data.data.map(salesman => {
+    let salesmen = response.data.data.map(salesman => {
         return OrangeHRMSalesmanDTO.fromJSON(salesman);
     });
+
+    salesmen = salesmen.filter(salesman => salesman.jobTitle === 'Senior Salesman');
+
+    return salesmen;
 }
 
 /**

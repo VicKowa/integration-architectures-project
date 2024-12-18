@@ -2,35 +2,35 @@
 
     <ng-container matColumnDef="sid">
         <th mat-header-cell *matHeaderCellDef>SID</th>
-        <td mat-cell *matCellDef="let salesman" (click)="navigateToDetails(salesman.sid)">
-            {{ salesman.sid }}
+        <td mat-cell *matCellDef="let salesman" (click)="navigateToDetails(salesman.code)">
+            {{ salesman.code }}
         </td>
     </ng-container>
 
     <ng-container matColumnDef="firstname">
         <th mat-header-cell *matHeaderCellDef>First Name</th>
-        <td mat-cell *matCellDef="let salesman" (click)="navigateToDetails(salesman.sid)">
-            {{ salesman.firstname }}
+        <td mat-cell *matCellDef="let salesman" (click)="navigateToDetails(salesman.code)">
+            {{ salesman.firstName }}
         </td>
     </ng-container>
 
     <ng-container matColumnDef="lastname">
         <th mat-header-cell *matHeaderCellDef>Last Name</th>
-        <td mat-cell *matCellDef="let salesman" (click)="navigateToDetails(salesman.sid)">
-            {{ salesman.lastname }}
+        <td mat-cell *matCellDef="let salesman" (click)="navigateToDetails(salesman.code)">
+            {{ salesman.lastName }}
         </td>
     </ng-container>
 
     <ng-container matColumnDef="recordCount">
         <th mat-header-cell *matHeaderCellDef>Record Count</th>
-        <td mat-cell *matCellDef="let salesman" (click)="navigateToDetails(salesman.sid)">
+        <td mat-cell *matCellDef="let salesman" (click)="navigateToDetails(salesman.code)">
             {{ getRecordCount(salesman) }}
         </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"
-        (click)="navigateToDetails(row.sid)"
+        (click)="navigateToDetails(row.code)"
         style="cursor: pointer;">
     </tr>
 </table>
