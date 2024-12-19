@@ -137,6 +137,31 @@ exports.getSalesman = async function (sid){
 }
 
 /**
+ * Fetches all salesmen from OpenCRX with job title "Senior Salesman"
+ * @returns {Promise<List<OpenCRXSalesmanDTO>>} List of OpenCRXSalesmanDTOs
+ */
+exports.getAllSalesmen = async function () {
+    console.log("getAllSalesmen2");
+    // Query for contacts only with the job title "Senior Salesman"
+    let query = {
+        queryType: "org:opencrx:kernel:account1:Contact",
+        query: `thereExistsJobTitle().equalTo("Senior Salesman")`
+    };
+
+    // Fetch all salesmen from OpenCRX
+    const { data } = await axios.get(`${envOpenCRX.accountURL}/account`, { headers: envOpenCRX.headers, params: query}).catch(
+        _ => {
+            throw new Error('Error fetching salesmen from OpenCRX');
+        }
+    );
+
+    if (!Object.hasOwn(data, 'objects')) throw new Error('No salesmen found in OpenCRX');
+    else if (data.objects.length === 0) throw new Error('No salesmen found in OpenCRX');
+
+    return data.objects.map(salesman => OpenCRXSalesmanDTO.fromJSON(salesman));
+}
+
+/**
  * Fetches a customer from OpenCRX with the given href from an OpenCRXSaleDTO
  * @param sale OpenCRXSaleDTO
  * @returns {Promise<OpenCRXCustomerDTO>} Customer
