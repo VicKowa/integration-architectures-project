@@ -58,8 +58,6 @@ exports.getSales = async function (sid, year) {
         }
     );
 
-    console.log("data\n: ", data);
-
     const salesOrders = data.objects;
 
     if (!salesOrders) throw new Error('No sales found in OpenCRX');
@@ -68,7 +66,6 @@ exports.getSales = async function (sid, year) {
     let listOfSales = (await Promise.all(
         salesOrders
             .map(async order => {
-                console.log("order: ", order);
                 if(!order)
                     return null;
 

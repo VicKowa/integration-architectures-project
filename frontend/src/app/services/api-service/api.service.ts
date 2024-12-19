@@ -47,7 +47,6 @@ export class ApiService {
     getSalesOrders(sid: string): Observable<OpenCRXSaleDTO[]> {
         return this.http.get<any[]>(`${this.URL}/products/sales?salesman=${sid}`).pipe(
             map(response => {
-                console.log('API Response:', response);  // Antwort loggen
                 return response.map(data => {
                     return OpenCRXSaleDTO.fromJSON(data);
                 });
