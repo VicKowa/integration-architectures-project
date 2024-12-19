@@ -34,4 +34,3 @@ exports.getOEBonus = async function(sid, year) {
 exports.getTotalBonus = async function(db, sid, year){
     return await this.getSPRBonus(db, sid, year) + await this.getOEBonus( sid, year);
 }
-

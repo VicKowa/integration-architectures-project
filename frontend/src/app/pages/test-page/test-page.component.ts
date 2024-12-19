@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from "../../services/api-service/api.service";
-import { Salesman } from '../../models/Salesman';
+import { OrangeHRMSalesmanDTO } from "../../dtos/OrangeHRM/OrangeHRMSalesmanDTO";
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-test-page',
   templateUrl: './test-page.component.html',
@@ -9,22 +11,26 @@ import { Salesman } from '../../models/Salesman';
 export class TestPageComponent implements OnInit {
 
     displayedColumns: string[] = ['sid', 'firstname', 'lastname', 'recordCount'];
-    salesmen: Salesman[] = [];
+    salesmen: OrangeHRMSalesmanDTO[] = [];
 
-    constructor(private apiService: ApiService) { }
+    constructor(private apiService: ApiService, private router : Router) { }
 
     ngOnInit(): void {
         this.fetchSalesmen();
     }
 
     fetchSalesmen(): void {
-        this.apiService.getSalesman().subscribe((data: Salesman[]) => {
+        this.apiService.getSalesman().subscribe((data: OrangeHRMSalesmanDTO[]) => {
             console.log('Salesmen loaded:', data); // Debugging
             this.salesmen = data;
         });
     }
 
-    getRecordCount(salesman: Salesman): number {
-        return salesman.socialPerformanceRecords.length;
+    getRecordCount(salesman: OrangeHRMSalesmanDTO): number {
+        return 0; // TODO: Implement record count
+    }
+
+    navigateToDetails(sid: string): void {
+        this.router.navigate(['/salesman', sid]).then(r => console.log('Navigation result:', r));
     }
 }

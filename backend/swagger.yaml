@@ -273,6 +273,20 @@ paths:
     get:
       tags:
         - Products
+      parameters:
+        - name: sid
+          in: query
+          description: Salesman ID to filter the sales.
+          required: false
+          schema:
+            type: string
+        - name: year
+          in: query
+          description: Year to filter the sales by.
+          required: false
+          schema:
+            type: integer
+            format: string
       summary: Get all sales
       description: Retrieve a list of all sales
       responses:
