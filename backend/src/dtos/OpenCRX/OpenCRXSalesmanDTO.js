@@ -5,10 +5,14 @@ class OpenCRXSalesmanDTO {
     }
 
     static fromJSON(account = {}) {
+        if (!account || typeof account !== 'object') {
+            throw new Error("Invalid account object");
+        }
+
         return new OpenCRXSalesmanDTO(
             account["@href"] || '',
             account["governmentId"] || ''
-        )
+        );
     }
 }
 

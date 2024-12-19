@@ -10,6 +10,10 @@ class OpenCRXOrderDTO {
     }
 
     static fromJSON(position = {}) {
+        if (!position || typeof position !== 'object') {
+            throw new Error("Invalid position object");
+        }
+
         return new OpenCRXOrderDTO(
             position['@href'] || '',
             position['amount'] || '',
@@ -22,12 +26,12 @@ class OpenCRXOrderDTO {
 
     toJSON() {
         return {
-            product: this.product.toJSON() || '',
+            product: this.product ? this.product.toJSON() : '',
             amount: this.amount || '',
             quantity: this.quantity || '',
             pricePerUnit: this.pricePerUnit || '',
             amountWithTax: this.amountWithTax || '',
-        }
+        };
     }
 }
 

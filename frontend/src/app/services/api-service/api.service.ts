@@ -3,9 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { OrangeHRMSalesmanDTO } from '../../dtos/OrangeHRM/OrangeHRMSalesmanDTO';
 import { map } from "rxjs/operators";
-import OpenCRXOrderDTO from "../../dtos/OpenCRX/OpenCRXOrderDTO";
 import OpenCRXSaleDTO from "../../dtos/OpenCRX/OpenCRXSaleDTO";
-import OpenCRXCustomerDTO from "../../dtos/OpenCRX/OpenCRXCustomerDTO";
 
 @Injectable({
   providedIn: 'root'
@@ -48,18 +46,13 @@ export class ApiService {
 
     getSalesOrders(sid: string): Observable<OpenCRXSaleDTO[]> {
         return this.http.get<any[]>(`${this.URL}/products/sales?salesman=${sid}`).pipe(
-            map(response => response.map(data => {
-                const mappedData = OpenCRXSaleDTO.fromJSON(data);
-
-                console.log('mappedData: ', mappedData);
-
-                return mappedData;
-            }))
+            map(response => {
+                console.log('API Response:', response);  // Antwort loggen
+                return response.map(data => {
+                    return OpenCRXSaleDTO.fromJSON(data);
+                });
+            })
         );
-    }
-
-    getOrderDetails(orderId: string): Observable<any[]> {
-        return this.http.get<any[]>(`${this.URL}/products/sales/${orderId}`);
     }
 
     getBonuses(sid: string): Observable<string[]> {

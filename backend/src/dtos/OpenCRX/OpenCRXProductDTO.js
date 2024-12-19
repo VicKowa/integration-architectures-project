@@ -6,6 +6,10 @@ class OpenCRXProductDTO {
     }
 
     static fromJSON(product = {}) {
+        if (!product || typeof product !== 'object') {
+            throw new Error("Invalid product object");
+        }
+
         return new OpenCRXProductDTO(
             product['@href'] || '',
             product['name'] || '',
@@ -17,7 +21,7 @@ class OpenCRXProductDTO {
         return {
             name: this.name || '',
             productNumber: this.productNumber || '',
-        }
+        };
     }
 
 }

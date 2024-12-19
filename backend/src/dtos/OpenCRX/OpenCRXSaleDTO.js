@@ -13,16 +13,19 @@ class OpenCRXSaleDTO {
     }
 
     static fromJSON(salesOrder = {}) {
+        if (!salesOrder || typeof salesOrder !== 'object') {
+            throw new Error("Invalid salesOrder object");
+        }
+
         return new OpenCRXSaleDTO(
             salesOrder['@href'] || '',
-            salesOrder['salesRep']['@href'] || '',
+            salesOrder?.salesRep?.['@href'] || '',
             salesOrder['totalAmountIncludingTax'] || '',
             salesOrder['name'] || '',
-            salesOrder['customer']['@href'] || '',
+            salesOrder?.customer?.['@href'] || '',
             salesOrder['activeOn'] || '',
             salesOrder['contractNumber'] || '',
-            salesOrder['priority'] || '',
-
+            salesOrder['priority'] || ''
         );
     }
 
@@ -33,9 +36,9 @@ class OpenCRXSaleDTO {
             contractNumber: this.contractNumber || '',
             priority: this.priority || '',
             totalAmountIncludingTax: this.totalAmountIncludingTax || '',
-            customer: this.customer.toJSON() || '',
-            orders: this.orders.map(order => order.toJSON()) || '',
-        }
+            customer: this.customer ? this.customer.toJSON() : '',
+            orders: Array.isArray(this.orders) ? this.orders.map(order => order.toJSON()) : [],
+        };
     }
 }
 

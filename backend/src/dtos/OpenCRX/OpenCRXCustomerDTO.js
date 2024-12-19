@@ -6,6 +6,10 @@ class OpenCRXCustomerDTO {
 
     }
     static fromJSON(customer = {}) {
+        if (!customer || typeof customer !== 'object') {
+            throw new Error("Invalid customer object");
+        }
+
         return new OpenCRXCustomerDTO(
             customer['@href'] || '',
             customer['name'] || '',
@@ -17,7 +21,7 @@ class OpenCRXCustomerDTO {
         return {
             name: this.name || '',
             accountRating: this.accountRating || ''
-        }
+        };
     }
 }
 

@@ -26,7 +26,12 @@ exports.getAllSales = async function (){
     if (!salesOrders) throw new Error('No sales found in OpenCRX');
 
     // create a list of OpenCRXSaleDTOs of the sales
-    let listOfSales = salesOrders.map(order => OpenCRXSaleDTO.fromJSON(order));
+    let listOfSales = [];
+    try {
+        listOfSales = salesOrders.map(order => OpenCRXSaleDTO.fromJSON(order));
+    } catch (error) {
+        console.log("err 1");
+    }
 
     // fetch the customer and orders for each sale
     return Promise.all(listOfSales.map(async sale => {
@@ -53,6 +58,8 @@ exports.getSales = async function (sid, year) {
         }
     );
 
+    console.log("data\n: ", data);
+
     const salesOrders = data.objects;
 
     if (!salesOrders) throw new Error('No sales found in OpenCRX');
@@ -61,6 +68,10 @@ exports.getSales = async function (sid, year) {
     let listOfSales = (await Promise.all(
         salesOrders
             .map(async order => {
+                console.log("order: ", order);
+                if(!order)
+                    return null;
+
                 // filter out sales that are not from the given salesman
                 if (order['salesRep']['@href'] === salesmanCRX.href) {
                     return OpenCRXSaleDTO.fromJSON(order);
@@ -69,12 +80,17 @@ exports.getSales = async function (sid, year) {
             })
     )).filter(order => order !== null);
 
+    if (!listOfSales) throw new Error('No sales found in OpenCRX');
+
     // filter out sales that are not from the given year
     if (year) {
         listOfSales = listOfSales.filter(sale => sale.activeOn.includes(year));
     }
 
     return await Promise.all(listOfSales.map(async sale => {
+        if (!sale)
+            return null;
+
         sale.customer = await this.getCustomer(sale);
         sale.orders = await this.getOrders(sale);
         return sale;
@@ -107,9 +123,9 @@ exports.getSalesman = async function (sid){
     // Query for salesman with governmentId
     let query = {
         queryType: "org:opencrx:kernel:account1:Contact",
-        query: `thereExistsGovernmentId().equalTo("${sid}")`,
-
+        query: `thereExistsGovernmentId().equalTo("${sid}")`
     };
+
     // Fetch salesman from OpenCRX
     const { data } = await axios.get(`${envOpenCRX.accountURL}/account`, { headers: envOpenCRX.headers, params: query}).catch(
         _ => {
@@ -155,10 +171,11 @@ exports.getOrders = async function(sale) {
     if(!data.objects) return null;
 
     let orders = data.objects;
-    orders = await Promise.all(orders.map( async order => {
+
+     return Promise.all(orders.map( async order => {
         const orderDTO = OpenCRXOrderDTO.fromJSON(order);
         orderDTO.product = await this.getProduct(orderDTO);
+
         return orderDTO;
     }));
-    return orders;
 }
