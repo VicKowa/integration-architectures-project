@@ -110,3 +110,26 @@ p {
     font-size: 1rem;
     color: #666;
 }
+
+.content-wrapper {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.content-column {
+    flex: 1;
+    background: #ffffff;
+    padding: 1.5rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+}
+
+.full-width-section {
+    background: #ffffff;
+    padding: 1.5rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-top: 1rem;
+}
+
