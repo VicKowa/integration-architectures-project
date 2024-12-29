@@ -24,12 +24,12 @@ class OrangeHRMSalesmanDTO {
 
     static fromJSON(json: Partial<OrangeHRMSalesmanDTO> = {}): OrangeHRMSalesmanDTO {
         return new OrangeHRMSalesmanDTO(
-            json['firstName'] || '',
-            json['lastName'] || '',
-            json['middleName'] || '',
-            json['code'] || '',
-            json['jobTitle'] || '',
-            json['employeeId'] || ''
+            json.firstName || '',
+            json.lastName || '',
+            json.middleName || '',
+            json.code || '',
+            json.jobTitle || '',
+            json.employeeId || ''
         );
     }
 }

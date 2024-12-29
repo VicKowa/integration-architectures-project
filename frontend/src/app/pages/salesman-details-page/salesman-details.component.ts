@@ -1,17 +1,17 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ApiService } from "../../services/api-service/api.service";
-import { OrangeHRMSalesmanDTO } from "../../dtos/OrangeHRM/OrangeHRMSalesmanDTO";
-import OpenCRXSaleDTO from "../../dtos/OpenCRX/OpenCRXSaleDTO";
-import {MatTabGroup} from "@angular/material/tabs";
-import OpenCRXOrderDTO from "../../dtos/OpenCRX/OpenCRXOrderDTO";
+import { ApiService } from '../../services/api-service/api.service';
+import { OrangeHRMSalesmanDTO } from '../../dtos/OrangeHRM/OrangeHRMSalesmanDTO';
+import OpenCRXSaleDTO from '../../dtos/OpenCRX/OpenCRXSaleDTO';
+import {MatTabGroup} from '@angular/material/tabs';
+import OpenCRXOrderDTO from '../../dtos/OpenCRX/OpenCRXOrderDTO';
 
 @Component({
     selector: 'app-salesman-details',
     templateUrl: './salesman-details.component.html',
     styleUrls: ['./salesman-details.component.css']
 })
-export class SalesmanDetailsComponent {
+export class SalesmanDetailsComponent implements OnInit {
     @ViewChild('tabGroup') tabGroup: MatTabGroup;
 
     salesman: OrangeHRMSalesmanDTO | null = null;
@@ -38,7 +38,7 @@ export class SalesmanDetailsComponent {
      * @param sid The ID of the salesman
      * */
     fetchSalesmanDetails(sid: string): void {
-        this.apiService.getSalesmanById(sid).subscribe((data: OrangeHRMSalesmanDTO) => {
+        this.apiService.getSalesmanById(sid).subscribe((data: OrangeHRMSalesmanDTO): void => {
             this.salesman = data;
         });
     }
@@ -47,22 +47,23 @@ export class SalesmanDetailsComponent {
      * Fetches the sales orders for a salesman
      *
      * @param sid The ID of the salesman
+     * @returns void
      * */
     fetchSalesOrders(sid: string): void {
-        this.apiService.getSalesOrders(sid).subscribe((sales: OpenCRXSaleDTO[]) => {
+        this.apiService.getSalesOrders(sid).subscribe((sales: OpenCRXSaleDTO[]): void => {
             // get the orders from the sales object
-            for (let sale of sales) {
+            for (const sale of sales) {
                 this.sales.push(sale);
-                for (let order of sale.orders) {
+                for (const order of sale.orders) {
                     // Does not trigger change detection in Angular
                     this.orders.push(order);
                 }
             }
 
             // sort the sales by priority
-            this.sales.sort((a, b) => {
-                const priorityA = parseInt(a.priority);
-                const priorityB = parseInt(b.priority);
+            this.sales.sort((a, b): number => {
+                const priorityA = parseInt(a.priority, 10); // 10 is the radix
+                const priorityB = parseInt(b.priority, 10);
                 return priorityB - priorityA; // Absteigend sortieren
             });
 
@@ -76,9 +77,10 @@ export class SalesmanDetailsComponent {
      * Fetches the bonuses for a salesman
      *
      * @param sid The ID of the salesman
+     * @returns void
      * */
     fetchBonuses(sid: string): void {
-        this.apiService.getBonuses(sid).subscribe((bonuses: string[]) => {
+        this.apiService.getBonuses(sid).subscribe((bonuses: string[]): void => {
             this.bonuses = bonuses;
         });
     }
@@ -90,10 +92,9 @@ export class SalesmanDetailsComponent {
      * */
     selectSale(sale: OpenCRXSaleDTO): void {
         this.orderDetails = [];
-        console.log('sale: ', sale);
         this.selectedSale = sale;
 
-        for (let order of sale.orders) {
+        for (const order of sale.orders) {
             this.orderDetails.push(order);
         }
 

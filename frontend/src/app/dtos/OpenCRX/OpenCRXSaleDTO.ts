@@ -1,5 +1,5 @@
-import OpenCRXCustomerDTO from "./OpenCRXCustomerDTO";
-import OpenCRXOrderDTO from "./OpenCRXOrderDTO";
+import OpenCRXCustomerDTO from './OpenCRXCustomerDTO';
+import OpenCRXOrderDTO from './OpenCRXOrderDTO';
 
 class OpenCRXSaleDTO {
     href: string;
@@ -10,7 +10,7 @@ class OpenCRXSaleDTO {
     activeOn: string;
     contractNumber: string;
     priority: string;
-    orders: OpenCRXOrderDTO[]; // List of OpenCRXOrderDTOs
+    orders: OpenCRXOrderDTO[];
     customer: OpenCRXCustomerDTO | null;
 
     constructor(
@@ -33,30 +33,28 @@ class OpenCRXSaleDTO {
         this.activeOn = activeOn;
         this.contractNumber = contractNumber;
         this.priority = priority;
-        this.orders = orders; // List of OpenCRXOrderDTOs
-        this.customer = customer; // OpenCRXCustomerDTO
+        this.orders = orders;
+        this.customer = customer;
     }
 
     static fromJSON(salesOrder: Partial<OpenCRXSaleDTO> = {}): OpenCRXSaleDTO {
-        // Erstelle die Liste der Bestellungen (orders), wenn Daten vorhanden sind
-        const orders = (salesOrder.orders || []).map(order =>
+        const orders: OpenCRXOrderDTO[] = (salesOrder.orders || []).map((order: Partial<OpenCRXOrderDTO>): OpenCRXOrderDTO =>
             OpenCRXOrderDTO.fromJSON(order)
         );
 
-        // Erstelle das Kundenobjekt (customer), wenn Daten vorhanden sind
         const customer = salesOrder.customer
             ? OpenCRXCustomerDTO.fromJSON(salesOrder.customer)
             : null;
 
         return new OpenCRXSaleDTO(
-            salesOrder['href'] || '',
-            salesOrder['salesRep']?.['href'] || '',
-            salesOrder['totalAmountIncludingTax'] || '',
-            salesOrder['name'] || '',
-            salesOrder['customer']?.['href'] || '',
-            salesOrder['activeOn'] || '',
-            salesOrder['contractNumber'] || '',
-            salesOrder['priority'] || '',
+            salesOrder.href || '',
+            salesOrder.salesRep_href || '',
+            salesOrder.totalAmountIncludingTax || '',
+            salesOrder.name || '',
+            salesOrder.customer?.href || '',
+            salesOrder.activeOn || '',
+            salesOrder.contractNumber || '',
+            salesOrder.priority || '',
             orders,
             customer
         );
@@ -70,13 +68,13 @@ class OpenCRXSaleDTO {
         totalAmountIncludingTax: string;
         customer: { name: string; accountRating: string } | string;
         orders: {
-            product: { name: string; productNumber: string } | string;
+            crx_product: { name: string; productNumber: string } | string;
             amount: string;
             quantity: string;
             pricePerUnit: string;
-            amountWithTax: string
-        }[]
-    } {
+            amountWithTax: string;
+        }[];
+        } {
         return {
             name: this.name || '',
             activeOn: this.activeOn || '',
@@ -84,7 +82,13 @@ class OpenCRXSaleDTO {
             priority: this.priority || '',
             totalAmountIncludingTax: this.totalAmountIncludingTax || '',
             customer: this.customer?.toJSON() || '',
-            orders: this.orders.map(order => order.toJSON()) || []
+            orders: this.orders.map((order: OpenCRXOrderDTO): {
+                crx_product: { name: string; productNumber: string } | string;
+                amount: string;
+                quantity: string;
+                pricePerUnit: string;
+                amountWithTax: string;
+            } => order.toJSON()) || []
         };
     }
 }

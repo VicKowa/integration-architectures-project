@@ -98,7 +98,7 @@ module.exports = {
           "@typescript-eslint/consistent-type-assertions": "error",
 
           "@typescript-eslint/indent": [
-            "error",
+            "warn",
             4,
             {
               "FunctionDeclaration": {

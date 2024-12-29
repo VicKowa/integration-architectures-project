@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-create-bonus',
-  templateUrl: './create-bonus.component.html',
-  styleUrls: ['./create-bonus.component.css']
+    selector: 'app-create-bonus',
+    templateUrl: './create-bonus.component.html',
+    styleUrls: ['./create-bonus.component.css']
 })
 export class CreateBonusComponent {
     salesman = {
@@ -29,7 +29,7 @@ export class CreateBonusComponent {
 
     comments = '';
 
-    submit() {
+    submit(): void {
         console.log('Data submitted:', {
             tab1Data: this.tab1Data,
             tab1BonusValue: this.tab1BonusValue,
