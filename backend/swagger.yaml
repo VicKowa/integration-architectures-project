@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
-  title: API Documentation
+  title: HighPerformance Api documentation
   version: 1.0.0
-  description: Documentation for the REST API
+  description: Documentation of the REST API
 servers:
   - url: http://localhost:4200/api
     description: Local development server
@@ -61,6 +61,15 @@ paths:
       responses:
         '200':
           description: User information retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                  role:
+                    type: string
         '401':
           description: Unauthorized
   /salesman:
@@ -74,6 +83,12 @@ paths:
       responses:
         '200':
           description: List of salesmen retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Salesman'
         '401':
           description: Unauthorized
     post:
@@ -129,6 +144,10 @@ paths:
       responses:
         '200':
           description: Salesman retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Salesman'
         '404':
           description: Salesman not found
         '401':
@@ -171,6 +190,10 @@ paths:
       responses:
         '200':
           description: Social performance record retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SocialPerformanceRecord'
         '404':
           description: Social performance record not found
         '401':
@@ -250,47 +273,33 @@ paths:
     get:
       tags:
         - Products
+      parameters:
+        - name: sid
+          in: query
+          description: Salesman ID to filter the sales.
+          required: false
+          schema:
+            type: string
+        - name: year
+          in: query
+          description: Year to filter the sales by.
+          required: false
+          schema:
+            type: integer
+            format: string
       summary: Get all sales
       description: Retrieve a list of all sales
       responses:
         '200':
           description: List of sales retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Sale'
         '404':
           description: No sales found
-  /products/sales/{oid}:
-    get:
-      tags:
-        - Products
-      summary: Get products from a specific sale
-      description: Retrieve products from a specific sale by order ID
-      parameters:
-        - name: oid
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Products retrieved successfully
-        '404':
-          description: No products found
-  /products/{pid}:
-    get:
-      tags:
-        - Products
-      summary: Get product by ID
-      description: Retrieve a product by its ID
-      parameters:
-        - name: pid
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Product retrieved successfully
-        '404':
-          description: Product not found
   /salesmanohrm:
     get:
       tags:
@@ -300,6 +309,12 @@ paths:
       responses:
         '200':
           description: Salesmen retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Salesman'
         '404':
           description: No salesmen found
     put:
@@ -335,6 +350,10 @@ paths:
       responses:
         '200':
           description: Salesman data retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Salesman'
         '404':
           description: Salesman not found
   /bonus/spr/{sid}/{year}:

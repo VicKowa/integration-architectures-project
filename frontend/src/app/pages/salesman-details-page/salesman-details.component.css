@@ -1,0 +1,193 @@
+/* General Styles */
+:host {
+    display: block;
+    font-family: 'Roboto', Arial, sans-serif;
+    color: #333;
+    padding: 1rem;
+}
+
+.salesman-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Header Styles */
+h1 {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #34495e;
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #2c3e50;
+}
+
+h3 {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+    color: #16a085;
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff; /* Ensure table background is white */
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 1rem;
+}
+
+.mat-mdc-table .mat-mdc-header-cell {
+    background-color: #16a085 !important; /* Greenish color for headers */
+    color: white !important;
+}
+
+.mat-mdc-table .mat-mdc-cell {
+    background-color: #ffffff !important; /* White background for table cells */
+}
+
+tr#mat-row:hover {
+    background-color: #ecf0f1;
+    transition: background-color 0.3s ease;
+}
+
+.selected {
+    background-color: #d1e7dd !important;
+    color: #0f5132;
+    font-weight: bold;
+}
+
+.custom-table {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow effect */
+}
+
+/* Tab Styles */
+.mat-tab-group {
+    margin: 1rem 0;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.tab-content {
+    padding: 1.5rem;
+    min-height: 300px;
+    background: #ffffff;
+    border-top: 2px solid #e0e0e0;
+}
+
+/* Input Field Styles */
+.input-field {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0.25rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.input-field input {
+    font-size: 0.85rem;
+    padding: 0.5rem;
+    line-height: 1.5;
+    height: auto;
+    border: none;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.input-field:focus-within {
+    border-color: #3f51b5;
+    box-shadow: 0 0 5px rgba(63, 81, 181, 0.5);
+}
+
+/* Hide the error messages of the input fields */
+.mat-mdc-form-field-subscript-wrapper {
+    height: 0 !important;
+    overflow: hidden;
+}
+
+/* Comments Section Styles */
+.tab.full-width {
+    width: 100%;
+}
+
+.comments-field {
+    width: 100%;
+}
+
+textarea {
+    width: 100%;
+    min-height: 200px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+/* Total Bonus Styles */
+.total-bonus {
+    margin-top: 1rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+/* Bonus List Styles */
+.bonus-list {
+    list-style: none;
+    padding: 0;
+}
+
+.bonus-list li {
+    background: #d1f2eb;
+    color: #16a085;
+    padding: 0.75rem 1rem;
+    margin: 0.5rem 0;
+    border-radius: 4px;
+}
+
+/* Loading Container Styles */
+.loading-container {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #888;
+}
+
+/* Paragraph Styles */
+p {
+    font-size: 1rem;
+    color: #666;
+}
+
+/* Content Wrapper Styles */
+.content-wrapper {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.content-column {
+    flex: 1;
+    background: #ffffff;
+    padding: 1.5rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+}
+
+.full-width-section {
+    background: #ffffff;
+    padding: 1.5rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-top: 1rem;
+}

@@ -1,10 +1,5 @@
 const axios = require('axios');
-const Salesman = require("../models/salesman/Salesman");
-
-const ALLOWED_KEYS = ['id', 'firstName', 'middleName', 'lastName', 'code', 'dob', 'licenseNumber',
-    'licenseNumberExpDate', 'maritalStatus', 'gender', 'otherId', 'nationality'];
-
-const BANNED_KEYS = ['code'];
+const OrangeHRMSalesmanDTO = require('../dtos/OrangeHRM/OrangeHRMSalesmanDTO');
 
 const auth_url = 'https://sepp-hrm.inf.h-brs.de/symfony/web/index.php/oauth/issueToken';
 let access_token = null;
@@ -80,23 +75,11 @@ async function requestToken(data) {
 }
 
 /**
- * Convert JSON to Salesman object only regarding specific keys
- *
- * @param json - JSON data to be converted
- * @returns {Salesman}
- * */
-function convertToSalesman(json) {
-    const {firstName, lastName, code} = json;
-    return new Salesman(firstName, lastName, code);
-}
-
-/**
  * Get all salesmen from the HRM system
  *
- * @param mapped - if true, return Salesman objects, otherwise return JSON objects
- * @returns {Promise<Salesman[]> | Promise<*>}
+ * @returns {Promise<OrangeHRMSalesmanDTO[]>}
  * */
-exports.getSalesmen = async function (mapped = true) {
+exports.getSalesmen = async function () {
     // get access token
     await getToken();
 
@@ -107,13 +90,13 @@ exports.getSalesmen = async function (mapped = true) {
         }
     });
 
-    // return mapped or not mapped data
-    if (mapped)
-        return response.data.data.map(salesman => {
-            return convertToSalesman(salesman);
-        });
-    else
-        return response.data.data;
+    let salesmen = response.data.data.map(salesman => {
+        return OrangeHRMSalesmanDTO.fromJSON(salesman);
+    });
+
+    salesmen = salesmen.filter(salesman => salesman.jobTitle === 'Senior Salesman');
+
+    return salesmen;
 }
 
 /**
@@ -121,10 +104,9 @@ exports.getSalesmen = async function (mapped = true) {
  * needs to be fixed: we give code (sid), but the employee is searched by id. possibly extension of Salesman class needed
  *
  * @param code
- * @param mapped
- * @returns {Promise<Salesman>}
+ * @returns {Promise<OrangeHRMSalesmanDTO>}
  */
-exports.getSalesman = async function (code, mapped = true) {
+exports.getSalesmanByCode = async function (code) {
     // get access token
     await getToken();
 
@@ -133,69 +115,67 @@ exports.getSalesman = async function (code, mapped = true) {
         throw new Error('Code is required!');
 
     // get all salesmen
-    const salesmen = await this.getSalesmen(mapped);
+    const salesmen = await this.getSalesmen();
 
-    // return the salesman with the given code
-    if (mapped)
-        return salesmen.find(salesman => salesman.sid === code);
-    else
-        return salesmen.find(salesman => salesman.code === code);
+    return salesmen.find(salesman => salesman.code === code);
 }
 
 /**
- * Update a specific salesman by its code with the given JSON data
+ * Get a specific salesman by its code (not working!)
+ * needs to be fixed: we give code (sid), but the employee is searched by id. possibly extension of Salesman class needed
  *
- * @param json - JSON data to be updated
- * @returns {Promise<void>}
+ * @param employeeId
+ * @returns {Promise<OrangeHRMSalesmanDTO>}
  */
-exports.updateSalesman = async function (json) {
+exports.getSalesmanById = async function (employeeId) {
     // get access token
     await getToken();
 
-    // check if json is given
-    if (!json)
-        throw new Error('To be changed data is required');
+    // check if code is given
+    if (!employeeId)
+        throw new Error('Employee ID is required!');
 
-    // save the code because it is removed from the json
-    const code = json.code;
-
-    // check if json has only allowed keys and remove banned keys
-    Object.keys(json).forEach(key => {
-        if (!ALLOWED_KEYS.includes(key) || BANNED_KEYS.includes(key))
-            delete json[key];
-    });
-
-    // add not mentioned allowed keys
-    ALLOWED_KEYS.forEach(key => {
-        if (!json[key])
-            json[key] = '';
-    });
-
-    // get the original salesman
-    const original = await this.getSalesman(code, false);
-
-    // check if salesman is found
-    if (!original)
-        throw new Error('Salesman not found!');
-
-    // update the json with original data if not given
-    Object.keys(original).forEach(key => {
-        if (json[key] === '')
-            json[key] = original[key];
-    });
-
-    // special case for id (it has a different name -> mapping is required)
-    json['id'] = original.employeeId; // special case
-
-    // update salesman
-    const response =
-        await axios.put(`https://sepp-hrm.inf.h-brs.de/symfony/web/index.php/api/v1/employee/${json.id}`,
-            json, {
+    const response = await axios.get(
+        `https://sepp-hrm.inf.h-brs.de/symfony/web/index.php/api/v1/employee/${employeeId}`,
+        {
             headers: {
                 Authorization: `Bearer ${access_token}`
             }
         });
 
-    // return response
+    return OrangeHRMSalesmanDTO.fromJSON(response.data.data);
+}
+
+/**
+ * Get the social performance records for a specific salesman
+ *
+ * @param sid
+ * @param bonus : OrangeHRMBonusSalaryDTO
+ * @returns {Promise<any>}
+ */
+exports.createBonusSalary = async function (sid, bonus) {
+    // get access token
+    await getToken();
+
+    // check if sid and bonus are given
+    if (!sid || !bonus)
+        throw new Error('SID and Bonus are required!');
+
+    const salesmanDTO = await this.getSalesmanByCode(sid);
+
+    // create bonus salary
+    const response = await axios.post(
+        `https://sepp-hrm.inf.h-brs.de/symfony/web/index.php/api/v1/employee/${sid}/bonussalary`,
+        {
+            id: parseInt(salesmanDTO.employeeId),
+            year: parseInt(bonus.year),
+            value: parseInt(bonus.value)
+        },
+        {
+            headers: {
+                Authorization: `Bearer ${access_token}`
+            }
+        });
+
     return response.data;
 }

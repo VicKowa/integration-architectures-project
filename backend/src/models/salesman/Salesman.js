@@ -15,6 +15,9 @@ class Salesman {
         this.lastname = lastname;
         this.sid = sid;
 
+        // orange hrm data
+
+
         this.socialPerformanceRecords = this.#validateRecords(socialPerformanceRecords);
     }
 

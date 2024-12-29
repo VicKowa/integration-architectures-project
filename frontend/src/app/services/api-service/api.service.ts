@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Salesman } from '../../models/Salesman';
-import {map} from "rxjs/operators";
+import { OrangeHRMSalesmanDTO } from '../../dtos/OrangeHRM/OrangeHRMSalesmanDTO';
+import { map } from "rxjs/operators";
+import OpenCRXSaleDTO from "../../dtos/OpenCRX/OpenCRXSaleDTO";
 
 @Injectable({
   providedIn: 'root'
@@ -13,26 +14,44 @@ export class ApiService {
 
     constructor(private http: HttpClient) { }
 
-    getSalesman(): Observable<Salesman[]> {
+    getSalesman(): Observable<OrangeHRMSalesmanDTO[]> {
         return this.http.get<any[]>(`${this.URL}/salesmanohrm`).pipe(
             map(response => response.map(data =>
-                new Salesman(data.firstname, data.lastname, data.sid))
+                new OrangeHRMSalesmanDTO(
+                    data.firstName,
+                    data.lastName,
+                    data.middleName,
+                    data.code,
+                    data.jobTitle,
+                    data.employeeId
+                ))
             )
         );
     }
 
-    getSalesmanById(sid: string): Observable<Salesman> {
+    getSalesmanById(sid: string): Observable<OrangeHRMSalesmanDTO> {
         return this.http.get<any>(`${this.URL}/salesmanohrm/${sid}`).pipe(
-            map(data => new Salesman(data.firstname, data.lastname, data.sid))
+            map(data =>
+                new OrangeHRMSalesmanDTO(
+                    data.firstName,
+                    data.lastName,
+                    data.middleName,
+                    data.code,
+                    data.jobTitle,
+                    data.employeeId
+                )
+            )
         );
     }
 
-    getSalesOrders(sid: string): Observable<any[]> {
-        return this.http.get<any[]>(`${this.URL}/products/sales/${sid}`); // TODO: Implement sales orders endpoint
-    }
-
-    getOrderDetails(orderId: string): Observable<any[]> {
-        return this.http.get<any[]>(`${this.URL}/products/sales/${orderId}`);
+    getSalesOrders(sid: string): Observable<OpenCRXSaleDTO[]> {
+        return this.http.get<any[]>(`${this.URL}/products/sales?salesman=${sid}`).pipe(
+            map(response => {
+                return response.map(data => {
+                    return OpenCRXSaleDTO.fromJSON(data);
+                });
+            })
+        );
     }
 
     getBonuses(sid: string): Observable<string[]> {

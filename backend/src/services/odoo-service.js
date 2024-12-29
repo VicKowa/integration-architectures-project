@@ -11,7 +11,7 @@ const odoo = new Odoo({
 /**
  * Get all Salesman from Odoo service via XMLRPC
  *
- * @returns {Salesman[]}
+ * @returns {Promise<OdooSalesmanDTO[]>}
  * */
 exports.getAllSalesman = async () => {
     await odoo.connect();
@@ -21,21 +21,7 @@ exports.getAllSalesman = async () => {
     ]);
 
     return salesmen.map(salesman => {
-        const names = salesman.name.split(' ');
-        let firstName, lastName = '';
-
-        if (names.length === 2) {
-            firstName = names[0];
-            lastName = names[1];
-        } else {
-            firstName = names[0];
-        }
-
-        return Salesman.fromJSON({
-            firstname: firstName,
-            lastname: lastName,
-            sid: salesman.id
-        })
+        return OdooSalesmanDTO.fromJSON(salesman);
     });
 }
 
@@ -43,7 +29,7 @@ exports.getAllSalesman = async () => {
  * Get a specific Salesman from Odoo service via XMLRPC by ID
  *
  * @param {number} id
- * @returns {Promise<*>}
+ * @returns {Promise<OdooSalesmanDTO>}
  * */
 exports.getSalesman = async (id) => {
     if (!id)
@@ -55,58 +41,50 @@ exports.getSalesman = async (id) => {
         ['id', 'name'] // Nur diese Felder sollen zurückgegeben werden
     ]);
 
-    const names = salesman[0].name.split(' ');
-    let firstName, lastName = '';
-
-    if (names.length === 2) {
-        firstName = names[0];
-        lastName = names[1];
-    } else {
-        firstName = names[0];
-    }
-
-    return Salesman.fromJSON({
-        firstname: firstName,
-        lastname: lastName,
-        sid: salesman[0].id
-    });
+    return OdooSalesmanDTO.fromJSON(salesman[0]);
 }
 
 /**
  * Get all Bonuses from Odoo service via XMLRPC
  *
- * @returns {Promise<*>}
+ * @returns {Promise<OdooBonusDTO[]>}
  * */
 exports.getEveryBonus = async () => {
 
     await odoo.connect();
-    return await odoo.execute_kw('bonus.request', 'search_read', [
+    const response = await odoo.execute_kw('bonus.request', 'search_read', [
         [], // Filter
         ['id', 'state', 'employee_id', 'bonus_reason_id', 'bonus_amount'] // Nur diese Felder sollen zurückgegeben werden
     ]);
+
+    return response.map(bonus => {
+        return OdooBonusDTO.fromJSON(bonus);
+    });
 }
 
 /**
  * Get specific Bonus from Odoo service via XMLRPC by ID
  *
  * @param {number} id
- * @returns {Promise<*>}
+ * @returns {Promise<OdooBonusDTO>}
  * */
 exports.getBonus = async (id) => {
     if (!id)
         throw new Error('No ID given!');
 
     await odoo.connect();
-    return await odoo.execute_kw('bonus.request', 'search_read', [
+    const response = await odoo.execute_kw('bonus.request', 'search_read', [
         [['id', '=', id]], // Filter nach ID
         ['id', 'state', 'employee_id', 'bonus_reason_id', 'bonus_amount'] // Nur diese Felder sollen zurückgegeben werden
     ]);
+
+    return OdooBonusDTO.fromJSON(response[0]);
 }
 
 /**
  * Get all Bonuses from Odoo service via XMLRPC for a specific Salesman
  *
- * @returns {Promise<*>}
+ * @returns {Promise<OdooBonusDTO[]>}
  * */
 exports.getBonusForSalesman = async (id) => {
     if (!id)
@@ -119,10 +97,14 @@ exports.getBonusForSalesman = async (id) => {
     if (!salesman)
         throw new Error('Salesman not found!');
 
-    const json = [salesman.id, (salesman.firstname + ' ' + salesman.lastname)];
+    const json = [salesman.id, salesman.name];
 
-    return await odoo.execute_kw('bonus.request', 'search_read', [
+    const response = await odoo.execute_kw('bonus.request', 'search_read', [
         [['employee_id', '=', json]], // Filter nach ID
         ['id', 'state', 'employee_id', 'bonus_reason_id', 'bonus_amount'] // Nur diese Felder sollen zurückgegeben werden
     ]);
+
+    return response.map(bonus => {
+        return OdooBonusDTO.fromJSON(bonus);
+    });
 }

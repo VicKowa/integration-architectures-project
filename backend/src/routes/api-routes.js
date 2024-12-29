@@ -24,26 +24,25 @@ router.get('/salesman', checkAuthorization,salesmanApi.getAllSalesman);
 router.get('/salesman/:id', checkAuthorization, salesmanApi.getSalesman);
 router.get('/salesman/:id/spr/:year', salesmanApi.getSocialPerformanceRecord);
 // Post Requests
-router.post('/salesman', salesmanApi.createSalesman);
-router.post('/salesman/:id/spr', salesmanApi.createSocialPerformanceRecord);
+router.post('/salesman',checkAuthorization, salesmanApi.createSalesman);
+router.post('/salesman/:id/spr', checkAuthorization, salesmanApi.createSocialPerformanceRecord);
 // Delete Requests
-router.delete('/salesman/:id', salesmanApi.deleteSalesman);
-router.delete('/salesman/:id/spr/:year', salesmanApi.deleteSocialPerformanceRecord);
+router.delete('/salesman/:id', checkAuthorization,salesmanApi.deleteSalesman);
+router.delete('/salesman/:id/spr/:year', checkAuthorization, salesmanApi.deleteSocialPerformanceRecord);
 // Put Requests
-router.put('/salesman', salesmanApi.updateSalesman);
-router.put('/salesman/:id/spr', salesmanApi.updateSocialPerformanceRecord);
+router.put('/salesman', checkAuthorization, salesmanApi.updateSalesman);
+router.put('/salesman/:id/spr', checkAuthorization, salesmanApi.updateSocialPerformanceRecord);
 
 
 const productApi = require('../apis/product-api'); //api for product
 // GET Requests
 router.get('/products/sales', productApi.getAllSales);
-router.get('/products/sales/:oid', productApi.getProductsFromSale);
-router.get('/products/:pid', productApi.getProduct);
 
 const ohrmApi = require('../apis/ohrm-api'); //api for ohrm
+
 router.get('/salesmanohrm', ohrmApi.getAllSalesmanOHRM);
 router.get('/salesmanohrm/:id', ohrmApi.getSalesmanOHRM);
-router.put('/salesmanohrm', ohrmApi.updateSalesmanOHRM);
+router.put('/salesmanohrm/:id/salary/:year', ohrmApi.createBonusSalary);
 
 const odooApi = require('../apis/odoo-api'); //api for odoo
 // Testing Odoo
