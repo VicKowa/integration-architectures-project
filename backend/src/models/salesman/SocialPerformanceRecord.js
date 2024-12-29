@@ -7,12 +7,17 @@ class SocialPerformanceRecord {
      * @param year
      * @param totalBonus
      * @param department
+     * @param approved
      * @param specifiedRecords
      */
-    constructor(year, totalBonus, department, specifiedRecords = {}) {
+    constructor(year, totalBonus, department, approved = false, specifiedRecords = {}) {
         this.year = year;
         this.totalBonus = totalBonus;
         this.department = department;
+
+        // Approved by CEO and HR and Salesman (normally not approved in the beginning)
+        this.approved = approved;
+
         this.specifiedRecords = this.#ensureAllTypes(specifiedRecords);
     }
 
@@ -57,6 +62,13 @@ class SocialPerformanceRecord {
     static fromJSON(json) {
         const { year, totalBonus, department, ...specifiedRecords } = json;
         return new SocialPerformanceRecord(year, totalBonus, department, specifiedRecords);
+    }
+
+    /**
+     * Approves the record
+     */
+    approveRecord() {
+        this.approved = true;
     }
 }
 
