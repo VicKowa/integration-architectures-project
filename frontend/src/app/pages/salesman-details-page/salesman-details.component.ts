@@ -38,7 +38,7 @@ export class SalesmanDetailsComponent implements OnInit {
      * @param sid The ID of the salesman
      * */
     fetchSalesmanDetails(sid: string): void {
-        this.apiService.getSalesmanById(sid).subscribe((data: OrangeHRMSalesmanDTO) => {
+        this.apiService.getSalesmanById(sid).subscribe((data: OrangeHRMSalesmanDTO): void => {
             this.salesman = data;
         });
     }
