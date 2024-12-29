@@ -9,8 +9,8 @@ class OrangeHRMBonusSalaryDTO {
 
     static fromJSON(json: Partial<OrangeHRMBonusSalaryDTO> = {}): OrangeHRMBonusSalaryDTO {
         return new OrangeHRMBonusSalaryDTO(
-            json['year'] || '',
-            json['value'] || ''
+            json.year || '',
+            json.value || ''
         );
     }
 }

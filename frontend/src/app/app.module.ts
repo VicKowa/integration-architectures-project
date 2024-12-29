@@ -20,7 +20,7 @@ import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.com
 import {MatTableModule} from '@angular/material/table';
 import { TestPageComponent } from './pages/test-page/test-page.component';
 import { SalesmanDetailsComponent } from './pages/salesman-details-page/salesman-details.component';
-import {MatTabsModule} from "@angular/material/tabs";
+import {MatTabsModule} from '@angular/material/tabs';
 import { CreateBonusComponent } from './pages/create-bonus/create-bonus.component';
 
 @NgModule({

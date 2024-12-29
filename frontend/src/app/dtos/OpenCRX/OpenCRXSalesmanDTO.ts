@@ -9,8 +9,8 @@ class OpenCRXSalesmanDTO {
 
     static fromJSON(account: Partial<OpenCRXSalesmanDTO> = {}): OpenCRXSalesmanDTO {
         return new OpenCRXSalesmanDTO(
-            account["href"] || '',
-            account["governmentId"] || ''
+            account.href || '',
+            account.governmentId || ''
         );
     }
 }

@@ -6,7 +6,7 @@ class OpenCRXOrderDTO {
         this.product_href = product_href;
         this.pricePerUnit = pricePerUnit;
         this.amountWithTax = amountWithTax;
-        this.product = null// OpenCRXProductDTO
+        this.crx_product = null// OpenCRXProductDTO
     }
 
     static fromJSON(position = {}) {
@@ -26,7 +26,7 @@ class OpenCRXOrderDTO {
 
     toJSON() {
         return {
-            product: this.product ? this.product.toJSON() : '',
+            crx_product: this.crx_product ? this.crx_product.toJSON() : '',
             amount: this.amount || '',
             quantity: this.quantity || '',
             pricePerUnit: this.pricePerUnit || '',

@@ -1,4 +1,4 @@
-import OpenCRXProductDTO from "./OpenCRXProductDTO";
+import OpenCRXProductDTO from './OpenCRXProductDTO';
 
 class OpenCRXOrderDTO {
     href: string;
@@ -7,7 +7,7 @@ class OpenCRXOrderDTO {
     product_href: string;
     pricePerUnit: string;
     amountWithTax: string;
-    product_: OpenCRXProductDTO | null;
+    crx_product: OpenCRXProductDTO | null;
 
     constructor(
         href: string,
@@ -16,7 +16,7 @@ class OpenCRXOrderDTO {
         product_href: string,
         pricePerUnit: string,
         amountWithTax: string,
-        product: OpenCRXProductDTO | null = null
+        crx_product: OpenCRXProductDTO | null = null
     ) {
         this.href = href;
         this.amount = amount;
@@ -24,33 +24,32 @@ class OpenCRXOrderDTO {
         this.product_href = product_href;
         this.pricePerUnit = pricePerUnit;
         this.amountWithTax = amountWithTax;
-        this.product_ = product;
+        this.crx_product = crx_product;
     }
 
     static fromJSON(position: Partial<OpenCRXOrderDTO> = {}): OpenCRXOrderDTO {
-        // @ts-ignore
-        const product = OpenCRXProductDTO.fromJSON(position.product);
+        const product: OpenCRXProductDTO = OpenCRXProductDTO.fromJSON(position.crx_product);
 
         return new OpenCRXOrderDTO(
-            position['href'] || '',
-            position['amount'] || '',
-            position['quantity'] || '',
-            position['product_href'] || '',
-            position['pricePerUnit'] || '',
-            position['amountWithTax'] || '',
+            position.href || '',
+            position.amount || '',
+            position.quantity || '',
+            position.product_href || '',
+            position.pricePerUnit || '',
+            position.amountWithTax || '',
             product
         );
     }
 
     toJSON(): {
-        product: { name: string; productNumber: string } | string;
+        crx_product: { name: string; productNumber: string } | string;
         amount: string;
         quantity: string;
         pricePerUnit: string;
-        amountWithTax: string
-    } {
+        amountWithTax: string;
+        } {
         return {
-            product: this.product_?.toJSON() || '',
+            crx_product: this.crx_product?.toJSON() || '',
             amount: this.amount || '',
             quantity: this.quantity || '',
             pricePerUnit: this.pricePerUnit || '',
