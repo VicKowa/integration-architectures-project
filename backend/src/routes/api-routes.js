@@ -36,26 +36,26 @@ router.put('/salesman/:id/spr', checkAuthorization, salesmanApi.updateSocialPerf
 
 const productApi = require('../apis/product-api'); //api for product
 // GET Requests
-router.get('/products/sales', productApi.getAllSales);
-router.get('/products/salesmen', productApi.getAllSalesmen);
+router.get('/products/sales', checkAuthorization, productApi.getAllSales);
+router.get('/products/salesmen', checkAuthorization, productApi.getAllSalesmen);
 
 const ohrmApi = require('../apis/ohrm-api'); //api for ohrm
 
-router.get('/salesmanohrm', ohrmApi.getAllSalesmanOHRM);
-router.get('/salesmanohrm/:id', ohrmApi.getSalesmanOHRM);
-router.put('/salesmanohrm/:id/salary/:year', ohrmApi.createBonusSalary);
+router.get('/salesmanohrm', checkAuthorization, ohrmApi.getAllSalesmanOHRM);
+router.get('/salesmanohrm/:id', checkAuthorization, ohrmApi.getSalesmanOHRM);
+router.put('/salesmanohrm/:id/salary/:year', checkAuthorization, ohrmApi.createBonusSalary);
 
 const odooApi = require('../apis/odoo-api'); //api for odoo
 // Testing Odoo
-router.get('/odoo/salesman', odooApi.getAllSalesman);
-router.get('/odoo/salesman/:id', odooApi.getSalesman);
-router.get('/odoo/bonus', odooApi.getBonus);
+router.get('/odoo/salesman', checkAuthorization, odooApi.getAllSalesman);
+router.get('/odoo/salesman/:id', checkAuthorization, odooApi.getSalesman);
+router.get('/odoo/bonus', checkAuthorization, odooApi.getBonus);
 const bonusApi = require('../apis/bonus-api'); //api for bonus
 
 // GET Requests
-router.get('/bonus/spr/:sid/:year', bonusApi.getSPRBonus);
-router.get('/bonus/oe/:sid/:year', bonusApi.getOEBonus);
-router.get('/bonus/total/:sid/:year', bonusApi.getTotalBonus);
+router.get('/bonus/spr/:sid/:year', checkAuthorization, bonusApi.getSPRBonus);
+router.get('/bonus/oe/:sid/:year', checkAuthorization, bonusApi.getOEBonus);
+router.get('/bonus/total/:sid/:year', checkAuthorization, bonusApi.getTotalBonus);
 
 
 module.exports = router;
