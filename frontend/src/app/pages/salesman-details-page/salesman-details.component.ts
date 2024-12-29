@@ -4,6 +4,7 @@ import { ApiService } from "../../services/api-service/api.service";
 import { OrangeHRMSalesmanDTO } from "../../dtos/OrangeHRM/OrangeHRMSalesmanDTO";
 import OpenCRXSaleDTO from "../../dtos/OpenCRX/OpenCRXSaleDTO";
 import {MatTabGroup} from "@angular/material/tabs";
+import OpenCRXOrderDTO from "../../dtos/OpenCRX/OpenCRXOrderDTO";
 
 @Component({
     selector: 'app-salesman-details',
@@ -14,10 +15,10 @@ export class SalesmanDetailsComponent {
     @ViewChild('tabGroup') tabGroup: MatTabGroup;
 
     salesman: OrangeHRMSalesmanDTO | null = null;
-    sales: any[] = []; // Placeholder for Sales Orders
-    orders: any[] = []; // Placeholder for Orders
-    selectedSale: any | null = null; // Currently selected order
-    orderDetails: any[] = []; // Details of the selected order
+    sales: OpenCRXSaleDTO[] = []; // Placeholder for Sales Orders
+    orders: OpenCRXOrderDTO[] = []; // Placeholder for Orders
+    selectedSale: OpenCRXSaleDTO | null = null; // Currently selected order
+    orderDetails: OpenCRXOrderDTO[] = []; // Details of the selected order
     bonuses: string[] = []; // Bonuses for the salesman
 
     constructor(private route: ActivatedRoute, private apiService: ApiService) { }
@@ -87,12 +88,10 @@ export class SalesmanDetailsComponent {
      *
      * @param sale The order to select
      * */
-    selectSale(sale: any): void {
+    selectSale(sale: OpenCRXSaleDTO): void {
         this.orderDetails = [];
+        console.log('sale: ', sale);
         this.selectedSale = sale;
-
-        // change tab to order details
-        this.tabGroup.selectedIndex = 1;
 
         for (let order of sale.orders) {
             this.orderDetails.push(order);

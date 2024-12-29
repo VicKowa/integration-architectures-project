@@ -21,7 +21,6 @@ export class TestPageComponent implements OnInit {
 
     fetchSalesmen(): void {
         this.apiService.getSalesman().subscribe((data: OrangeHRMSalesmanDTO[]) => {
-            console.log('Salesmen loaded:', data); // Debugging
             this.salesmen = data;
         });
     }
