@@ -192,18 +192,6 @@ p {
     margin-top: 1rem;
 }
 
-.flex-container {
-    display: flex;
-    gap: 1rem;
-}
-
 .chart-section {
-    flex: 1;
-    display: flex;
-    /* Align items in the middle */
-    align-items: center;
-}
-
-.table-section {
-    flex: 1;
+    padding-top: 1rem;
 }
