@@ -34,8 +34,14 @@
                 <ng-container matColumnDef="bonus">
                     <th mat-header-cell *matHeaderCellDef>Bonus</th>
                     <td mat-cell *matCellDef="let element">
-                        <div class="input-field">
-                            <input [(ngModel)]="element.editableValue" placeholder="Enter Value">
+                        <!-- If a CEO is logged in, he should be able to change the bonus -->
+                        <div *ngIf="ceoLoggedIn" class="input-field">
+                            <input [(ngModel)]="element.bonus" placeholder="Enter Value">
+                        </div>
+
+                        <!-- If a Salesman/HR Employee is logged in, he should not be able to change the bonus -->
+                        <div *ngIf="!ceoLoggedIn">
+                            {{ element.bonus }}
                         </div>
                     </td>
                 </ng-container>
@@ -43,8 +49,14 @@
                 <ng-container matColumnDef="comments">
                     <th mat-header-cell *matHeaderCellDef>Comments</th>
                     <td mat-cell *matCellDef="let element">
-                        <div class="input-field">
+                        <!-- If a CEO is logged in, he should be able to change the bonus -->
+                        <div *ngIf="ceoLoggedIn" class="input-field">
                             <input [(ngModel)]="element.comments" placeholder="Enter Comment">
+                        </div>
+
+                        <!-- If a Salesman/HR Employee is logged in, he should not be able to change the bonus -->
+                        <div *ngIf="!ceoLoggedIn">
+                            {{ element.comments }}
                         </div>
                     </td>
                 </ng-container>
@@ -78,8 +90,14 @@
                 <ng-container matColumnDef="bonus">
                     <th mat-header-cell *matHeaderCellDef>Bonus</th>
                     <td mat-cell *matCellDef="let element">
-                        <div class="input-field">
-                            <input [(ngModel)]="element.editableValue" placeholder="Enter Value">
+                        <!-- If a CEO is logged in, he should be able to change the bonus -->
+                        <div *ngIf="ceoLoggedIn" class="input-field">
+                            <input [(ngModel)]="element.bonus" placeholder="Enter Value">
+                        </div>
+
+                        <!-- If a Salesman/HR Employee is logged in, he should not be able to change the bonus -->
+                        <div *ngIf="!ceoLoggedIn">
+                            {{ element.bonus }}
                         </div>
                     </td>
                 </ng-container>
@@ -87,8 +105,14 @@
                 <ng-container matColumnDef="comments">
                     <th mat-header-cell *matHeaderCellDef>Comments</th>
                     <td mat-cell *matCellDef="let element">
-                        <div class="input-field">
+                        <!-- If a CEO is logged in, he should be able to change the bonus -->
+                        <div *ngIf="ceoLoggedIn" class="input-field">
                             <input [(ngModel)]="element.comments" placeholder="Enter Comment">
+                        </div>
+
+                        <!-- If a Salesman/HR Employee is logged in, he should not be able to change the bonus -->
+                        <div *ngIf="!ceoLoggedIn">
+                            {{ element.comments }}
                         </div>
                     </td>
                 </ng-container>

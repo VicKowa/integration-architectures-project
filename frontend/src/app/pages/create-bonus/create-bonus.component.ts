@@ -6,6 +6,10 @@ import { Component } from '@angular/core';
     styleUrls: ['./create-bonus.component.css']
 })
 export class CreateBonusComponent {
+    salesmanLoggedIn = true;
+    hrLoggedIn = false;
+    ceoLoggedIn = false;
+
     salesman = {
         sid: '123456',
         name: 'John Doe',
@@ -14,15 +18,15 @@ export class CreateBonusComponent {
     };
 
     tab1Data = [
-        { column1: 'Data1', column2: 'Data2', column3: 'Data3', column4: 'Data4', editableValue: '', comments: '' },
-        { column1: 'Data1', column2: 'Data2', column3: 'Data3', column4: 'Data4', editableValue: '', comments: '' },
+        { column1: 'Data1', column2: 'Data2', column3: 'Data3', column4: 'Data4', bonus: '', comments: '' },
+        { column1: 'Data1', column2: 'Data2', column3: 'Data3', column4: 'Data4', bonus: '', comments: '' },
     ];
 
     tab1BonusValue = '';
 
     tab2Data = [
-        { column1: 'DataA', column2: 'DataB', column3: 'DataC', editableValue: '', comments: '' },
-        { column1: 'DataA', column2: 'DataB', column3: 'DataC', editableValue: '', comments: '' },
+        { column1: 'DataA', column2: 'DataB', column3: 'DataC', bonus: '', comments: '' },
+        { column1: 'DataA', column2: 'DataB', column3: 'DataC', bonus: '', comments: '' },
     ];
 
     tab2BonusValue = '';
