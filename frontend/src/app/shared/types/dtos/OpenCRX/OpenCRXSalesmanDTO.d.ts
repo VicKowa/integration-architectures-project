@@ -1,4 +1,4 @@
-export = OpenCRXSalesmanDTO;
+
 declare class OpenCRXSalesmanDTO {
     /**
      * Creates an OpenCRXSalesmanDTO instance from a JSON object.
@@ -15,3 +15,5 @@ declare class OpenCRXSalesmanDTO {
     href: string;
     govermentId: string;
 }
+
+export default OpenCRXSalesmanDTO;

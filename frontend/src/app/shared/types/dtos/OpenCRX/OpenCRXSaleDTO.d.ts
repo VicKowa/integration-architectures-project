@@ -1,4 +1,3 @@
-export = OpenCRXSaleDTO;
 declare class OpenCRXSaleDTO {
     /**
      * Creates an OpenCRXSaleDTO instance from a JSON object.
@@ -34,3 +33,5 @@ declare class OpenCRXSaleDTO {
      */
     toJSON(): any;
 }
+
+export default OpenCRXSaleDTO;

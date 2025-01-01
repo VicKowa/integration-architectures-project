@@ -1,4 +1,4 @@
-export = OrangeHRMSalesmanDTO;
+
 declare class OrangeHRMSalesmanDTO {
     /**
      * Creates an OrangeHRMSalesmanDTO instance from a JSON object.
@@ -23,3 +23,5 @@ declare class OrangeHRMSalesmanDTO {
     jobTitle: string;
     employeeId: string;
 }
+
+export default OrangeHRMSalesmanDTO;

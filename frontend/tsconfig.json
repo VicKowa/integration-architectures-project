@@ -1,21 +1,53 @@
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
-  "compileOnSave": false,
-  "compilerOptions": {
-    "baseUrl": "./",
-    "outDir": "./dist/out-tsc",
-    "sourceMap": true,
-    "declaration": false,
-    "downlevelIteration": true,
-    "experimentalDecorators": true,
-    "moduleResolution": "node",
-    "importHelpers": true,
-    "target": "ES2022",
-    "module": "es2020",
-    "lib": [
-      "es2018",
-      "dom"
-    ],
-    "useDefineForClassFields": false
-  }
+    "compileOnSave": false,
+    "compilerOptions": {
+        "baseUrl": ".",
+        "outDir": "./dist/out-tsc",
+        "sourceMap": true,
+        "declaration": false,
+        "downlevelIteration": true,
+        "experimentalDecorators": true,
+        "moduleResolution": "node",
+        "importHelpers": true,
+        "target": "ES2022",
+        "module": "es2020",
+        "lib": [
+            "es2018",
+            "dom"
+        ],
+        "useDefineForClassFields": false,
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "paths": {
+            "@angular/*": [
+                "node_modules/@angular/*"
+            ],
+            "@app/*": [
+                "src/app/*"
+            ],
+            "@env/*": [
+                "src/environments/*"
+            ],
+            "@core/*": [
+                "src/app/core/*"
+            ],
+            "@shared/*": [
+                "src/app/shared/*"
+            ],
+            "@shared/types/dtos/OpenCRX/OpenCRXSaleDTO": [
+                "src/app/shared/types/dtos/OpenCRX/OpenCRXSaleDTO.d.ts"
+            ],
+            "@shared/types/dtos/OrangeHRM/OrangeHRMSalesmanDTO": [
+                "src/app/shared/types/dtos/OrangeHRM/OrangeHRMSalesmanDTO.d.ts"
+            ]
+        }
+    },
+    "include": [
+            "src/backend/models/**/*.ts",   // Include all files from models
+            "src/backend/dtos/**/*.ts"      // Include all files from DTOs
+        ],
+        "exclude": [
+            "node_modules",   // Exclude node_modules folder
+            "dist"            // Exclude the dist folder itself from being compiled
+        ]
 }

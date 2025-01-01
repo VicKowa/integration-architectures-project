@@ -20,3 +20,5 @@ declare class OdooBonusDTO {
     bonus_reason_id: string;
     bonus_amount: string;
 }
+
+export default OdooBonusDTO;

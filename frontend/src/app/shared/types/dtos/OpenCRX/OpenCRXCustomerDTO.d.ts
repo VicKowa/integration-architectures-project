@@ -1,4 +1,4 @@
-export = OpenCRXCustomerDTO;
+
 declare class OpenCRXCustomerDTO {
     /**
      * Creates an OpenCRXCustomerDTO instance from a JSON object.
@@ -22,3 +22,5 @@ declare class OpenCRXCustomerDTO {
      */
     toJSON(): any;
 }
+
+export default OpenCRXCustomerDTO;

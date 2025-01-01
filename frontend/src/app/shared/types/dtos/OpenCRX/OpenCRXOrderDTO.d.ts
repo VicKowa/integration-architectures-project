@@ -1,4 +1,4 @@
-export = OpenCRXOrderDTO;
+
 /**
  * Represents an OpenCRX Order DTO (Data Transfer Object).
  */
@@ -33,3 +33,5 @@ declare class OpenCRXOrderDTO {
      */
     toJSON(): any;
 }
+
+export default OpenCRXOrderDTO;

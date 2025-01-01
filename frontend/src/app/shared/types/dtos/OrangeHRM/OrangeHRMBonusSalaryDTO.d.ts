@@ -14,3 +14,5 @@ declare class OrangeHRMBonusSalaryDTO {
     year: string;
     value: string;
 }
+
+export default OrangeHRMBonusSalaryDTO;

@@ -14,3 +14,5 @@ declare class OdooSalesmanDTO {
     id: string;
     name: string;
 }
+
+export default OdooSalesmanDTO;
