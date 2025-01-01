@@ -11,7 +11,7 @@ class OdooSalesmanDTO {
 
     /**
      *
-     * @param {Object} salesman
+     * @param {Partial<OdooSalesmanDTO>} salesman
      * @returns {OdooSalesmanDTO}
      */
     static fromJSON(salesman = {}) {

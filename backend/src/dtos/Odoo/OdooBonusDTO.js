@@ -17,7 +17,7 @@ class OdooBonusDTO {
 
     /**
      * Creates an OdooBonusDTO instance from a JSON object.
-     * @param {Object} bonus
+     * @param {Partial<OdooBonusDTO>} bonus
      * @returns {OdooBonusDTO}
      */
       static fromJSON(bonus = {}) {

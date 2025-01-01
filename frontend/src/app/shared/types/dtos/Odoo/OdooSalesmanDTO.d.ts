@@ -1,10 +1,10 @@
 declare class OdooSalesmanDTO {
     /**
      *
-     * @param {Object} salesman
+     * @param {Partial<OdooSalesmanDTO>} salesman
      * @returns {OdooSalesmanDTO}
      */
-    static fromJSON(salesman?: any): OdooSalesmanDTO;
+    static fromJSON(salesman?: Partial<OdooSalesmanDTO>): OdooSalesmanDTO;
     /**
      * Create a OdooSalesmanDTO.
      * @param {string} id

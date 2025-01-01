@@ -1,10 +1,10 @@
 declare class OdooBonusDTO {
     /**
      * Creates an OdooBonusDTO instance from a JSON object.
-     * @param {Object} bonus
+     * @param {Partial<OdooBonusDTO>} bonus
      * @returns {OdooBonusDTO}
      */
-    static fromJSON(bonus?: any): OdooBonusDTO;
+    static fromJSON(bonus?: Partial<OdooBonusDTO>): OdooBonusDTO;
     /**
      * Creates an instance of OdooBonusDTO.
      * @param {string} id
