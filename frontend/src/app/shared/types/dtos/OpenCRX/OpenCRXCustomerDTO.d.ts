@@ -20,7 +20,7 @@ declare class OpenCRXCustomerDTO {
      * Converts the OpenCRXCustomerDTO instance to a JSON object.
      * @returns {Object} A JSON representation of the OpenCRXCustomerDTO.
      */
-    toJSON(): any;
+    toJSON(): { name: string; accountRating: string };
 }
 
 export default OpenCRXCustomerDTO;

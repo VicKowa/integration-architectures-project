@@ -14,9 +14,9 @@ declare class OpenCRXSaleDTO {
      * @param {string} customer_href
      * @param {string} activeOn
      * @param {string} contractNumber
-     * @param {number} priority
+     * @param {string} priority
      */
-    constructor(href: string, salesRep_href: string, totalAmountIncludingTax: string, name: string, customer_href: string, activeOn: string, contractNumber: string, priority: number);
+    constructor(href: string, salesRep_href: string, totalAmountIncludingTax: string, name: string, customer_href: string, activeOn: string, contractNumber: string, priority: string);
     href: string;
     salesRep_href: string;
     totalAmountIncludingTax: string;
@@ -24,14 +24,28 @@ declare class OpenCRXSaleDTO {
     customer_href: string;
     activeOn: string;
     contractNumber: string;
-    priority: number;
+    priority: string;
     orders: any[];
     customer: any;
     /**
-     *
-     * @returns {Object} A JSON representation of the OpenCRXSaleDTO.
+     * Converts the OpenCRXSaleDTO instance to a JSON object.
+     * @returns {{name: string, contractNumber: string, orders: [{OpenCRXOrderDTO}], priority: string, totalAmountIncludingTax: string, activeOn: string, customer: {OpenCRXCustomerDTO}}}
      */
-    toJSON(): any;
+    toJSON(): {
+        name: string;
+        activeOn: string;
+        contractNumber: string;
+        priority: string;
+        totalAmountIncludingTax: string;
+        customer: { name: string; accountRating: string } | string;
+        orders: {
+            crx_product: { name: string; productNumber: string } | string;
+            amount: string;
+            quantity: string;
+            pricePerUnit: string;
+            amountWithTax: string;
+        }[];
+    }
 }
 
 export default OpenCRXSaleDTO;

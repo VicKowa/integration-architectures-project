@@ -31,7 +31,13 @@ declare class OpenCRXOrderDTO {
      * Converts the OpenCRXOrderDTO instance to a JSON object.
      * @returns {Object} A JSON representation of the OpenCRXOrderDTO.
      */
-    toJSON(): any;
+    toJSON(): {
+        crx_product: { name: string; productNumber: string } | string;
+        amount: string;
+        quantity: string;
+        pricePerUnit: string;
+        amountWithTax: string;
+    };
 }
 
 export default OpenCRXOrderDTO;

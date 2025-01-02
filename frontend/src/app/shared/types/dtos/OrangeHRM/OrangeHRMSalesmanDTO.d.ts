@@ -5,7 +5,7 @@ declare class OrangeHRMSalesmanDTO {
      * @param {Partial<OrangeHRMSalesmanDTO>} json - The JSON object representing the salesman.
      * @returns {OrangeHRMSalesmanDTO} A new OrangeHRMSalesmanDTO instance.
      */
-    static fromJSON(json?: Partial<OrangeHRMSalesmanDTO>): OrangeHRMSalesmanDTO;
+    static fromJSON(json: Partial<OrangeHRMSalesmanDTO>): OrangeHRMSalesmanDTO;
     /**
      * Constructor for OrangeHRMSalesmanDTO
      * @param {string} firstName

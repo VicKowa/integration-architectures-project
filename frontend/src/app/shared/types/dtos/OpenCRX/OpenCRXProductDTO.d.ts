@@ -19,7 +19,7 @@ declare class OpenCRXProductDTO {
      * Converts the OpenCRXProductDTO instance to a JSON object.
      * @returns {Object} A JSON representation of the OpenCRXProductDTO.
      */
-    toJSON(): any;
+    toJSON(): { name: string; productNumber: string };
 }
 
 export default OpenCRXProductDTO;
