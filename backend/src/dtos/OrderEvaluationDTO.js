@@ -24,7 +24,7 @@ class OrderEvaluationDTO {
     /**
      * ensure that orders have valid no negative items
      * @param {{productNumber: string, productName: string, clientRanking: string, items: number, bonus: string}[]} orders
-     * @returns {{productNumber: string, productName: string, clientRanking: string, items: number, bonus: string}[]} orders with valid items
+     * @returns {{productNumber: string, productName: string, clientRanking: string, items: number, bonus: string}[]} orders
      */
     #ensureOrders(orders) {
 
@@ -36,10 +36,9 @@ class OrderEvaluationDTO {
             bonus: 0,
         }
         const defaultItems = 0;
-        return this.orders.forEach(order => {
+        return orders.map(order => {
             // Merge default order with order
             const validOrder = Object.assign({}, defaultOrder, order);
-
 
             // check if order items is less than 0
             if(validOrder.items < 0) {

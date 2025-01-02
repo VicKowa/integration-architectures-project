@@ -44,8 +44,8 @@ class EvaluationDTO {
         this.sid = json.sid;
         this.year = json.year;
         this.department = json.department;
-        this.orderEvaluation = json.orderEvaluation.map(order => OrderEvaluationDTO.fromJSON(order));
-        this.socialPerformanceEvaluation = json.socialPerformanceEvaluation.map(socialPerformance => SocialPerformanceRecordDTO.fromJSON(socialPerformance));
+        this.orderEvaluation = OrderEvaluationDTO.fromJSON(json.orderEvaluation);
+        this.socialPerformanceEvaluation = SocialPerformanceRecordDTO.fromJSON(json.socialPerformanceEvaluation);
         this.totalBonus = json.totalBonus;
         this.approvalStatus = json.approvalStatus;
     }

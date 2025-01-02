@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import OrangeHRMSalesmanDTO from '@shared/types/dtos/OrangeHRM/OrangeHRMSalesmanDTO.d';
+import {OrangeHRMSalesmanDTO} from "@app/dtos/OrangeHRM/OrangeHRMSalesmanDTO";
 import { map } from 'rxjs/operators';
-import OpenCRXSaleDTO from '@shared/types/dtos/OpenCRX/OpenCRXSaleDTO.d';
+import OpenCRXSaleDTO from "@app/dtos/OpenCRX/OpenCRXSaleDTO";
 
 @Injectable({
     providedIn: 'root'
