@@ -1,22 +1,12 @@
-import Order from "./Order";
-
-export default class OrderEvaluation {
+class OrderEvaluation {
     /**
      * Create a new OrderEvaluation
-     * @param {number} totalBonus Result of all order bonuses
-     * @param {Order[]} orders List of orders
+     * @param {OrderEvaluationDTO} orderEvaluationDTO - The order evaluation data transfer object
      */
-    constructor(totalBonus, orders) {
-        this.totalBonus = totalBonus;
-        this.orders = orders;
+    constructor(orderEvaluationDTO) {
+        this.totalBonus = orderEvaluationDTO.totalBonus || 0;
+        this.orders = orderEvaluationDTO.orders || [];
     }
-
-    /**
-     *
-     * @param {OrderDTO} orderDTO
-     */
-    addOrder(orderDTO) {
-        this.orders.push(new Order(orderDTO));
-    }
-
 }
+
+module.exports = OrderEvaluation;
