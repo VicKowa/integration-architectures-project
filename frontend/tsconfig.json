@@ -34,18 +34,12 @@
             "@shared/*": [
                 "src/app/shared/*"
             ],
-            "@shared/types/dtos/OpenCRX/OpenCRXSaleDTO": [
-                "src/app/shared/types/dtos/OpenCRX/OpenCRXSaleDTO.d.ts"
-            ],
-            "@shared/types/dtos/OrangeHRM/OrangeHRMSalesmanDTO": [
-                "src/app/shared/types/dtos/OrangeHRM/OrangeHRMSalesmanDTO.d.ts"
-            ]
         }
     },
     "include": [
-            "src/backend/models/**/*.ts",   // Include all files from models
-            "src/backend/dtos/**/*.ts"      // Include all files from DTOs
-        ],
+        "src/**/*",
+        "src/shared/types/**/*"
+    ],
         "exclude": [
             "node_modules",   // Exclude node_modules folder
             "dist"            // Exclude the dist folder itself from being compiled
