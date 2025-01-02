@@ -63,13 +63,6 @@ class SocialPerformanceRecord {
         const { year, totalBonus, department, ...specifiedRecords } = json;
         return new SocialPerformanceRecord(year, totalBonus, department, specifiedRecords);
     }
-
-    /**
-     * Approves the record
-     */
-    approveRecord() {
-        this.approved = true;
-    }
 }
 
 module.exports = SocialPerformanceRecord;

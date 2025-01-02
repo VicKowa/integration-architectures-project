@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../../services/api-service/api.service';
-import { OrangeHRMSalesmanDTO } from '../../dtos/OrangeHRM/OrangeHRMSalesmanDTO';
+import { ApiService } from '@app/services/api-service/api.service';
+import OrangeHRMSalesmanDTO from '@shared/types/dtos/OrangeHRM/OrangeHRMSalesmanDTO.d';
 import { Router } from '@angular/router';
 
 @Component({

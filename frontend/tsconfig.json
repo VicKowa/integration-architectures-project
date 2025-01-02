@@ -15,6 +15,7 @@
             "es2018",
             "dom"
         ],
+        "types": ["node", "@shared/types"],
         "useDefineForClassFields": false,
         "allowSyntheticDefaultImports": true,
         "esModuleInterop": true,
@@ -38,10 +39,12 @@
     },
     "include": [
         "src/**/*",
-        "src/shared/types/**/*"
+        "src/shared/types/**/*",
+        "../backend/src/dtos/*"
     ],
         "exclude": [
             "node_modules",   // Exclude node_modules folder
             "dist"            // Exclude the dist folder itself from being compiled
-        ]
+        ],
+
 }

@@ -2,8 +2,8 @@ const orangeHrmService = require('./orange-hrm-service');
 const openCrxService = require('./open-crx-service');
 const salesmanService = require('./salesman-service');
 
-const Salesman = require("../models/salesman/Salesman");
-const SocialPerformanceRecord = require("../models/salesman/SocialPerformanceRecord");
+const Salesman = require("../models/Salesman");
+const SocialPerformanceRecord = require("../models/SocialPerformanceRecord");
 
 //TODO: Remove this hardcoded bonus factors
 const bonusFactorMap = [

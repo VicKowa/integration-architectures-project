@@ -1,10 +1,10 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ApiService } from '../../services/api-service/api.service';
-import { OrangeHRMSalesmanDTO } from '../../dtos/OrangeHRM/OrangeHRMSalesmanDTO';
-import OpenCRXSaleDTO from '../../dtos/OpenCRX/OpenCRXSaleDTO';
+import { ApiService } from '@app/services/api-service/api.service';
+import OrangeHRMSalesmanDTO from '@shared/types/dtos/OrangeHRM/OrangeHRMSalesmanDTO.d';
+import OpenCRXSaleDTO from '@shared/types/dtos/OpenCRX/OpenCRXSaleDTO.d';
 import {MatTabGroup} from '@angular/material/tabs';
-import OpenCRXOrderDTO from '../../dtos/OpenCRX/OpenCRXOrderDTO';
+import OpenCRXOrderDTO from '@shared/types/dtos/OpenCRX/OpenCRXOrderDTO.d';
 
 @Component({
     selector: 'app-salesman-details',
