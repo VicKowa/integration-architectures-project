@@ -1,6 +1,6 @@
 const salesmanService = require('../services/salesman-service.js');
 const Salesman = require('../models/Salesman.js');
-const SocialPerformanceRecord = require('../models/SocialPerformanceRecord.js');
+const SocialPerformanceRecord = require('../dtos/SocialPerformanceRecordDTO.js');
 
 /**
  * gets all salesmen from the database
