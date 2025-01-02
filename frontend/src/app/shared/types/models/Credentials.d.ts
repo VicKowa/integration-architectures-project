@@ -1,4 +1,3 @@
-export = Credentials;
 /**
  * this model specifies the format to exchange credentials with the frontend
  * @param {string} username
@@ -9,3 +8,5 @@ declare class Credentials {
     username: any;
     password: any;
 }
+
+export default Credentials;

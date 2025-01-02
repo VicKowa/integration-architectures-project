@@ -1,4 +1,6 @@
-export = EvaluationDTO;
+import OrderEvaluationDTO from './OrderEvaluationDTO';
+import SocialPerformanceRecordDTO from './SocialPerformanceRecordDTO';
+
 declare class EvaluationDTO {
     /**
      * Convert a JSON object to a EvaluationDTO object
@@ -30,5 +32,5 @@ declare class EvaluationDTO {
      */
     calculateTotalBonus(): number;
 }
-import OrderEvaluationDTO = require("./OrderEvaluationDTO");
-import SocialPerformanceRecordDTO = require("../models/SocialPerformanceRecordDTO");
+
+export default EvaluationDTO;

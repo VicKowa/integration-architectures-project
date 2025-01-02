@@ -1,4 +1,4 @@
-export = User;
+
 /**
  * this model specifies the format to exchange userdata with the frontend and store it in mongoDB
  * @param {string} username
@@ -18,3 +18,5 @@ declare class User {
     password: any;
     isAdmin: any;
 }
+
+export default User;

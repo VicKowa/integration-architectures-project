@@ -1,6 +1,5 @@
 import OrderEvaluationDTO from "@shared/types/dtos/OrderEvaluationDTO";
 
-export = OrderEvaluation;
 declare class OrderEvaluation {
     /**
      * Create a new OrderEvaluation
@@ -10,3 +9,6 @@ declare class OrderEvaluation {
     totalBonus: any;
     orders: any;
 }
+
+
+export default OrderEvaluation;

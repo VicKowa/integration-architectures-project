@@ -12,3 +12,6 @@ export class Evaluation {
     year: any;
     department: any;
 }
+
+
+export default Evaluation;

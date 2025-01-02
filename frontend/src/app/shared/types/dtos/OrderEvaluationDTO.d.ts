@@ -1,4 +1,3 @@
-export = OrderEvaluationDTO;
 declare class OrderEvaluationDTO {
     /**
      * Convert a JSON object to a OrderEvaluationDTO object
@@ -38,3 +37,6 @@ declare class OrderEvaluationDTO {
     calculateTotalBonus(): void;
     #private;
 }
+
+
+export default OrderEvaluationDTO;

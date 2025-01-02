@@ -1,4 +1,3 @@
-export = SocialPerformanceRecordDTO;
 /**
  * Represents a social performance record of a salesman
  */
@@ -29,3 +28,6 @@ declare class SocialPerformanceRecordDTO {
     specifiedRecords: any;
     #private;
 }
+
+
+export default SocialPerformanceRecordDTO;

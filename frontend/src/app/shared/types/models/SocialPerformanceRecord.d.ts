@@ -1,3 +1,5 @@
+import SocialPerformanceRecordDTO from "@shared/types/dtos/SocialPerformanceRecordDTO";
+
 declare class SocialPerformanceRecord {
     /**
      * Creates a new SocialPerformanceRecord with specified values
@@ -6,3 +8,5 @@ declare class SocialPerformanceRecord {
     constructor(socialPerformanceRecordDTO: SocialPerformanceRecordDTO);
     specifiedRecords: any;
 }
+
+export default SocialPerformanceRecord;
