@@ -1,4 +1,4 @@
-const Salesman = require('../models/salesman/Salesman.js');
+const Salesman = require('../models/Salesman.js');
 
 /**
  * gets all salesmen from the database
