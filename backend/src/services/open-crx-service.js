@@ -194,7 +194,7 @@ exports.getOrders = async function(sale) {
 
     let orders = data.objects;
 
-     return Promise.all(orders.map( async order => {
+    return Promise.all(orders.map( async order => {
         const orderDTO = OpenCRXOrderDTO.fromJSON(order);
         orderDTO.crx_product = await this.getProduct(orderDTO);
 

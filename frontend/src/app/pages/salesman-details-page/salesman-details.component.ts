@@ -2,11 +2,11 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import { Chart, ChartOptions, ChartType, ChartData } from "chart.js";
 import { BarController, BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend } from 'chart.js';
 import { ActivatedRoute } from '@angular/router';
-import { ApiService } from '../../services/api-service/api.service';
-import { OrangeHRMSalesmanDTO } from '../../dtos/OrangeHRM/OrangeHRMSalesmanDTO';
-import OpenCRXSaleDTO from '../../dtos/OpenCRX/OpenCRXSaleDTO';
+import { ApiService } from '@app/services/api-service/api.service';
+import { OrangeHRMSalesmanDTO } from '@app/dtos/OrangeHRM/OrangeHRMSalesmanDTO';
+import OpenCRXSaleDTO from '@app/dtos/OpenCRX/OpenCRXSaleDTO';
 import {MatTabGroup} from '@angular/material/tabs';
-import OpenCRXOrderDTO from '../../dtos/OpenCRX/OpenCRXOrderDTO';
+import OpenCRXOrderDTO from '@app/dtos/OpenCRX/OpenCRXOrderDTO';
 
 Chart.register(BarController, BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
 

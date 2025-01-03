@@ -1,5 +1,5 @@
 const Odoo = require('async-odoo-xmlrpc');
-const Salesman = require("../models/salesman/Salesman");
+const Salesman = require("../models/Salesman");
 
 const odoo = new Odoo({
     url: 'https://sepp-odoo.inf.h-brs.de',
