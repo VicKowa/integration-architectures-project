@@ -6,7 +6,6 @@ exports.getAllSales = async function (req, res){
 
     if (sid) {
         openCRXService.getSales(sid, year).then(sales => {
-            console.log(sales);
             res.status(200).send(sales);
         }).catch(error => {
             res.status(404).send({error: error.message});
@@ -21,7 +20,6 @@ exports.getAllSales = async function (req, res){
 }
 
 exports.getAllSalesmen = async function (req, res){
-    console.log("getAllSalesmen");
     openCRXService.getAllSalesmen().then(salesmen => {
         res.status(200).send(salesmen);
     }).catch(error => {

@@ -8,8 +8,6 @@ const ROLES = require('../config/roles');
  * @return {(function(*, *, *): void)|*}
  */
 exports.checkAuthorization = (requiredRole) => {
-    console.log('requiredRole', requiredRole);
-
     return (req, res, next) => {
         if (req.session.authenticated) { // check if session was marked as authenticated
             if(requiredRole === ROLES.SALESMAN || req.session.user.role === requiredRole) { // check if user has the required role

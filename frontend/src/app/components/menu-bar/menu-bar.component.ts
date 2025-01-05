@@ -47,10 +47,7 @@ export class MenuBarComponent implements OnInit {
      * fetches information about logged-in user
      */
     fetchUser(): void{
-        console.log('in the fetchUser');
-
         this.userService.getOwnUser().subscribe((user): void => {
-            console.log('got the user: ', user);
             this.user = user;
         });
     }

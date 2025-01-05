@@ -10,10 +10,7 @@ const authService = require('../services/auth-service');
 exports.login = function (req, res){
     const db = req.app.get('db');//get database from express
 
-    console.log('in login: req.body: ', req.body);
-
     userService.verify(db, req.body).then(user=> { //verify credentials via user-service
-        console.log('user:\n', user);
         authService.authenticate(req.session, user); //mark session as authenticated
         res.send('login successful');
     }).catch(_=>{
