@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import {OrangeHRMSalesmanDTO} from "@app/dtos/OrangeHRM/OrangeHRMSalesmanDTO";
 import { map } from 'rxjs/operators';
 import OpenCRXSaleDTO from "@app/dtos/OpenCRX/OpenCRXSaleDTO";
+import {User} from "@app/models/User";
 
 @Injectable({
     providedIn: 'root'
@@ -44,5 +45,25 @@ export class ApiService {
 
     getBonuses(sid: string): Observable<string[]> {
         return this.http.get<string[]>(`${this.URL}/bonus/total/${sid}`); // TODO: Implement bonus endpoint for bonuses from all years
+    }
+
+    /**
+     * returns all roles
+     *
+     * @returns {Observable<string[]>}
+     * */
+    getRoles(): Observable<string[]> {
+        return this.http.get<string[]>(`${this.URL}/roles`);
+    }
+
+    /**
+     * returns the current role
+     *
+     * @returns {Observable<string>}
+     * */
+    getCurrentRole(): Observable<string> {
+        return this.http.get<User>(`${this.URL}/api/user`, {withCredentials: true}).pipe(
+            map((user: User): string => user.role)
+        );
     }
 }
