@@ -30,7 +30,7 @@ exports.getAllSales = async function (){
     try {
         listOfSales = salesOrders.map(order => OpenCRXSaleDTO.fromJSON(order));
     } catch (error) {
-        console.log("err 1");
+        console.log(error);
     }
 
     // fetch the customer and orders for each sale
@@ -141,7 +141,6 @@ exports.getSalesman = async function (sid){
  * @returns {Promise<List<OpenCRXSalesmanDTO>>} List of OpenCRXSalesmanDTOs
  */
 exports.getAllSalesmen = async function () {
-    console.log("getAllSalesmen2");
     // Query for contacts only with the job title "Senior Salesman"
     let query = {
         queryType: "org:opencrx:kernel:account1:Contact",

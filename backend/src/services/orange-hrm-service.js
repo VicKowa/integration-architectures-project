@@ -80,8 +80,6 @@ async function requestToken(data) {
  * @returns {Promise<OrangeHRMSalesmanDTO[]>}
  * */
 exports.getSalesmen = async function () {
-    console.log("in get all salesmen");
-
     // get access token
     await getToken();
 
