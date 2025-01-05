@@ -62,7 +62,7 @@ export class ApiService {
      * @returns {Observable<string>}
      * */
     getCurrentRole(): Observable<string> {
-        return this.http.get<User>(`${this.URL}/api/user`, {withCredentials: true}).pipe(
+        return this.http.get<User>(`${this.URL}/user`, {withCredentials: true}).pipe(
             map((user: User): string => user.role)
         );
     }

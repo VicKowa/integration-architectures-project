@@ -1,14 +1,14 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import { ApiService } from '../../services/api-service/api.service';
 
 @Component({
     selector: 'app-create-bonus',
     templateUrl: './create-bonus.component.html',
     styleUrls: ['./create-bonus.component.css']
 })
-export class CreateBonusComponent {
-    salesmanLoggedIn = true;
-    hrLoggedIn = false;
-    ceoLoggedIn = false;
+export class CreateBonusComponent implements OnInit {
+    // Default role is empty
+    currentRole = '';
 
     salesman = {
         sid: '123456',
@@ -32,6 +32,20 @@ export class CreateBonusComponent {
     tab2BonusValue = '';
 
     comments = '';
+
+    constructor(private apiService : ApiService) { }
+
+    ngOnInit(): void {
+        this.fetchRole();
+    }
+
+    fetchRole(): void {
+        this.apiService.getCurrentRole().subscribe((role): void => {
+            this.currentRole = role;
+        });
+
+        console.log('currentRole:', this.currentRole);
+    }
 
     submit(): void {
         console.log('Data submitted:', {
