@@ -26,7 +26,6 @@ export class TestPageComponent implements OnInit {
     }
 
     getRecordCount(salesman: OrangeHRMSalesmanDTO): number {
-        console.log(salesman);
         return 0; // TODO: Implement record count
     }
 

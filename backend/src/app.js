@@ -20,6 +20,8 @@ const YAML = require('yaml');
 const swaggerFile = fs.readFileSync('./swagger.yaml', 'utf8');
 const swaggerDocument = YAML.parse(swaggerFile);
 
+const ROLES = require('./config/roles');
+
 let environment;
 if(process.env.NODE_ENV === 'development'){
     environment = require('../environments/environment.js').default;
@@ -58,10 +60,10 @@ if(environment.db.username){
 MongoClient.connect('mongodb://' + db_credentials + environment.db.host + ':' + environment.db.port + '/?authSource='+environment.db.authSource).then(async dbo =>{ //connect to MongoDb
 
     const db = dbo.db(environment.db.name);
-    await initDb(db); //run initialization function
-    app.set('db',db); //register database in the express app
+    await initDb(db); // run initialization function
+    app.set('db',db); // register database in the express app
 
-    app.listen(environment.port, () => { //start webserver, after database-connection was established
+    app.listen(environment.port, () => { // start webserver, after database-connection was established
         console.log('Webserver started.');
     });
 });
@@ -72,9 +74,8 @@ async function initDb(db){
         const User = require("./models/User");
 
         const adminPassword = environment.defaultAdminPassword;
-        await userService.add(db, new User('admin', '', 'admin', '', adminPassword, true));
+        await userService.add(db, new User('admin', '', 'admin', '', adminPassword, ROLES.ADMIN));
 
-        console.log('created admin user with password: '+adminPassword);
     }
 }
 

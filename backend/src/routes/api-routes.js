@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const ROLES = require('../config/roles');
 const {checkAuthorization} = require('../middlewares/auth-middleware');
 
 /*
@@ -12,10 +13,13 @@ router.delete('/login', checkAuthorization,authApi.logout); //middlewares can be
 router.get('/login', authApi.isLoggedIn); //the function, which handles requests is specified as the last parameter
 
 const userApi = require('../apis/user-api');
-router.get('/user', checkAuthorization, userApi.getSelf);
+router.get('/user', checkAuthorization(ROLES.SALESMAN), userApi.getSelf);
 
 const peopleDemoApi = require('../apis/people-demo-api');
 router.get('/people', checkAuthorization, peopleDemoApi.getPeople);
+
+const roleApi = require('../apis/role-api');
+router.get('/roles', roleApi.getRoles);
 
 const salesmanApi = require('../apis/salesman-api'); //api for salesman
 

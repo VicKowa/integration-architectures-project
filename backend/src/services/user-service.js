@@ -10,7 +10,7 @@ const salt = 'integrationArchitectures';
 exports.add = async function (db, user){
     user.password = hashPassword(user.password);
 
-    return (await db.collection('users').insertOne(user)).insertedId; //return unique ID
+    return (await db.collection('users').insertOne(user)).insertedId; // return unique ID
 }
 
 /**
