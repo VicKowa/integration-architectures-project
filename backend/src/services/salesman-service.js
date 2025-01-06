@@ -26,7 +26,7 @@ exports.getSalesman = async function (db, sid){
  * @returns {Promise<any>}
  */
 exports.createSalesman = async function (db, salesman){
-    return await db.collection('salesman').insertOne(salesman);
+    return db.collection('salesman').insertOne(salesman);
 }
 
 /**
@@ -36,7 +36,7 @@ exports.createSalesman = async function (db, salesman){
  * @returns {Promise<any>}
  */
 exports.deleteSalesman = async function (db, sid){
-    return await db.collection('salesman').deleteOne({sid: sid});
+    return db.collection('salesman').deleteOne({sid: sid});
 }
 
 /**
@@ -55,7 +55,7 @@ exports.updateSalesman = async function (db, salesman){
     const {_id, ...salesmanData} = salesman;
 
     // update salesman
-    return await db.collection('salesman').updateOne(
+    return db.collection('salesman').updateOne(
         { sid: salesman.sid },
         { $set: {...salesmanData} }
     );

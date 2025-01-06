@@ -21,7 +21,7 @@ exports.createEvaluation = async function (db, evaluation){
         throw new Error('Evaluation already exists!');
     }
 
-    return await db.collection('eval').insertOne(evaluation);
+    return db.collection('eval').insertOne(evaluation);
 }
 
 /**
@@ -62,8 +62,8 @@ exports.updateEvaluation = async function (db, evaluation){
     const {_id, ...evalData} = evaluation;
 
     // update evaluation
-    return await db.collection('eval').updateOne(
-        { sid: evaluation.sid },
+    return db.collection('eval').updateOne(
+        { sid: evaluation.sid, year: evaluation.year},
         { $set: {...evalData} }
     );
 }
@@ -76,7 +76,7 @@ exports.updateEvaluation = async function (db, evaluation){
  * @returns {Promise<any>}
  */
 exports.deleteEvaluation = async function (db, sid, year){
-    return await db.collection('eval').deleteOne({sid: sid, year: year});
+    return db.collection('eval').deleteOne({sid: sid, year: year});
 }
 
 /**
