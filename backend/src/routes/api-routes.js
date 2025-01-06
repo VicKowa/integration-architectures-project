@@ -54,12 +54,32 @@ const odooApi = require('../apis/odoo-api'); //api for odoo
 router.get('/odoo/salesman', odooApi.getAllSalesman);
 router.get('/odoo/salesman/:id', odooApi.getSalesman);
 router.get('/odoo/bonus', odooApi.getBonus);
+
+
+//  --- Evaluation API Routes ---
+
+const evaluationApi = require('../apis/evaluation-api'); //api for bonus
+
+// GET Requests
+router.get('/eval/:id/:year', evaluationApi.getEvaluation);
+
+// Post Requests
+router.post('/eval', evaluationApi.createEvaluation);
+
+// Put Requests
+router.put('/eval/', evaluationApi.updateEvaluation);
+
+// Delete Requests
+router.delete('/eval/:id/:year', evaluationApi.deleteEvaluation);
+
+
+// --- Bonus API Routes ---
+
 const bonusApi = require('../apis/bonus-api'); //api for bonus
 
 // GET Requests
-router.get('/bonus/spr/:sid/:year', bonusApi.getSPRBonus);
-router.get('/bonus/oe/:sid/:year', bonusApi.getOEBonus);
-router.get('/bonus/total/:sid/:year', bonusApi.getTotalBonus);
-
+router.get('/bonus/spr/:id/:year', bonusApi.getSPRBonus);
+router.get('/bonus/oe/:id/:year', bonusApi.getOEBonus);
+router.get('/bonus/:id/:year', bonusApi.getTotalBonus);
 
 module.exports = router;
