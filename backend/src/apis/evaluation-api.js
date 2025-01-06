@@ -19,6 +19,25 @@ exports.createEvaluation = function (req, res) {
     });
 }
 
+
+/**
+ * get all evaluations by its sid
+ * @param req
+ * @param res
+ */
+exports.getAllEvaluations = function (req, res){
+    const db = req.app.get('db');
+    let sid = req.params.id;
+
+    evaluationService.getAllEvaluations(db, sid).then(evaluations => {
+        // remove _id from evaluations
+        evaluations = evaluations.map(({_id, ...rest}) => rest);
+        res.status(200).send(evaluations);
+    }).catch(_ => {
+        res.status(404).send(`No Evaluations with ${sid} found!`);
+    });
+}
+
 /**
  * gets a specific evaluation by its sid and year
  * @param req

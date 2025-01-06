@@ -25,7 +25,17 @@ exports.createEvaluation = async function (db, evaluation){
 }
 
 /**
- * gets a specific social performance record by its year
+ * gets all evaluations by its sid for all years
+ * @param db
+ * @param sid : string
+ * @returns {Promise<Evaluation[]>}
+ */
+exports.getAllEvaluations = async function (db, sid){
+    return db.collection('eval').find({sid: sid}).toArray();
+}
+
+/**
+ * gets a specific evaluation by its sid and year
  * @param db
  * @param sid : string
  * @param year : string
