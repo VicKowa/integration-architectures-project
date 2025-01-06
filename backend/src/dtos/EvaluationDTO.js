@@ -18,8 +18,8 @@ class EvaluationDTO {
         this.sid = sid || null;
         this.year = year;
         this.department = department;
-        this.orderEvaluation = [] || orderEvaluation;
-        this.socialPerformanceEvaluation = [] || socialPerformanceEvaluation;
+        this.orderEvaluation = orderEvaluation || [];
+        this.socialPerformanceEvaluation = socialPerformanceEvaluation || [];
         this.approvalStatus = approvalStatus || approvalEnum.NONE;
         this.totalBonus = totalBonus;
     }

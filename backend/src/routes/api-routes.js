@@ -62,12 +62,16 @@ const evaluationApi = require('../apis/evaluation-api'); //api for bonus
 
 // GET Requests
 router.get('/eval/:id/:year', evaluationApi.getEvaluation);
+router.get('/eval/oe/:id/:year', evaluationApi.getOrderEvaluation);
+router.get('/eval/spr/:id/:year', evaluationApi.getSocialPerformanceRecord);
 
 // Post Requests
 router.post('/eval', evaluationApi.createEvaluation);
 
 // Put Requests
-router.put('/eval/', evaluationApi.updateEvaluation);
+router.put('/eval', evaluationApi.updateEvaluation);
+router.put('/eval/oe/:id/:year', evaluationApi.updateOrderEvaluation);
+router.put('/eval/spr/:id/:year', evaluationApi.updateSocialPerformanceRecord);
 
 // Delete Requests
 router.delete('/eval/:id/:year', evaluationApi.deleteEvaluation);

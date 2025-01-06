@@ -55,8 +55,10 @@ class OrderEvaluationDTO {
      * @returns {OrderEvaluationDTO} OrderEvaluationDTO object
      */
     static fromJSON(json) {
-        this.totalBonus = json.totalBonus;
-        this.orders = json.orders;
+        return new OrderEvaluationDTO(
+            json.totalBonus,
+            json.orders
+        );
     }
 }
 
