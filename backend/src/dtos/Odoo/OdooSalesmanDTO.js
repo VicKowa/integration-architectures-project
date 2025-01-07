@@ -21,3 +21,5 @@ class OdooSalesmanDTO {
         );
     }
 }
+
+module.exports = OdooSalesmanDTO;

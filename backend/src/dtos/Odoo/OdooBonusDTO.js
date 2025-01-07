@@ -30,3 +30,5 @@ class OdooBonusDTO {
             );
       }
 }
+
+module.exports = OdooBonusDTO;

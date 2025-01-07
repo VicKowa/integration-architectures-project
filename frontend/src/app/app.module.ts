@@ -22,6 +22,7 @@ import { TestPageComponent } from './pages/test-page/test-page.component';
 import { SalesmanDetailsComponent } from './pages/salesman-details-page/salesman-details.component';
 import {MatTabsModule} from '@angular/material/tabs';
 import { CreateBonusComponent } from './pages/create-bonus/create-bonus.component';
+import {SalesmanValuconComponent} from "@app/pages/salesman-valucon-page/salesman-valucon.component";
 
 // Import for Chart.js Angular wrapper
 import { BaseChartDirective } from 'ng2-charts';
@@ -37,7 +38,8 @@ import { BaseChartDirective } from 'ng2-charts';
         NotFoundPageComponent,
         TestPageComponent,
         SalesmanDetailsComponent,
-        CreateBonusComponent
+        CreateBonusComponent,
+        SalesmanValuconComponent
     ],
     imports: [
         BrowserModule,
