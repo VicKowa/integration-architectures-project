@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
-import { provideRouter, withComponentInputBinding } from '@angular/router';
-import { provideHttpClient } from '@angular/common/http';
-import { Routes, RouterModule } from '@angular/router';
+import {Routes, RouterModule, provideRouter, withComponentInputBinding} from '@angular/router';
 import {LoginPageComponent} from './pages/login-page/login-page.component';
 import {LandingPageComponent} from './pages/landing-page/landing-page.component';
 import {AuthGuardService} from './services/auth-guard.service';
@@ -10,11 +8,10 @@ import {NotFoundPageComponent} from './pages/not-found-page/not-found-page.compo
 import {TestPageComponent} from './pages/test-page/test-page.component';
 import {SalesmanDetailsComponent} from './pages/salesman-details-page/salesman-details.component';
 import {CreateEvaluationComponent} from '@app/pages/create-evaluation/create-evaluation.component';
-import {SalesmanValuconComponent} from '@app/pages/salesman-valucon-page/salesman-valucon.component';
+import {SalesmanValuconComponent} from "@app/pages/salesman-valucon-page/salesman-valucon.component";
+import {SalesmanRegisterComponent} from "@app/salesman-register-page/salesman-register-page.component";
 import {ListEvaluationComponent} from '@app/pages/list-evaluation/list-evaluation.component';
-
-
-
+import {provideHttpClient} from "@angular/common/http";
 
 /*
   This array holds the relation of paths and components which angular router should resolve.
@@ -27,6 +24,7 @@ import {ListEvaluationComponent} from '@app/pages/list-evaluation/list-evaluatio
  */
 const routes: Routes = [
     {path: 'login', component: LoginPageComponent},
+    {path: 'register', component: SalesmanRegisterComponent},
     {path: 'example', component: ExamplePageComponent, canActivate: [AuthGuardService]},
     {path: 'test', component: TestPageComponent, canActivate: [AuthGuardService]},
     {path: 'eval/create', component: CreateEvaluationComponent, canActivate: [AuthGuardService]},
