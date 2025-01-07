@@ -25,7 +25,7 @@ export class SalesmanValuconComponent implements OnInit {
         const id = this.route.snapshot.paramMap.get('sid');
         if(id) {
             this.fetchOdooBonuses(id);
-            this.load(id).then(r => console.log(this.salesman));
+            this.fetchOdooSalesman(id);
         }
     }
 
@@ -34,15 +34,11 @@ export class SalesmanValuconComponent implements OnInit {
             this.odooBonuses = data;
         });
     }
-    async load(id): Promise<void> {
-        await this.fetchOdooSalesman(id);
-    }
 
-    async fetchOdooSalesman(id: string): Promise<void> {
+
+    fetchOdooSalesman(id: string): void {
         this.apiService.getOdooSalesman(id).subscribe((data: OdooSalesmanDTO): void => {
             this.salesman = data;
-            console.log('data: ', data);
-            console.log('salesman: ', this.salesman);
         });
     }
 }
