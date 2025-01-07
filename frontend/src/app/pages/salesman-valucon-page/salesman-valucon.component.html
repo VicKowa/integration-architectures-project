@@ -1,6 +1,8 @@
-<div *ngIf="salesman" class="content-column">
-    <h1><b>{{salesman.name}}</b></h1>
-    <h2>Bonuses</h2>
+<div *ngIf="salesman" class="content">
+    <div class="header">
+        <h1 class="mat-headline-5">{{salesman.name}}</h1>
+        <h2 class="mat-headline-6">Bonuses</h2>
+    </div>
     <div class="table-content">
     <table mat-table [dataSource]="odooBonuses" class="mat-elevation-z8 custom-table">
         <ng-container matColumnDef="bonusReason">
