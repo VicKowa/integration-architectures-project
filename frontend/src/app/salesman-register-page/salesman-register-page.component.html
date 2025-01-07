@@ -1,34 +1,34 @@
 <div class="registration-container">
     <h1>Let's get started</h1>
-    <form>
+    <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
         <div class="form-group">
             <label for="firstName">First name</label>
-            <input type="text" id="firstName" placeholder="First name" />
+            <input type="text" id="firstName" name="firstname" ngModel placeholder="First name" />
         </div>
 
         <div class="form-group">
             <label for="lastName">Last name</label>
-            <input type="text" id="lastName" placeholder="Last name" />
+            <input type="text" id="lastName" name="lastname" ngModel placeholder="Last name" />
         </div>
 
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" id="email" placeholder="Email" />
+            <input type="email" id="email" name="email" ngModel placeholder="Email" />
         </div>
 
         <div class="form-group">
             <label for="username">Username</label>
-            <input type="text" id="username" placeholder="Username" />
+            <input type="text" id="username" name="username" ngModel placeholder="Username" />
         </div>
 
         <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" id="password" placeholder="Password" />
+            <input type="password" id="password" name="password" ngModel placeholder="Password" />
         </div>
 
         <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" id="password_confirm" placeholder="Confirm Password" />
+            <label for="password_confirm">Confirm Password</label>
+            <input type="password" id="password_confirm" name="password_confirm" ngModel placeholder="Confirm Password" />
         </div>
 
         <button type="submit" class="btn-primary">Get Started</button>
