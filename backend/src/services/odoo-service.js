@@ -99,10 +99,9 @@ exports.getBonusForSalesman = async (id) => {
     if (!salesman)
         throw new Error('Salesman not found!');
 
-    const json = [salesman.id, salesman.name];
 
     const response = await odoo.execute_kw('bonus.request', 'search_read', [
-        [['employee_id', '=', json]], // Filter nach ID
+        [['employee_id', '=', salesman.id]], // Filter nach ID
         ['id', 'state', 'employee_id', 'bonus_reason_id', 'bonus_amount'] // Nur diese Felder sollen zurückgegeben werden
     ]);
 
@@ -110,3 +109,4 @@ exports.getBonusForSalesman = async (id) => {
         return OdooBonusDTO.fromJSON(bonus);
     });
 }
+
