@@ -22,6 +22,7 @@ import { TestPageComponent } from './pages/test-page/test-page.component';
 import { SalesmanDetailsComponent } from './pages/salesman-details-page/salesman-details.component';
 import {MatTabsModule} from '@angular/material/tabs';
 import { CreateBonusComponent } from './pages/create-bonus/create-bonus.component';
+import {SalesmanValuconComponent} from "@app/pages/salesman-valucon-page/salesman-valucon.component";
 
 @NgModule({
     declarations: [
@@ -34,7 +35,8 @@ import { CreateBonusComponent } from './pages/create-bonus/create-bonus.componen
         NotFoundPageComponent,
         TestPageComponent,
         SalesmanDetailsComponent,
-        CreateBonusComponent
+        CreateBonusComponent,
+        SalesmanValuconComponent
     ],
     imports: [
         BrowserModule,
