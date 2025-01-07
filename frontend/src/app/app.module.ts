@@ -26,6 +26,8 @@ import {SalesmanValuconComponent} from "@app/pages/salesman-valucon-page/salesma
 
 // Import for Chart.js Angular wrapper
 import { BaseChartDirective } from 'ng2-charts';
+import { SalesmanRegisterComponent } from "@app/salesman-register-page/salesman-register-page.component";
+
 
 @NgModule({
     declarations: [
@@ -39,7 +41,8 @@ import { BaseChartDirective } from 'ng2-charts';
         TestPageComponent,
         SalesmanDetailsComponent,
         CreateBonusComponent,
-        SalesmanValuconComponent
+        SalesmanValuconComponent,
+        SalesmanRegisterComponent
     ],
     imports: [
         BrowserModule,

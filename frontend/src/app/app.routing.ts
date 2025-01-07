@@ -9,6 +9,7 @@ import {TestPageComponent} from './pages/test-page/test-page.component';
 import {SalesmanDetailsComponent} from './pages/salesman-details-page/salesman-details.component';
 import {CreateBonusComponent} from './pages/create-bonus/create-bonus.component';
 import {SalesmanValuconComponent} from "@app/pages/salesman-valucon-page/salesman-valucon.component";
+import {SalesmanRegisterComponent} from "@app/salesman-register-page/salesman-register-page.component";
 
 /*
   This array holds the relation of paths and components which angular router should resolve.
@@ -21,6 +22,7 @@ import {SalesmanValuconComponent} from "@app/pages/salesman-valucon-page/salesma
  */
 const routes: Routes = [
     {path: 'login', component: LoginPageComponent},
+    {path: 'register', component: SalesmanRegisterComponent},
     {path: 'example', component: ExamplePageComponent, canActivate: [AuthGuardService]},
     {path: 'test', component: TestPageComponent, canActivate: [AuthGuardService]},
     {path: 'bonus', component: CreateBonusComponent, canActivate: [AuthGuardService]},
