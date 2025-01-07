@@ -23,6 +23,9 @@ import { SalesmanDetailsComponent } from './pages/salesman-details-page/salesman
 import {MatTabsModule} from '@angular/material/tabs';
 import { CreateBonusComponent } from './pages/create-bonus/create-bonus.component';
 
+// Import for Chart.js Angular wrapper
+import { BaseChartDirective } from 'ng2-charts';
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -48,7 +51,8 @@ import { CreateBonusComponent } from './pages/create-bonus/create-bonus.componen
         MatToolbarModule,
         MatIconModule,
         MatTableModule,
-        MatTabsModule
+        MatTabsModule,
+        BaseChartDirective
     ],
     providers: [],
     bootstrap: [AppComponent]
