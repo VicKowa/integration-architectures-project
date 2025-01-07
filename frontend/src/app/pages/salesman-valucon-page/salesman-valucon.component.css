@@ -1,0 +1,31 @@
+.mat-mdc-table .mat-mdc-header-cell {
+    background-color: #5f3794 !important; /* Greenish color for headers */
+    color: white !important;
+}
+
+.mat-mdc-table .mat-mdc-cell {
+    background-color: #ffffff !important; /* White background for table cells */
+}
+
+.mat-mdc-table {
+    width: 50%;
+    border-collapse: collapse;
+    background-color: #ffffff; /* Ensure table background is white */
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 1rem;
+}
+
+.table-content {
+    margin-top: 1rem;
+    width: 40rem;
+}
+
+.manager-approved {
+    border: 2px solid #60dc60;
+    border-radius: 8px;
+    padding: 0.25rem 0.5rem;
+    color: white;
+    background-color: #60dc60;
+    display: inline-block;
+}

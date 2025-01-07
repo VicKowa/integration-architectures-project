@@ -41,4 +41,8 @@ export class SalesmanValuconComponent implements OnInit {
             this.salesman = data;
         });
     }
+
+    getBonusStateClass(state: string): Object {
+        return state === 'manager_approved' ? { content: 'Manager approved', styleClass: "manager-approved"} : '';
+    }
 }
