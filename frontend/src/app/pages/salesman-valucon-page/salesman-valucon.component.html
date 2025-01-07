@@ -1,10 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Title</title>
-    </head>
-    <body>
-
-    </body>
-</html>
+<div *ngIf="salesman" class="content-column">
+    <h1><b>{{salesman.name}}</b></h1>
+    <h2>Bonuses</h2>
+    <table mat-table [dataSource]="odooBonuses" class="mat-elevation-z8 custom-table">
+        <ng-container matColumnDef="bonusReason">
+            <th mat-header-cell *matHeaderCellDef> Bonus Reason </th>
+            <td mat-cell *matCellDef="let bonus">{{ bonus.bonus_reason_id[1] }}</td>
+        </ng-container>
+        <ng-container matColumnDef="bonusAmount">
+            <th mat-header-cell *matHeaderCellDef> Bonus Amount </th>
+            <td mat-cell *matCellDef="let bonus">{{ bonus.bonus_amount }}</td>
+        </ng-container>
+        <ng-container matColumnDef="bonusState">
+            <th mat-header-cell *matHeaderCellDef> Bonus State </th>
+            <td mat-cell *matCellDef="let bonus">{{ bonus.state }}</td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="['bonusReason', 'bonusAmount', 'bonusState']"></tr>
+        <tr mat-row *matRowDef="let row; columns:['bonusReason', 'bonusAmount', 'bonusState'];"></tr>
+    </table>
+</div>
+<div *ngIf="!salesman" class="loading-container">
+    <p>Loading...</p>
+</div>
