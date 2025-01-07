@@ -18,8 +18,18 @@ exports.getSalesman = async (req, res) => {
     });
 }
 
+exports.getAllBonuses = async (req, res) => {
+    odooService.getEveryBonus().then(data => {
+        res.status(200).send(data);
+    }).catch(error => {
+        res.status(500).send({error: error.message});
+    });
+}
+
 exports.getBonus = async (req, res) => {
-    odooService.getBonus().then(data => {
+    const id = req.params.id;
+
+    odooService.getBonus(id).then(data => {
         res.status(200).send(data);
     }).catch(_ => {
         res.status(500).send('Test failed!');

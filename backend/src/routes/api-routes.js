@@ -53,7 +53,8 @@ const odooApi = require('../apis/odoo-api'); //api for odoo
 // Testing Odoo
 router.get('/odoo/salesman', odooApi.getAllSalesman);
 router.get('/odoo/salesman/:id', odooApi.getSalesman);
-router.get('/odoo/bonus', odooApi.getBonus);
+router.get('/odoo/salesman/:id/bonus', odooApi.getBonus);
+router.get('/odoo/bonus', odooApi.getAllBonuses);
 const bonusApi = require('../apis/bonus-api'); //api for bonus
 
 // GET Requests
