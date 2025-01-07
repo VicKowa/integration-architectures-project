@@ -49,8 +49,7 @@ class SocialPerformanceRecordDTO {
      * @returns {SocialPerformanceRecordDTO}
      */
     static fromJSON(json) {
-        const { ...specifiedRecords } = json;
-        return new SocialPerformanceRecordDTO(specifiedRecords);
+        return new SocialPerformanceRecordDTO(json.specifiedRecords);
     }
 }
 
