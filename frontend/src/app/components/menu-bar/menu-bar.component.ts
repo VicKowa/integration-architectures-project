@@ -27,11 +27,11 @@ export class MenuBarComponent implements OnInit {
     private buttonMap = Object.freeze({
         salesman_valucon: [
             {title: 'Welcome', routerLink: ''},
-            {title: 'My Profile', routerLink: 'salesman/:sid'}
+            {title: 'My Profile', routerLink: 'salesman/valucon/:sid'}
         ],
         salesman: [
             {title: 'Welcome', routerLink: ''},
-            {title: 'My Profile', routerLink: 'salesman/valucon/:id'}
+            {title: 'My Profile', routerLink: 'salesman/:id'}
         ],
         ceo: [
             {title: 'Welcome', routerLink: ''},
