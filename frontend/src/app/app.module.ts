@@ -67,6 +67,7 @@ import { BaseChartDirective } from 'ng2-charts';
         MatTabsModule,
         MatSortModule,
         BaseChartDirective,
+        ReactiveFormsModule,
         MatPaginatorModule
     ],
     providers: [],
