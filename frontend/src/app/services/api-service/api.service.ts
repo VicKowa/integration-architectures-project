@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {OrangeHRMSalesmanDTO} from "@app/dtos/OrangeHRM/OrangeHRMSalesmanDTO";
+import {OrangeHRMSalesmanDTO} from '@app/dtos/OrangeHRM/OrangeHRMSalesmanDTO';
 import { map } from 'rxjs/operators';
-import OpenCRXSaleDTO from "@app/dtos/OpenCRX/OpenCRXSaleDTO";
-import {User} from "@app/models/User";
+import OpenCRXSaleDTO from '@app/dtos/OpenCRX/OpenCRXSaleDTO';
+import {User} from '@app/models/User';
 
 @Injectable({
     providedIn: 'root'
@@ -50,7 +50,7 @@ export class ApiService {
     /**
      * returns all roles
      *
-     * @returns {Observable<string[]>}
+     * @returns all roles in an array of strings
      * */
     getRoles(): Observable<string[]> {
         return this.http.get<string[]>(`${this.URL}/roles`);
@@ -59,7 +59,7 @@ export class ApiService {
     /**
      * returns the current role
      *
-     * @returns {Observable<string>}
+     * @returns current role
      * */
     getCurrentRole(): Observable<string> {
         return this.http.get<User>(`${this.URL}/user`, {withCredentials: true}).pipe(

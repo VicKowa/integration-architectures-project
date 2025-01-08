@@ -1,15 +1,18 @@
 import { EvaluationDTO } from '../dtos/EvaluationDTO';
+import {OrderEvaluationDTO} from '@app/dtos/OrderEvaluationDTO';
+import {SocialPerformanceRecordDTO} from '@app/dtos/SocialPerformanceRecordDTO';
 
 export class Evaluation {
-    orderEvaluation: any[];
-    socialPerformanceEvaluation: any[];
+    orderEvaluation: OrderEvaluationDTO[];
+    socialPerformanceEvaluation: SocialPerformanceRecordDTO[];
     totalBonus: number;
     year: string;
     department: string | null;
 
     /**
      * Create a new Evaluation
-     * @param {EvaluationDTO} evaluationDTO - The evaluation data transfer object
+     *
+     * @param evaluationDTO - The evaluation data transfer object
      */
     constructor(evaluationDTO: EvaluationDTO) {
         this.orderEvaluation = evaluationDTO.orderEvaluation || [];

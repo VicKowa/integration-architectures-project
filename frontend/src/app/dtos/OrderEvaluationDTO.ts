@@ -12,8 +12,9 @@ export class OrderEvaluationDTO {
 
     /**
      * Create a new OrderEvaluation
-     * @param {number} totalBonus Result of all order bonuses
-     * @param {Order[]} orders List of orders
+     *
+     * @param totalBonus - Result of all order bonuses
+     * @param orders - List of orders
      */
     constructor(totalBonus: number, orders: Order[]) {
         this.totalBonus = totalBonus;
@@ -24,13 +25,14 @@ export class OrderEvaluationDTO {
      * Calculate the total bonus
      */
     calculateTotalBonus(): void {
-        this.totalBonus = this.orders.reduce((acc, order) => acc + order.bonus, 0);
+        this.totalBonus = this.orders.reduce((acc: number, order: Order): number => acc + order.bonus, 0);
     }
 
     /**
      * Ensure that orders have valid non-negative items
-     * @param {Order[]} orders
-     * @returns {Order[]} orders with valid items
+     *
+     * @param orders - List of orders
+     * @returns orders with valid items
      */
     private ensureOrders(orders: Order[]): Order[] {
         const defaultOrder: Order = {
@@ -41,7 +43,7 @@ export class OrderEvaluationDTO {
             bonus: 0,
         };
         const defaultItems = 0;
-        return orders.map(order => {
+        return orders.map((order: Order): Order => {
             // Merge default order with order
             const validOrder = { ...defaultOrder, ...order };
 
@@ -56,8 +58,9 @@ export class OrderEvaluationDTO {
 
     /**
      * Convert a JSON object to a OrderEvaluationDTO object
-     * @param {Partial<OrderEvaluationDTO>} json - JSON object
-     * @returns {OrderEvaluationDTO} OrderEvaluationDTO object
+     *
+     * @param json - JSON object
+     * @returns OrderEvaluationDTO object
      */
     static fromJSON(json: Partial<OrderEvaluationDTO>): OrderEvaluationDTO {
         return new OrderEvaluationDTO(

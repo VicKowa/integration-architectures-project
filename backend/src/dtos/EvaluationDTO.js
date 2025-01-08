@@ -5,18 +5,24 @@ class EvaluationDTO {
 
     /**
      * Create a new EvaluationDTO
+     *
      * @param {string} sid
      * @param {string} year
      * @param {string} department
-     * @param {OrderEvaluationDTO}orderEvaluation
+     * @param {OrderEvaluationDTO} orderEvaluation
      * @param {SocialPerformanceRecordDTO} socialPerformanceEvaluation
      * @param approvalStatus
      */
 
-    constructor(sid, year, department, orderEvaluation, socialPerformanceEvaluation, approvalStatus) {
+    constructor(sid,
+                year,
+                department,
+                orderEvaluation,
+                socialPerformanceEvaluation,
+                approvalStatus) {
         this.approvalStatus = approvalStatus || approvalEnum.NONE;
-        this.orderEvaluation = [] || orderEvaluation;
-        this.socialPerformanceEvaluation = [] || socialPerformanceEvaluation;
+        this.orderEvaluation = orderEvaluation || null;
+        this.socialPerformanceEvaluation = socialPerformanceEvaluation || null;
         this.totalBonus = 0;
         this.year = year;
         this.department = department;
@@ -25,6 +31,7 @@ class EvaluationDTO {
 
     /**
      * Calculate the total bonus
+     *
      * @returns {number} totalBonus of order and social performance evaluation
      * @throws {Error} if OrderEvaluation or SocialPerformanceEvaluation is missing
      */
@@ -32,7 +39,14 @@ class EvaluationDTO {
         if (this.orderEvaluation == null || this.socialPerformanceEvaluation == null) {
             throw new Error("OrderEvaluation or SocialPerformanceEvaluation is missing");
         }
-        this.totalBonus = this.orderEvaluation.totalBonus + this.socialPerformanceEvaluation.totalBonus;
+
+        this.totalBonus =
+            // Sum of all order evaluation bonuses
+            this.orderEvaluation.totalBonus
+        +
+            // Sum of all social performance evaluation bonuses
+            this.socialPerformanceEvaluation.totalBonus
+        ;
     }
 
     /**

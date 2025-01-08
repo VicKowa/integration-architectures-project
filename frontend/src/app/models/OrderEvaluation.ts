@@ -6,7 +6,8 @@ export class OrderEvaluation {
 
     /**
      * Create a new OrderEvaluation
-     * @param {OrderEvaluationDTO} orderEvaluationDTO - The order evaluation data transfer object
+     *
+     * @param orderEvaluationDTO - The order evaluation data transfer object
      */
     constructor(orderEvaluationDTO: OrderEvaluationDTO) {
         this.totalBonus = orderEvaluationDTO.totalBonus || 0;

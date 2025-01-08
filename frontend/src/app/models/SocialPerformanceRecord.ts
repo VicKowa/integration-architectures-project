@@ -5,7 +5,8 @@ export class SocialPerformanceRecord {
 
     /**
      * Creates a new SocialPerformanceRecord with specified values
-     * @param {SocialPerformanceRecordDTO} socialPerformanceRecordDTO
+     *
+     * @param socialPerformanceRecordDTO - The social performance record data transfer object
      */
     constructor(socialPerformanceRecordDTO: SocialPerformanceRecordDTO) {
         this.specifiedRecords = socialPerformanceRecordDTO.specifiedRecords || {};

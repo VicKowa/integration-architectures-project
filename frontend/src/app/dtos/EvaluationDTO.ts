@@ -1,12 +1,14 @@
 import { OrderEvaluationDTO } from './OrderEvaluationDTO';
 import { SocialPerformanceRecordDTO } from './SocialPerformanceRecordDTO';
 
+/* eslint-disable no-shadow */
 export enum ApprovalEnum {
     NONE = 'NONE',
     CEO = 'CEO',
     HR = 'HR',
     SALESMAN = 'SALESMAN',
 }
+/* eslint-enable no-shadow */
 
 export class EvaluationDTO {
     sid: string | null;
@@ -19,18 +21,19 @@ export class EvaluationDTO {
 
     /**
      * Create a new EvaluationDTO
-     * @param {string} sid
-     * @param {string} year
-     * @param {string} department
-     * @param {OrderEvaluationDTO} orderEvaluation
-     * @param {SocialPerformanceRecordDTO} socialPerformanceEvaluation
-     * @param {ApprovalEnum} approvalStatus
+     *
+     * @param sid - The unique identifier of the evaluation
+     * @param year - The year of the evaluation
+     * @param department - The department of the evaluation
+     * @param orderEvaluation - The order evaluation
+     * @param socialPerformanceEvaluation - The social performance evaluation
+     * @param approvalStatus - The approval status of the evaluation
      */
     constructor(
         sid: string,
         year: string,
         department: string,
-        orderEvaluation: "" | OrderEvaluationDTO,
+        orderEvaluation: OrderEvaluationDTO,
         socialPerformanceEvaluation: SocialPerformanceRecordDTO,
         approvalStatus: ApprovalEnum
     ) {
@@ -45,28 +48,36 @@ export class EvaluationDTO {
 
     /**
      * Calculate the total bonus
-     * @returns {number} totalBonus of order and social performance evaluation
-     * @throws {Error} if OrderEvaluation or SocialPerformanceEvaluation is missing
+     *
+     * @returns totalBonus of order and social performance evaluation
      */
     calculateTotalBonus(): void {
         if (this.orderEvaluation == null || this.socialPerformanceEvaluation == null) {
-            throw new Error("OrderEvaluation or SocialPerformanceEvaluation is missing");
+            throw new Error('OrderEvaluation or SocialPerformanceEvaluation is missing');
         }
-        this.totalBonus = this.orderEvaluation.totalBonus + this.socialPerformanceEvaluation.totalBonus;
+
+        this.totalBonus =
+            // Sum of all order evaluation bonuses
+            this.orderEvaluation.totalBonus
+            +
+            // Sum of all social performance evaluation bonuses
+            this.socialPerformanceEvaluation.totalBonus
+        ;
     }
 
     /**
      * Convert a JSON object to a EvaluationDTO object
-     * @param {Partial<EvaluationDTO>} json
-     * @returns {EvaluationDTO} EvaluationDTO object
+     *
+     * @param json - JSON object
+     * @returns EvaluationDTO object
      */
     static fromJSON(json: Partial<EvaluationDTO>): EvaluationDTO {
         return new EvaluationDTO(
             json.sid || '',
             json.year || '',
             json.department || '',
-            json.orderEvaluation = OrderEvaluationDTO.fromJSON(json.orderEvaluation) || null,
-            json.socialPerformanceEvaluation = SocialPerformanceRecordDTO.fromJSON(json.socialPerformanceEvaluation) || null,
+            OrderEvaluationDTO.fromJSON(json.orderEvaluation) || null,
+            SocialPerformanceRecordDTO.fromJSON(json.socialPerformanceEvaluation) || null,
             json.approvalStatus || ApprovalEnum.NONE
         );
     }

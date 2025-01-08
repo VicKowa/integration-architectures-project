@@ -19,7 +19,8 @@ export class SocialPerformanceRecordDTO {
 
     /**
      * Creates a new SocialPerformanceRecord with specified values
-     * @param {SpecifiedRecords} specifiedRecords
+     *
+     * @param specifiedRecords - The specified records
      */
     constructor(specifiedRecords?: { specifiedRecords?: SpecifiedRecords }) {
         this.specifiedRecords = this.ensureAllTypes(specifiedRecords);
@@ -27,8 +28,9 @@ export class SocialPerformanceRecordDTO {
 
     /**
      * Returns the records with all necessary types
-     * @param {SpecifiedRecords} records
-     * @returns {SpecifiedRecords}
+     *
+     * @param records - The records to validate
+     * @returns the records with all necessary types
      */
     private ensureAllTypes(records: { specifiedRecords?: SpecifiedRecords }): SpecifiedRecords {
         const requiredTypes: (keyof SpecifiedRecords)[] = [
@@ -41,18 +43,19 @@ export class SocialPerformanceRecordDTO {
         ];
         const defaultRecord: Record = { targetValue: 0, actualValue: 0, bonus: 0 };
 
-        return requiredTypes.reduce((validated, type) => {
-            validated[type] = records[type] || { ...defaultRecord };
+        return requiredTypes.reduce((validated: SpecifiedRecords, type: keyof SpecifiedRecords): SpecifiedRecords => {
+            validated[type] = (records as Partial<SpecifiedRecords>)[type] || { ...defaultRecord };
             return validated;
         }, {} as SpecifiedRecords);
     }
 
     /**
      * Creates a new SocialPerformanceRecord with specified values
-     * @param {number} targetValue
-     * @param {number} actualValue
-     * @param {number} bonus
-     * @returns {Record}
+     *
+     * @param targetValue - The target value
+     * @param actualValue - The actual value
+     * @param bonus - The bonus
+     * @returns a new SpecifiedRecord
      */
     static createSpecifiedRecord(targetValue: number, actualValue: number, bonus: number): Record {
         return { targetValue, actualValue, bonus };
@@ -60,8 +63,9 @@ export class SocialPerformanceRecordDTO {
 
     /**
      * Creates a new SocialPerformanceRecord from a JSON object
-     * @param {Partial<SocialPerformanceRecordDTO>} json
-     * @returns {SocialPerformanceRecordDTO}
+     *
+     * @param json - JSON object
+     * @returns a new SocialPerformanceRecordDTO
      */
     static fromJSON(json: Partial<SocialPerformanceRecordDTO>): SocialPerformanceRecordDTO {
         const { ...specifiedRecords } = json;
@@ -72,6 +76,10 @@ export class SocialPerformanceRecordDTO {
      * Calculate the total bonus
      */
     calculateTotalBonus(): void {
-        this.totalBonus = Object.values(this.specifiedRecords).reduce((sum, record) => sum + record.bonus, 0);
+        this.totalBonus = Object.values(this.specifiedRecords as Record[])
+            .reduce(
+                (sum: number, record: Record): number =>
+                    sum + record.bonus, 0
+            );
     }
 }
