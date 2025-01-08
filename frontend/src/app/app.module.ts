@@ -28,9 +28,12 @@ import { SalesmanTableComponent } from './components/salesman-table/salesman-tab
 import { ListEvaluationComponent } from '@app/pages/list-evaluation/list-evaluation.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { SalesmanRegisterComponent } from "@app/salesman-register-page/salesman-register-page.component";
+import { ReactiveFormsModule} from "@angular/forms";
 
 // Import for Chart.js Angular wrapper
 import { BaseChartDirective } from 'ng2-charts';
+
+
 
 @NgModule({
     declarations: [
