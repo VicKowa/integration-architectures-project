@@ -21,30 +21,31 @@ export class MenuBarComponent implements OnInit {
     private buttonMap = new class ButtonMap {
         private readonly buttonMap: Record<string, { title: string; routerLink: string }[]> = {
             salesman_valucon: [
-                { title: 'Welcome', routerLink: '' },
-                { title: 'My Profile', routerLink: 'salesman/:sid' },
+                {title: 'Welcome', routerLink: ''},
+                {title: 'My Profile', routerLink: 'salesman/valucon/:sid'}
             ],
             salesman: [
-                { title: 'Welcome', routerLink: '' },
-                { title: 'My Profile', routerLink: 'salesman/valucon/:id' },
+                {title: 'Welcome', routerLink: ''},
+                {title: 'My Profile', routerLink: 'salesman/:id'}
             ],
             ceo: [
-                { title: 'Welcome', routerLink: '' },
-                { title: 'Dashboard', routerLink: 'dashboard' },
-                { title: 'Test', routerLink: 'test' },
+                {title: 'Welcome', routerLink: ''},
+                {title: 'Dashboard', routerLink: 'dashboard'},// TODO
+                {title: 'Test', routerLink: 'test'},
             ],
             hr: [
-                { title: 'Welcome', routerLink: '' },
-                { title: 'Dashboard', routerLink: 'dashboard' },
-                { title: 'Test', routerLink: 'test' },
-                { title: 'Valucon', routerLink: 'salesman/valucon' },
+                {title: 'Welcome', routerLink: ''},
+                {title: 'Dashboard', routerLink: 'dashboard'},// TODO
+                {title: 'Test', routerLink: 'test'},
+                {title: 'Valucon', routerLink: 'salesman/valucon'} // TODO
             ],
             admin: [
-                { title: 'Welcome', routerLink: '' },
-                { title: 'Dashboard', routerLink: 'dashboard' },
-                { title: 'Test', routerLink: 'test' },
-                { title: 'Valucon', routerLink: 'salesman/valucon' },
-            ],
+                {title: 'Welcome', routerLink: ''},
+                {title: 'Dashboard', routerLink: 'dashboard'},// TODO
+                {title: 'Test', routerLink: 'test'},
+                {title: 'Valucon', routerLink: 'salesman/valucon'} // TODO
+
+            ]
         };
 
         public getButtons(role: string): { title: string; routerLink: string }[] {
