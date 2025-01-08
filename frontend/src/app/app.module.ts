@@ -26,6 +26,8 @@ import {SalesmanValuconComponent} from '@app/pages/salesman-valucon-page/salesma
 
 // Import for Chart.js Angular wrapper
 import { BaseChartDirective } from 'ng2-charts';
+import { SalesmanValuconListPageComponent } from './pages/salesman-valucon-list-page/salesman-valucon-list-page.component';
+import {MatChipsModule} from "@angular/material/chips";
 
 @NgModule({
     declarations: [
@@ -39,7 +41,8 @@ import { BaseChartDirective } from 'ng2-charts';
         TestPageComponent,
         SalesmanDetailsComponent,
         CreateBonusComponent,
-        SalesmanValuconComponent
+        SalesmanValuconComponent,
+        SalesmanValuconListPageComponent
     ],
     imports: [
         BrowserModule,
@@ -54,7 +57,8 @@ import { BaseChartDirective } from 'ng2-charts';
         MatIconModule,
         MatTableModule,
         MatTabsModule,
-        BaseChartDirective
+        BaseChartDirective,
+        MatChipsModule
     ],
     providers: [],
     bootstrap: [AppComponent]

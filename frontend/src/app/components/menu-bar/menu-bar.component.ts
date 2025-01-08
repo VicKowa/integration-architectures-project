@@ -37,13 +37,13 @@ export class MenuBarComponent implements OnInit {
                 { title: 'Welcome', routerLink: '' },
                 { title: 'Dashboard', routerLink: 'dashboard' },
                 { title: 'Test', routerLink: 'test' },
-                { title: 'Valucon', routerLink: 'salesman/valucon' },
+                { title: 'Valucon', routerLink: 'salesman/valucon/list' },
             ],
             admin: [
                 { title: 'Welcome', routerLink: '' },
                 { title: 'Dashboard', routerLink: 'dashboard' },
                 { title: 'Test', routerLink: 'test' },
-                { title: 'Valucon', routerLink: 'salesman/valucon' },
+                { title: 'Valucon', routerLink: 'salesman/valucon/list' },
             ],
         };
 
