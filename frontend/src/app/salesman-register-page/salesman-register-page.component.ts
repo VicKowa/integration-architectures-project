@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
@@ -19,12 +19,12 @@ export class SalesmanRegisterComponent implements OnInit {
         private formBuilder: FormBuilder,
         private authService: AuthService,
         private router: Router,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
     ) {}
 
     ngOnInit(): void {
         this.registerForm = this.formBuilder.group({
-            username: ['', Validators.required],
+            username: ['', Validators.required, this.validateUsername()],
             firstname: ['', Validators.required],
             lastname: ['', Validators.required],
             email: ['', [Validators.required, Validators.email]],
@@ -35,9 +35,12 @@ export class SalesmanRegisterComponent implements OnInit {
         });
 
         // Check username availability on each input change
-        this.registerForm.get('username').valueChanges.subscribe(() => {
-            this.checkUsername();
-        });
+        const usernameControl = this.registerForm.get('username');
+        if (usernameControl) {
+            usernameControl.valueChanges.subscribe(() => {
+                this.checkUsername();
+            });
+        }
     }
 
     get f() { return this.registerForm.controls; }
@@ -82,23 +85,34 @@ export class SalesmanRegisterComponent implements OnInit {
         };
     }
 
-    checkUsername(): void {
-        const username = this.registerForm.get('username').value;
+    private validateUsername(): ValidatorFn {
+        return (control: AbstractControl): {[key: string]: any} | null => {
+            if (!control.value) {
+                return null;
+            }
 
-        if (username) {
-            this.authService.isValidUsername(username).subscribe(
-                (isValid) => {
-                    if (!isValid) {
-                        this.registerForm.get('username').setErrors({ usernameTaken: true });
-                    } else {
-                        this.registerForm.get('username').setErrors(null);
+            this.authService.isValidUsername(control.value)
+                .subscribe(
+                    (response) => {
+                        if (!response.body.valid) {
+                            control.setErrors({"usernameTaken": true});
+                        } else {
+                            control.setErrors(null);
+                        }
+                    },
+                    (error) => {
+                        console.log(error);
                     }
-                },
-                (error) => {
-                    console.error('Error checking username:', error);
-                    this.registerForm.get('username').setErrors({ usernameTaken: true });
-                }
-            );
+                );
+            return null;
+        }
+
+    }
+
+    private checkUsername(): void {
+        const control = this.registerForm.get('username');
+        if (control) {
+            this.validateUsername()(control);
         }
     }
 }
