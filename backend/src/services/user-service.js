@@ -4,7 +4,7 @@ const salt = 'integrationArchitectures';
 /**
  * inserts a new user into database & hashes its password
  * @param db target database
- * @param {User} user new user
+ * @param {UserDTO} user new user
  * @return {Promise<any>}
  */
 exports.add = async function (db, user){
@@ -57,4 +57,8 @@ function hashPassword(password){
  */
 function verifyPassword(password, hash){
     return hashPassword(password) === hash; //verify by comparing hashes
+}
+
+exports.isUsernameAvailable = async function (db, username){
+    return await this.get(db, username) !== null;
 }

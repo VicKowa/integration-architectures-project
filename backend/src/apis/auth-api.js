@@ -54,3 +54,12 @@ exports.register = function (req, res){
         res.status(400).send('registration failed');
     })
 }
+
+exports.isVaildUsername = function (req, res){
+    const db = req.app.get('db');//get database from express
+    const username = req.query.username;
+
+    userService.isUsernameAvailable(db, username).then(user=>{ //check if user exists
+        res.send({valid: !user});
+    })
+}
