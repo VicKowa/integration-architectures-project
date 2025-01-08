@@ -46,3 +46,10 @@ select {
     width: 15rem;
     align-self: center;
 }
+.has-error input {
+    border-color: red;
+}
+
+.invalid-feedback {
+    color: red;
+}
