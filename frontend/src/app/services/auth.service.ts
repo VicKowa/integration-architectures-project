@@ -124,7 +124,10 @@ export class AuthService {
             );
     }
 
-    isValidUsername(username: string): Observable<boolean> {
-        return this.http.get<boolean>(environment.apiEndpoint + `/api/checkUsername?username=${username}`, {withCredentials: true});
+    isValidUsername(username: string): Observable<HttpResponse<any>> {
+        return this.http.get(environment.apiEndpoint + `/api/checkUsername?username=${username}`, {
+            withCredentials: true,
+            observe: 'response'
+        });
     }
 }
