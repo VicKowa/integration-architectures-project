@@ -5,6 +5,8 @@ import {OrangeHRMSalesmanDTO} from '@app/dtos/OrangeHRM/OrangeHRMSalesmanDTO';
 import { map } from 'rxjs/operators';
 import OpenCRXSaleDTO from '@app/dtos/OpenCRX/OpenCRXSaleDTO';
 import {User} from '@app/models/User';
+import OdooBonusDTO from '@app/dtos/Odoo/OdooBonusDTO';
+import OdooSalesmanDTO from '@app/dtos/Odoo/OdooSalesmanDTO';
 
 @Injectable({
     providedIn: 'root'
@@ -66,4 +68,23 @@ export class ApiService {
             map((user: User): string => user.role)
         );
     }
+
+    getOdooBonuses(id: string): Observable<OdooBonusDTO[]> {
+        return this.http.get<Partial<OdooBonusDTO[]>>(`${this.URL}/odoo/salesman/${id}/bonus`).pipe(
+            map((response: Partial<OdooBonusDTO[]>): OdooBonusDTO[] =>
+                response.map((data: Partial<OdooBonusDTO>): OdooBonusDTO =>
+                    OdooBonusDTO.fromJSON(data)
+                )
+            )
+        );
+    }
+
+    getOdooSalesman(id: string): Observable<OdooSalesmanDTO> {
+        return this.http.get<Partial<OdooSalesmanDTO>>(`${this.URL}/odoo/salesman/${id}`).pipe(
+            map((data: Partial<OdooSalesmanDTO>): OdooSalesmanDTO =>
+                OdooSalesmanDTO.fromJSON(data)
+            )
+        );
+    }
+
 }

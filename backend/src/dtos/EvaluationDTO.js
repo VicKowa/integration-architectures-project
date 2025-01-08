@@ -9,9 +9,10 @@ class EvaluationDTO {
      * @param {string} sid
      * @param {string} year
      * @param {string} department
-     * @param {OrderEvaluationDTO} orderEvaluation
+     * @param {OrderEvaluationDTO}orderEvaluation
      * @param {SocialPerformanceRecordDTO} socialPerformanceEvaluation
      * @param approvalStatus
+     * @param totalBonus
      */
 
     constructor(sid,
@@ -19,11 +20,12 @@ class EvaluationDTO {
                 department,
                 orderEvaluation,
                 socialPerformanceEvaluation,
-                approvalStatus) {
+                approvalStatus,
+                totalBonus) {
         this.approvalStatus = approvalStatus || approvalEnum.NONE;
         this.orderEvaluation = orderEvaluation || null;
         this.socialPerformanceEvaluation = socialPerformanceEvaluation || null;
-        this.totalBonus = 0;
+        this.totalBonus = totalBonus || 0;
         this.year = year;
         this.department = department;
         this.sid = sid || null;
@@ -55,13 +57,15 @@ class EvaluationDTO {
      * @returns {EvaluationDTO} EvaluationDTO object
      */
     static fromJSON(json) {
-        this.sid = json.sid;
-        this.year = json.year;
-        this.department = json.department;
-        this.orderEvaluation = OrderEvaluationDTO.fromJSON(json.orderEvaluation);
-        this.socialPerformanceEvaluation = SocialPerformanceRecordDTO.fromJSON(json.socialPerformanceEvaluation);
-        this.totalBonus = json.totalBonus;
-        this.approvalStatus = json.approvalStatus;
+        return new EvaluationDTO(
+            json.sid,
+            json.year,
+            json.department,
+            OrderEvaluationDTO.fromJSON(json.orderEvaluation),
+            SocialPerformanceRecordDTO.fromJSON(json.socialPerformanceEvaluation),
+            json.approvalStatus,
+            json.totalBonus,
+        );
     }
 }
 
