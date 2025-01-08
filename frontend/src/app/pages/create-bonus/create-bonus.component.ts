@@ -33,7 +33,7 @@ export class CreateBonusComponent implements OnInit {
 
     comments = '';
 
-    constructor(private apiService : ApiService) { }
+    constructor(private apiService: ApiService) { }
 
     ngOnInit(): void {
         this.fetchRole();

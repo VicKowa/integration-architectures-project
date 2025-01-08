@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import { Chart, ChartOptions, ChartType, ChartData } from "chart.js";
+import { Chart, ChartOptions, ChartType, ChartData } from 'chart.js';
 import { BarController, BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend } from 'chart.js';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '@app/services/api-service/api.service';
@@ -24,17 +24,17 @@ export class SalesmanDetailsComponent implements OnInit {
     selectedSale: OpenCRXSaleDTO | null = null; // Currently selected order
     orderDetails: OpenCRXOrderDTO[] = []; // Details of the selected order
     bonuses: {
-        year: string,
-        amount: number
+        year: string;
+        amount: number;
     }[] = [
-        { year: '2019', amount: 1000 },
-        { year: '2020', amount: 2000 },
-        { year: '2021', amount: 3000 },
-        { year: '2022', amount: 4000 },
-        { year: '2023', amount: 5000 },
-        { year: '2024', amount: 6000 },
-        { year: '2025', amount: 7000 },
-    ]; // Bonuses for the salesman (here: example data in ascending order)
+            { year: '2019', amount: 1000 },
+            { year: '2020', amount: 2000 },
+            { year: '2021', amount: 3000 },
+            { year: '2022', amount: 4000 },
+            { year: '2023', amount: 5000 },
+            { year: '2024', amount: 6000 },
+            { year: '2025', amount: 7000 },
+        ]; // Bonuses for the salesman (here: example data in ascending order)
 
     // Chart.js options
     public chartOptions: ChartOptions = {
@@ -53,16 +53,16 @@ export class SalesmanDetailsComponent implements OnInit {
     public chartData: ChartData<'bar'> = {
         // get all the years from the bonuses array
         labels: this.bonuses.map((bonus: {
-            year: string,
-            amount:number
+            year: string;
+            amount: number;
         }): string => bonus.year),
         datasets: [
             {
                 label: 'Bonuses ($)',
                 // get all the amounts from the bonuses array
                 data: this.bonuses.map((bonus: {
-                    year: string,
-                    amount: number
+                    year: string;
+                    amount: number;
                 }): number => bonus.amount),
                 backgroundColor: 'rgba(22, 160, 133, 0.5)',
                 borderColor: 'rgba(15, 81, 50, 0.8)',

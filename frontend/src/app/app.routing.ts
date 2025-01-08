@@ -8,7 +8,7 @@ import {NotFoundPageComponent} from './pages/not-found-page/not-found-page.compo
 import {TestPageComponent} from './pages/test-page/test-page.component';
 import {SalesmanDetailsComponent} from './pages/salesman-details-page/salesman-details.component';
 import {CreateBonusComponent} from './pages/create-bonus/create-bonus.component';
-import {SalesmanValuconComponent} from "@app/pages/salesman-valucon-page/salesman-valucon.component";
+import {SalesmanValuconComponent} from '@app/pages/salesman-valucon-page/salesman-valucon.component';
 
 /*
   This array holds the relation of paths and components which angular router should resolve.

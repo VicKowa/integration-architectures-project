@@ -1,9 +1,9 @@
-import {Component, OnInit, ViewChild} from "@angular/core";
-import {ApiService} from "@app/services/api-service/api.service";
-import OdooBonusDTO from "@app/dtos/Odoo/OdooBonusDTO";
-import {ActivatedRoute} from "@angular/router";
-import {MatTabGroup} from "@angular/material/tabs";
-import OdooSalesmanDTO from "@app/dtos/Odoo/OdooSalesmanDTO";
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {ApiService} from '@app/services/api-service/api.service';
+import OdooBonusDTO from '@app/dtos/Odoo/OdooBonusDTO';
+import {ActivatedRoute} from '@angular/router';
+import {MatTabGroup} from '@angular/material/tabs';
+import OdooSalesmanDTO from '@app/dtos/Odoo/OdooSalesmanDTO';
 
 @Component({
     selector: 'app-salesman-valucon',
@@ -42,7 +42,9 @@ export class SalesmanValuconComponent implements OnInit {
         });
     }
 
-    getBonusStateClass(state: string): Object {
-        return state === 'manager_approved' ? { content: 'Manager approved', styleClass: "manager-approved"} : '';
+    getBonusStateClass(state: string):
+        { content: string; styleClass: string } | ''
+    {
+        return state === 'manager_approved' ? { content: 'Manager approved', styleClass: 'manager-approved'} : '';
     }
 }
