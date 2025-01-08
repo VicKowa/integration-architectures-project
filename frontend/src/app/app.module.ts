@@ -23,10 +23,12 @@ import { SalesmanDetailsComponent } from './pages/salesman-details-page/salesman
 import {MatTabsModule} from '@angular/material/tabs';
 import { CreateBonusComponent } from './pages/create-bonus/create-bonus.component';
 import {SalesmanValuconComponent} from "@app/pages/salesman-valucon-page/salesman-valucon.component";
+import { SalesmanRegisterComponent } from "@app/salesman-register-page/salesman-register-page.component";
+import { ReactiveFormsModule} from "@angular/forms";
 
 // Import for Chart.js Angular wrapper
 import { BaseChartDirective } from 'ng2-charts';
-import { SalesmanRegisterComponent } from "@app/salesman-register-page/salesman-register-page.component";
+
 
 
 @NgModule({
@@ -57,7 +59,8 @@ import { SalesmanRegisterComponent } from "@app/salesman-register-page/salesman-
         MatIconModule,
         MatTableModule,
         MatTabsModule,
-        BaseChartDirective
+        BaseChartDirective,
+        ReactiveFormsModule
     ],
     providers: [],
     bootstrap: [AppComponent]

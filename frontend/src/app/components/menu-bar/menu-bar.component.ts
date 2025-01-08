@@ -69,7 +69,6 @@ export class MenuBarComponent implements OnInit {
 
     ngOnInit(): void {
         this.fetchUser();
-
     }
 
     ngOnRefresh(): void {
