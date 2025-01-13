@@ -53,4 +53,11 @@ export class LoginComponent implements OnInit {
     enterApplication(): void{
         void this.router.navigate(['']);
     }
+
+    /**
+     * redirects to the registration page
+     */
+    register(): void {
+        void this.router.navigate(['register']);
+    }
 }

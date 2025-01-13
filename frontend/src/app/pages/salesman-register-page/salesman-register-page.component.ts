@@ -157,4 +157,11 @@ export class SalesmanRegisterComponent implements OnInit {
             this.validateUsername()(control);
         }
     }
+
+    /**
+     * Redirect to login page
+     * */
+    login(): void {
+        this.router.navigate(['../login'], {relativeTo: this.route});
+    }
 }

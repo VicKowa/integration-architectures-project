@@ -8,3 +8,4 @@
 </mat-form-field>
 <span class="error" *ngIf="loginError">{{loginError}}</span>
 <button class="login" (click)="performLogin()" mat-raised-button color="primary">Log in</button> <!-- (click) creates a one-way output-binding, which is invoked by click events  -->
+<button class="register" (click)="register()" mat-raised-button color="primary">Register</button>
