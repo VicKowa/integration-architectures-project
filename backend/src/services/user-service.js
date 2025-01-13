@@ -1,5 +1,6 @@
 const crypto = require('crypto');
 const salt = 'integrationArchitectures';
+const orangeHRMService = require('./orange-hrm-service');
 
 /**
  * inserts a new user into database & hashes its password
@@ -39,6 +40,30 @@ exports.verify = async function (db, credentials){
 }
 
 /**
+ * checks if a username is available in the database
+ *
+ * @param db source database
+ * @param {string} username
+ * @return {Promise<boolean>}
+ * */
+exports.isUsernameAvailable = async function (db, username){
+    return await this.get(db, username) !== null;
+}
+
+/**
+ * checks if a user is a salesman stored in OrangeHRM
+ *
+ * @param db source database
+ * @param {string} username
+ * @return {Promise<*>}
+ * */
+exports.isSalesman = async function (db, username){
+    const salesman = await orangeHRMService.getSalesmanByCode(username);
+
+    return !!salesman;
+}
+
+/**
  * hashes password with sha3 256bit
  * @param {string} password
  * @return {string} hashed password
@@ -57,8 +82,4 @@ function hashPassword(password){
  */
 function verifyPassword(password, hash){
     return hashPassword(password) === hash; //verify by comparing hashes
-}
-
-exports.isUsernameAvailable = async function (db, username){
-    return await this.get(db, username) !== null;
 }

@@ -55,11 +55,22 @@ exports.register = function (req, res){
     })
 }
 
-exports.isVaildUsername = function (req, res){
+exports.isValidUsername = function (req, res){
     const db = req.app.get('db');//get database from express
     const username = req.query.username;
 
     userService.isUsernameAvailable(db, username).then(user=>{ //check if user exists
-        res.send({valid: !user});
+        // return false if a user with that username already exists
+        if (user) {
+            res.send({valid: false});
+            return;
+        }
+
+        // check if the username is a sid from a salesman stored in OrangeHRM
+        userService.isSalesman(db, username).then(exists => {
+            res.send({valid: exists});
+        }).catch(err => {
+            res.send({valid: false});
+        });
     })
 }

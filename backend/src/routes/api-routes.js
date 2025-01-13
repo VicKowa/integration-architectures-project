@@ -12,7 +12,7 @@ router.post('/login', authApi.login); //the function decides which request type 
 router.delete('/login', checkAuthorization,authApi.logout); //middlewares can be defined in parameters
 router.get('/login', authApi.isLoggedIn); //the function, which handles requests is specified as the last parameter
 router.post('/register', authApi.register);
-router.get('/checkUsername', authApi.isVaildUsername);
+router.get('/checkUsername', authApi.isValidUsername);
 
 const userApi = require('../apis/user-api');
 router.get('/user', checkAuthorization(ROLES.SALESMAN), userApi.getSelf);
