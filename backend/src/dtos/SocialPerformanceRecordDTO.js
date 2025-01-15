@@ -1,30 +1,19 @@
 /**
  * Represents a social performance record of a salesman
  */
-class SocialPerformanceRecord {
+class SocialPerformanceRecordDTO {
     /**
      * Creates a new SocialPerformanceRecord with specified values
-     * @param year
-     * @param totalBonus
-     * @param department
-     * @param approved
-     * @param specifiedRecords
+     * @param {Object} specifiedRecords
      */
-    constructor(year, totalBonus, department, approved = false, specifiedRecords = {}) {
-        this.year = year;
-        this.totalBonus = totalBonus;
-        this.department = department;
-
-        // Approved by CEO and HR and Salesman (normally not approved in the beginning)
-        this.approved = approved;
-
+    constructor(specifiedRecords = {}) {
         this.specifiedRecords = this.#ensureAllTypes(specifiedRecords);
     }
 
     /**
      * Returns the records with all necessary types
-     * @param records
-     * @returns {{}}
+     * @param {Object} records
+     * @returns {Object}
      */
     #ensureAllTypes(records) {
         const requiredTypes = [
@@ -45,9 +34,9 @@ class SocialPerformanceRecord {
 
     /**
      * Creates a new SocialPerformanceRecord with specified values
-     * @param targetValue
-     * @param actualValue
-     * @param bonus
+     * @param {number} targetValue
+     * @param {number} actualValue
+     * @param {number} bonus
      * @returns {{bonus, targetValue, actualValue}}
      */
     static createSpecifiedRecord(targetValue, actualValue, bonus) {
@@ -56,20 +45,12 @@ class SocialPerformanceRecord {
 
     /**
      * Creates a new SocialPerformanceRecord from a JSON object
-     * @param json
-     * @returns {SocialPerformanceRecord}
+     * @param {Partial<SocialPerformanceRecordDTO>} json
+     * @returns {SocialPerformanceRecordDTO}
      */
     static fromJSON(json) {
-        const { year, totalBonus, department, ...specifiedRecords } = json;
-        return new SocialPerformanceRecord(year, totalBonus, department, specifiedRecords);
-    }
-
-    /**
-     * Approves the record
-     */
-    approveRecord() {
-        this.approved = true;
+        return new SocialPerformanceRecordDTO(json.specifiedRecords);
     }
 }
 
-module.exports = SocialPerformanceRecord;
+module.exports = SocialPerformanceRecordDTO;

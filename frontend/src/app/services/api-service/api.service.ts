@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { OrangeHRMSalesmanDTO } from '../../dtos/OrangeHRM/OrangeHRMSalesmanDTO';
+import {OrangeHRMSalesmanDTO} from '@app/dtos/OrangeHRM/OrangeHRMSalesmanDTO';
 import { map } from 'rxjs/operators';
-import OpenCRXSaleDTO from '../../dtos/OpenCRX/OpenCRXSaleDTO';
+import OpenCRXSaleDTO from '@app/dtos/OpenCRX/OpenCRXSaleDTO';
+import {User} from '@app/models/User';
+import OdooBonusDTO from '@app/dtos/Odoo/OdooBonusDTO';
+import OdooSalesmanDTO from '@app/dtos/Odoo/OdooSalesmanDTO';
 
 @Injectable({
     providedIn: 'root'
@@ -45,4 +48,43 @@ export class ApiService {
     getBonuses(sid: string): Observable<string[]> {
         return this.http.get<string[]>(`${this.URL}/bonus/total/${sid}`); // TODO: Implement bonus endpoint for bonuses from all years
     }
+
+    /**
+     * returns all roles
+     *
+     * @returns all roles in an array of strings
+     * */
+    getRoles(): Observable<string[]> {
+        return this.http.get<string[]>(`${this.URL}/roles`);
+    }
+
+    /**
+     * returns the current role
+     *
+     * @returns current role
+     * */
+    getCurrentRole(): Observable<string> {
+        return this.http.get<User>(`${this.URL}/user`, {withCredentials: true}).pipe(
+            map((user: User): string => user.role)
+        );
+    }
+
+    getOdooBonuses(id: string): Observable<OdooBonusDTO[]> {
+        return this.http.get<Partial<OdooBonusDTO[]>>(`${this.URL}/odoo/salesman/${id}/bonus`).pipe(
+            map((response: Partial<OdooBonusDTO[]>): OdooBonusDTO[] =>
+                response.map((data: Partial<OdooBonusDTO>): OdooBonusDTO =>
+                    OdooBonusDTO.fromJSON(data)
+                )
+            )
+        );
+    }
+
+    getOdooSalesman(id: string): Observable<OdooSalesmanDTO> {
+        return this.http.get<Partial<OdooSalesmanDTO>>(`${this.URL}/odoo/salesman/${id}`).pipe(
+            map((data: Partial<OdooSalesmanDTO>): OdooSalesmanDTO =>
+                OdooSalesmanDTO.fromJSON(data)
+            )
+        );
+    }
+
 }

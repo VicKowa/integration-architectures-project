@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {AuthService} from '../../services/auth.service';
-import {Router} from '@angular/router';
-import {User} from '../../models/User';
-import {UserService} from '../../services/user.service';
+import { AuthService } from '@app/services/auth.service';
+import { Router } from '@angular/router';
+import { User } from '@app/models/User';
+import { UserService } from '@app/services/user.service';
 
 @Component({
     selector: 'app-menu-bar',
@@ -15,12 +15,42 @@ export class MenuBarComponent implements OnInit {
 
     /*
     This array holds the definition of the menu's buttons.
-   */
-    buttons = [
-        {title: 'Welcome', routerLink: ''}, // the tile is the text on the button, the routerLink specifies, where it will navigate
-        {title: 'Example', routerLink: 'example'},
-        {title: 'Test', routerLink: 'test'}
-    ];
+    */
+    buttons = [];
+
+    private buttonMap = new class ButtonMap {
+        private readonly buttonMap: Record<string, { title: string; routerLink: string }[]> = {
+            salesman_valucon: [
+                { title: 'Welcome', routerLink: '' },
+                { title: 'My Profile', routerLink: 'salesman/:sid' },
+            ],
+            salesman: [
+                { title: 'Welcome', routerLink: '' },
+                { title: 'My Profile', routerLink: 'salesman/valucon/:id' },
+            ],
+            ceo: [
+                { title: 'Welcome', routerLink: '' },
+                { title: 'Dashboard', routerLink: 'dashboard' },
+                { title: 'Test', routerLink: 'test' },
+            ],
+            hr: [
+                { title: 'Welcome', routerLink: '' },
+                { title: 'Dashboard', routerLink: 'dashboard' },
+                { title: 'Test', routerLink: 'test' },
+                { title: 'Valucon', routerLink: 'salesman/valucon' },
+            ],
+            admin: [
+                { title: 'Welcome', routerLink: '' },
+                { title: 'Dashboard', routerLink: 'dashboard' },
+                { title: 'Test', routerLink: 'test' },
+                { title: 'Valucon', routerLink: 'salesman/valucon' },
+            ],
+        };
+
+        public getButtons(role: string): { title: string; routerLink: string }[] {
+            return this.buttonMap[role] || [];
+        }
+    }();
 
     /**
      * The following parameters specify objects, which will be provided by dependency injection
@@ -29,26 +59,35 @@ export class MenuBarComponent implements OnInit {
      * @param router
      * @param userService
      */
-    constructor(private authService: AuthService, private router: Router, private userService: UserService) { }
+    constructor(
+        private authService: AuthService,
+        private router: Router,
+        private userService: UserService
+    ) {}
 
     ngOnInit(): void {
         this.fetchUser();
     }
 
-    /**
-     * function which handles clicking the logout button
-     */
-    handleLogout(): void{
-        this.authService.logout().subscribe();
-        void this.router.navigate(['login']); // after logout go back to the login-page
+    ngOnRefresh(): void {
+        this.fetchUser();
     }
 
     /**
-     * fetches information about logged-in user
+     * Function which handles clicking the logout button
      */
-    fetchUser(): void{
+    handleLogout(): void {
+        this.authService.logout().subscribe();
+        void this.router.navigate(['login']); // after logout, go back to the login-page
+    }
+
+    /**
+     * Fetches information about the logged-in user
+     */
+    fetchUser(): void {
         this.userService.getOwnUser().subscribe((user): void => {
             this.user = user;
+            this.buttons = this.buttonMap.getButtons(this.user.role);
         });
     }
 }

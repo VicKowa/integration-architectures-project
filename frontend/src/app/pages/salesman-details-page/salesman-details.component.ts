@@ -1,10 +1,14 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
+import { Chart, ChartOptions, ChartType, ChartData } from 'chart.js';
+import { BarController, BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend } from 'chart.js';
 import { ActivatedRoute } from '@angular/router';
-import { ApiService } from '../../services/api-service/api.service';
-import { OrangeHRMSalesmanDTO } from '../../dtos/OrangeHRM/OrangeHRMSalesmanDTO';
-import OpenCRXSaleDTO from '../../dtos/OpenCRX/OpenCRXSaleDTO';
+import { ApiService } from '@app/services/api-service/api.service';
+import { OrangeHRMSalesmanDTO } from '@app/dtos/OrangeHRM/OrangeHRMSalesmanDTO';
+import OpenCRXSaleDTO from '@app/dtos/OpenCRX/OpenCRXSaleDTO';
 import {MatTabGroup} from '@angular/material/tabs';
-import OpenCRXOrderDTO from '../../dtos/OpenCRX/OpenCRXOrderDTO';
+import OpenCRXOrderDTO from '@app/dtos/OpenCRX/OpenCRXOrderDTO';
+
+Chart.register(BarController, BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
 
 @Component({
     selector: 'app-salesman-details',
@@ -19,7 +23,54 @@ export class SalesmanDetailsComponent implements OnInit {
     orders: OpenCRXOrderDTO[] = []; // Placeholder for Orders
     selectedSale: OpenCRXSaleDTO | null = null; // Currently selected order
     orderDetails: OpenCRXOrderDTO[] = []; // Details of the selected order
-    bonuses: string[] = []; // Bonuses for the salesman
+    bonuses: {
+        year: string;
+        amount: number;
+    }[] = [
+            { year: '2019', amount: 1000 },
+            { year: '2020', amount: 2000 },
+            { year: '2021', amount: 3000 },
+            { year: '2022', amount: 4000 },
+            { year: '2023', amount: 5000 },
+            { year: '2024', amount: 6000 },
+            { year: '2025', amount: 7000 },
+        ]; // Bonuses for the salesman (here: example data in ascending order)
+
+    // Chart.js options
+    public chartOptions: ChartOptions = {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Yearly Bonuses'
+            }
+        }
+    };
+    public chartType: ChartType = 'bar';
+    public chartData: ChartData<'bar'> = {
+        // get all the years from the bonuses array
+        labels: this.bonuses.map((bonus: {
+            year: string;
+            amount: number;
+        }): string => bonus.year),
+        datasets: [
+            {
+                label: 'Bonuses ($)',
+                // get all the amounts from the bonuses array
+                data: this.bonuses.map((bonus: {
+                    year: string;
+                    amount: number;
+                }): number => bonus.amount),
+                backgroundColor: 'rgba(22, 160, 133, 0.5)',
+                borderColor: 'rgba(15, 81, 50, 0.8)',
+                borderWidth: 1,
+                borderRadius: 5
+            }
+        ]
+    };
 
     constructor(private route: ActivatedRoute, private apiService: ApiService) { }
 
@@ -79,11 +130,7 @@ export class SalesmanDetailsComponent implements OnInit {
      * @param sid The ID of the salesman
      * @returns void
      * */
-    fetchBonuses(sid: string): void {
-        this.apiService.getBonuses(sid).subscribe((bonuses: string[]): void => {
-            this.bonuses = bonuses;
-        });
-    }
+    // TODO: Implement bonus endpoint for bonuses from all years
 
     /**
      * Selects an order

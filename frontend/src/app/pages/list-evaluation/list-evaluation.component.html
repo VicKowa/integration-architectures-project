@@ -1,0 +1,14 @@
+<h1>Bonus management</h1>
+<h2>{{year}}</h2>
+<div class="content-wrapper">
+    <div class="content-column">
+        <h3>TODO</h3>
+        <app-salesman-table #salesmenToEvaluateTable [salesmenDataSource]="salesmenToEvaluate"></app-salesman-table>
+    </div>
+    <div class="content-column">
+        <h3>Done</h3>
+        <app-salesman-table #evaluatedSalesmenTable [salesmenDataSource]="evaluatedSalesmen"></app-salesman-table>
+    </div>
+</div>
+<button mat-raised-button color="primary" (click)="createEvaluation()" class="submit-button">Create Evaluation</button>
+

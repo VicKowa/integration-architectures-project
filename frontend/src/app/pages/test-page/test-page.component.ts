@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../../services/api-service/api.service';
-import { OrangeHRMSalesmanDTO } from '../../dtos/OrangeHRM/OrangeHRMSalesmanDTO';
+import { ApiService } from '@app/services/api-service/api.service';
+import { OrangeHRMSalesmanDTO } from '@app/dtos/OrangeHRM/OrangeHRMSalesmanDTO';
 import { Router } from '@angular/router';
 
 @Component({
@@ -26,7 +26,6 @@ export class TestPageComponent implements OnInit {
     }
 
     getRecordCount(salesman: OrangeHRMSalesmanDTO): number {
-        console.log(salesman);
         return 0; // TODO: Implement record count
     }
 
