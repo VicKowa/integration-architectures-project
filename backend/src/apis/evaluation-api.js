@@ -27,9 +27,11 @@ exports.createEvaluation = function (req, res) {
  */
 exports.getAllEvaluations = function (req, res){
     const db = req.app.get('db');
-    let sid = req.params.id;
+    let q = req.query;
 
-    evaluationService.getAllEvaluations(db, sid).then(evaluations => {
+
+
+    evaluationService.getAllEvaluations(db, q).then(evaluations => {
         // remove _id from evaluations
         evaluations = evaluations.map(({_id, ...rest}) => rest);
         res.status(200).send(evaluations);

@@ -1,0 +1,34 @@
+.selected {
+    background-color: #d1e7dd !important;
+    color: #0f5132;
+    font-weight: bold;
+}
+
+/* Content Wrapper Styles */
+.content-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.content-column {
+    flex: 1;
+    background: #ffffff;
+    padding: 1.5rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+}
+
+h3 {
+    font-size: 1.5rem;
+    color: #16a085;
+    border-bottom: 2px solid #16a085;
+    padding-bottom: 0.5rem;
+}
+
+.error-snackbar {
+    background-color: #a82222;
+    color: black;
+    font-weight: bold;
+}

@@ -67,7 +67,7 @@ router.get('/odoo/bonus', odooApi.getBonus);
 const evaluationApi = require('../apis/evaluation-api'); //api for evaluation
 
 // GET Requests
-router.get('/eval/:id', evaluationApi.getAllEvaluations);
+router.get('/eval/', evaluationApi.getAllEvaluations);
 router.get('/eval/:id/:year', evaluationApi.getEvaluation);
 router.get('/eval/oe/:id/:year', evaluationApi.getOrderEvaluation);
 router.get('/eval/spr/:id/:year', evaluationApi.getSocialPerformanceRecord);
