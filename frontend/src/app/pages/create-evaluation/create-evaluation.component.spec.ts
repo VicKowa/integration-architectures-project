@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateBonusComponent } from './create-bonus.component';
+import { CreateEvaluationComponent } from './create-evaluation.component';
 
 describe('CreateBonusComponent', () => {
-  let component: CreateBonusComponent;
-  let fixture: ComponentFixture<CreateBonusComponent>;
+  let component: CreateEvaluationComponent;
+  let fixture: ComponentFixture<CreateEvaluationComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CreateBonusComponent]
+      declarations: [CreateEvaluationComponent]
     });
-    fixture = TestBed.createComponent(CreateBonusComponent);
+    fixture = TestBed.createComponent(CreateEvaluationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

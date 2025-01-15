@@ -5,6 +5,7 @@ const OrderEvaluationDTO = require('../dtos/OrderEvaluationDTO.js');
 
 const SocialPerformanceRecord = require('../models/SocialPerformanceRecord.js');
 const SocialPerformanceRecordDTO= require('../dtos/SocialPerformanceRecordDTO.js');
+const {query} = require("express");
 
 /**
  * creates a new evaluation report in the database
@@ -25,14 +26,23 @@ exports.createEvaluation = async function (db, evaluation){
 }
 
 /**
- * gets all evaluations by its sid for all years
+ * gets all evaluations which match the query
  * @param db
- * @param sid : string
+ * @param query : string
  * @returns {Promise<Evaluation[]>}
  */
-exports.getAllEvaluations = async function (db, sid){
-    return db.collection('eval').find({sid: sid}).toArray();
+exports.getAllEvaluations = async function (db, query){
+    const allowedFilters = ["sid", "year", "approvalStatus"];
+
+    Object.keys(query).forEach(f => {
+        if (!allowedFilters.includes(f)) {
+            delete query[f];
+        }
+    });
+
+    return db.collection('eval').find(query).toArray();
 }
+
 
 /**
  * gets a specific evaluation by its sid and year

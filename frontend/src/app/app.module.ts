@@ -18,15 +18,18 @@ import { MenuBarComponent } from './components/menu-bar/menu-bar.component';
 import { ExamplePageComponent } from './pages/example-page/example-page.component';
 import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.component';
 import {MatTableModule} from '@angular/material/table';
+import {MatSortModule} from '@angular/material/sort';
 import { TestPageComponent } from './pages/test-page/test-page.component';
 import { SalesmanDetailsComponent } from './pages/salesman-details-page/salesman-details.component';
 import {MatTabsModule} from '@angular/material/tabs';
-import { CreateBonusComponent } from './pages/create-bonus/create-bonus.component';
+import { CreateEvaluationComponent } from '@app/pages/create-evaluation/create-evaluation.component';
 import {SalesmanValuconComponent} from '@app/pages/salesman-valucon-page/salesman-valucon.component';
+import { SalesmanTableComponent } from './components/salesman-table/salesman-table.component';
+import { ListEvaluationComponent } from '@app/pages/list-evaluation/list-evaluation.component';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 // Import for Chart.js Angular wrapper
 import { BaseChartDirective } from 'ng2-charts';
-
 @NgModule({
     declarations: [
         AppComponent,
@@ -38,8 +41,10 @@ import { BaseChartDirective } from 'ng2-charts';
         NotFoundPageComponent,
         TestPageComponent,
         SalesmanDetailsComponent,
-        CreateBonusComponent,
-        SalesmanValuconComponent
+        CreateEvaluationComponent,
+        SalesmanValuconComponent,
+        SalesmanTableComponent,
+        ListEvaluationComponent,
     ],
     imports: [
         BrowserModule,
@@ -54,9 +59,11 @@ import { BaseChartDirective } from 'ng2-charts';
         MatIconModule,
         MatTableModule,
         MatTabsModule,
-        BaseChartDirective
+        MatSortModule,
+        BaseChartDirective,
+        MatPaginatorModule
     ],
     providers: [],
     bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule{}
