@@ -88,8 +88,6 @@ export class ApiService {
     }
 
     getOdooAllSalesman(): Observable<OdooSalesmanDTO[]> {
-        console.log('getOdooAllSalesman');
-
         return this.http.get<Partial<OdooSalesmanDTO>[]>(`${this.URL}/odoo/salesman`).pipe(
             map((response: Partial<OdooSalesmanDTO>[]): OdooSalesmanDTO[] =>
                 response.map((data: Partial<OdooSalesmanDTO>): OdooSalesmanDTO =>

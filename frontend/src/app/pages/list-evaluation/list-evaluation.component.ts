@@ -92,7 +92,7 @@ export class ListEvaluationComponent implements OnInit {
 
         console.log('Create bonus for ' + selectedSalesman.firstname + ' ' + selectedSalesman.lastname);
 
-        await this.router.navigate(['/bonus'],
+        await this.router.navigate(['/eval/create'],
             {
                 queryParams:
                 {

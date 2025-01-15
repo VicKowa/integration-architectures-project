@@ -19,7 +19,6 @@ exports.createEvaluation = function (req, res) {
     });
 }
 
-
 /**
  * get all evaluations by its sid
  * @param req
@@ -28,8 +27,6 @@ exports.createEvaluation = function (req, res) {
 exports.getAllEvaluations = function (req, res){
     const db = req.app.get('db');
     let q = req.query;
-
-
 
     evaluationService.getAllEvaluations(db, q).then(evaluations => {
         // remove _id from evaluations

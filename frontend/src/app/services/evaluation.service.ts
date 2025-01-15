@@ -21,10 +21,24 @@ export class EvaluationService {
             );
     }
     getAllEvaluations(query: Partial<any>): Observable<EvaluationDTO[]>{
-
         return this.http.get<EvaluationDTO[]>(environment.apiEndpoint + '/api/eval', {
             params: query,
-            withCredentials: true });
+            withCredentials: true
+        });
+    }
+
+    /**
+     * Get the evaluation of a salesman for a specific year
+     *
+     * @param sid - The salesman id
+     * @param year - The year
+     * @returns The evaluation of the salesman for the specific year
+     * */
+    getEvaluation(sid: string, year: string): Observable<EvaluationDTO> {
+        return this.http.get<EvaluationDTO>(
+            `${environment.apiEndpoint}/api/eval/${sid}/${year}`,
+            { withCredentials: true }
+        );
     }
 
     getAllEvaluationsFromSalesman(sid: string): Observable<EvaluationDTO[]>{
