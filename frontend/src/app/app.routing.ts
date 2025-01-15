@@ -30,9 +30,9 @@ const routes: Routes = [
     {path: 'test', component: TestPageComponent, canActivate: [AuthGuardService]},
     {path: 'eval/create', component: CreateEvaluationComponent, canActivate: [AuthGuardService]},
     {path: 'eval/list', component: ListEvaluationComponent, canActivate: [AuthGuardService]},
-    {path: 'salesman/:sid', component: SalesmanDetailsComponent, canActivate: [AuthGuardService]},
     {path: 'salesman/valucon/list', component: SalesmanValuconListPageComponent, canActivate: [AuthGuardService]},
     {path: 'salesman/valucon/:sid', component: SalesmanValuconComponent, canActivate: [AuthGuardService]},
+    {path: 'salesman/:sid', component: SalesmanDetailsComponent, canActivate: [AuthGuardService]},
     {path: '', component: LandingPageComponent, canActivate: [AuthGuardService]},
     {path: '**', component: NotFoundPageComponent} // these entries are matched from top to bottom => not found should be the last entry
 ];
