@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthService} from '../../services/auth.service';
-import {Credentials} from '../../models/Credentials';
+import {AuthService} from '@app/services/auth.service';
+import {Credentials} from '@app/models/Credentials';
 import {Router} from '@angular/router';
 import {HttpErrorResponse} from '@angular/common/http';
 
@@ -52,5 +52,12 @@ export class LoginComponent implements OnInit {
      */
     enterApplication(): void{
         void this.router.navigate(['']);
+    }
+
+    /**
+     * redirects to the registration page
+     */
+    register(): void {
+        void this.router.navigate(['register']);
     }
 }

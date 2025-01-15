@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {Routes, RouterModule, provideRouter, withComponentInputBinding} from '@angular/router';
 import {LoginPageComponent} from './pages/login-page/login-page.component';
 import {LandingPageComponent} from './pages/landing-page/landing-page.component';
 import {AuthGuardService} from './services/auth-guard.service';
@@ -7,8 +7,11 @@ import {ExamplePageComponent} from './pages/example-page/example-page.component'
 import {NotFoundPageComponent} from './pages/not-found-page/not-found-page.component';
 import {TestPageComponent} from './pages/test-page/test-page.component';
 import {SalesmanDetailsComponent} from './pages/salesman-details-page/salesman-details.component';
-import {CreateBonusComponent} from './pages/create-bonus/create-bonus.component';
-import {SalesmanValuconComponent} from '@app/pages/salesman-valucon-page/salesman-valucon.component';
+import {CreateEvaluationComponent} from '@app/pages/create-evaluation/create-evaluation.component';
+import {SalesmanValuconComponent} from "@app/pages/salesman-valucon-page/salesman-valucon.component";
+import {ListEvaluationComponent} from '@app/pages/list-evaluation/list-evaluation.component';
+import {provideHttpClient} from "@angular/common/http";
+import {SalesmanRegisterComponent} from "@app/pages/salesman-register-page/salesman-register-page.component";
 import {SalesmanValuconListPageComponent} from "@app/pages/salesman-valucon-list-page/salesman-valucon-list-page.component";
 
 /*
@@ -22,9 +25,11 @@ import {SalesmanValuconListPageComponent} from "@app/pages/salesman-valucon-list
  */
 const routes: Routes = [
     {path: 'login', component: LoginPageComponent},
+    {path: 'register', component: SalesmanRegisterComponent},
     {path: 'example', component: ExamplePageComponent, canActivate: [AuthGuardService]},
     {path: 'test', component: TestPageComponent, canActivate: [AuthGuardService]},
-    {path: 'bonus', component: CreateBonusComponent, canActivate: [AuthGuardService]},
+    {path: 'eval/create', component: CreateEvaluationComponent, canActivate: [AuthGuardService]},
+    {path: 'eval/list', component: ListEvaluationComponent, canActivate: [AuthGuardService]},
     {path: 'salesman/:sid', component: SalesmanDetailsComponent, canActivate: [AuthGuardService]},
     {path: 'salesman/valucon/list', component: SalesmanValuconListPageComponent, canActivate: [AuthGuardService]},
     {path: 'salesman/valucon/:sid', component: SalesmanValuconComponent, canActivate: [AuthGuardService]},
@@ -38,6 +43,10 @@ const routes: Routes = [
     ],
     exports: [
         RouterModule
+    ],
+    providers: [
+        provideHttpClient(),
+        provideRouter(routes, withComponentInputBinding())
     ]
 })
 export class AppRouting { }

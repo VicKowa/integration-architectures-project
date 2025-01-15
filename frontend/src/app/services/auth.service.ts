@@ -4,6 +4,8 @@ import {HttpClient, HttpResponse} from '@angular/common/http';
 import {Observable, Observer} from 'rxjs';
 import {map, tap} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
+import {User} from "@app/models/User";
+import UserDTO from "@app/dtos/UserDTO";
 
 /**
  * Services specify logic, which is instantiated singularly -> it is shared between components
@@ -105,5 +107,34 @@ export class AuthService {
                 }
             })
         );
+    }
+
+    /**
+     * Registers a new user
+     *
+     * @param userData - consisting of username, password, email, firstname, lastname
+     */
+    register(userData: UserDTO): Observable<HttpResponse<any>> {
+        return this.http.post(environment.apiEndpoint + '/api/register', userData, {
+            withCredentials: true,
+            observe: 'response',
+            responseType: 'text'
+        })
+            .pipe(
+                tap((response: HttpResponse<any>): void => {
+                    if (response.status === 200) {
+                        console.log('User registered');
+                        this.loggedIn = true;
+                        this.emitLoginChange(true);
+                    }
+                })
+            );
+    }
+
+    isValidUsername(username: string): Observable<HttpResponse<any>> {
+        return this.http.get(environment.apiEndpoint + `/api/checkUsername?username=${username}`, {
+            withCredentials: true,
+            observe: 'response'
+        });
     }
 }

@@ -11,6 +11,8 @@ const authApi = require('../apis/auth-api'); //api-endpoints are loaded from sep
 router.post('/login', authApi.login); //the function decides which request type should be accepted
 router.delete('/login', checkAuthorization,authApi.logout); //middlewares can be defined in parameters
 router.get('/login', authApi.isLoggedIn); //the function, which handles requests is specified as the last parameter
+router.post('/register', authApi.register);
+router.get('/checkUsername', authApi.isValidUsername);
 
 const userApi = require('../apis/user-api');
 router.get('/user', checkAuthorization(ROLES.SALESMAN), userApi.getSelf);
@@ -67,7 +69,7 @@ router.get('/odoo/bonus/:id', odooApi.getBonus);
 const evaluationApi = require('../apis/evaluation-api'); //api for evaluation
 
 // GET Requests
-router.get('/eval/:id', evaluationApi.getAllEvaluations);
+router.get('/eval/', evaluationApi.getAllEvaluations);
 router.get('/eval/:id/:year', evaluationApi.getEvaluation);
 router.get('/eval/oe/:id/:year', evaluationApi.getOrderEvaluation);
 router.get('/eval/spr/:id/:year', evaluationApi.getSocialPerformanceRecord);
