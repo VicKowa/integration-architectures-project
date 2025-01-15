@@ -58,10 +58,10 @@ router.put('/salesmanohrm/:id/salary/:year', checkAuthorization, ohrmApi.createB
 //  --- ODOO API Routes ---
 
 const odooApi = require('../apis/odoo-api'); //api for odoo
-// Testing Odoo
+
 router.get('/odoo/salesman', odooApi.getAllSalesman);
 router.get('/odoo/salesman/:id', odooApi.getSalesman);
-router.get('/odoo/bonus', odooApi.getBonus);
+router.get('/odoo/bonus/:id', odooApi.getBonus);
 
 
 //  --- Evaluation API Routes ---

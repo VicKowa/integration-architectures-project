@@ -70,7 +70,7 @@ export class ApiService {
     }
 
     getOdooBonuses(id: string): Observable<OdooBonusDTO[]> {
-        return this.http.get<Partial<OdooBonusDTO[]>>(`${this.URL}/odoo/salesman/${id}/bonus`).pipe(
+        return this.http.get<Partial<OdooBonusDTO[]>>(`${this.URL}/odoo/bonus/${id}`).pipe(
             map((response: Partial<OdooBonusDTO[]>): OdooBonusDTO[] =>
                 response.map((data: Partial<OdooBonusDTO>): OdooBonusDTO =>
                     OdooBonusDTO.fromJSON(data)
@@ -87,4 +87,15 @@ export class ApiService {
         );
     }
 
+    getOdooAllSalesman(): Observable<OdooSalesmanDTO[]> {
+        console.log('getOdooAllSalesman');
+
+        return this.http.get<Partial<OdooSalesmanDTO>[]>(`${this.URL}/odoo/salesman`).pipe(
+            map((response: Partial<OdooSalesmanDTO>[]): OdooSalesmanDTO[] =>
+                response.map((data: Partial<OdooSalesmanDTO>): OdooSalesmanDTO =>
+                    OdooSalesmanDTO.fromJSON(data)
+                )
+            )
+        );
+    }
 }

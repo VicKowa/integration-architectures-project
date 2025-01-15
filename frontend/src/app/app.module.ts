@@ -32,6 +32,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 
 // Import for Chart.js Angular wrapper
 import { BaseChartDirective } from 'ng2-charts';
+import { SalesmanValuconListPageComponent } from './pages/salesman-valucon-list-page/salesman-valucon-list-page.component';
+import {MatChipsModule} from "@angular/material/chips";
 
 @NgModule({
     declarations: [
@@ -48,7 +50,8 @@ import { BaseChartDirective } from 'ng2-charts';
         SalesmanValuconComponent,
         SalesmanTableComponent,
         ListEvaluationComponent,
-        SalesmanRegisterComponent
+        SalesmanRegisterComponent,
+        SalesmanValuconListPageComponent
     ],
     imports: [
         BrowserModule,
@@ -66,7 +69,8 @@ import { BaseChartDirective } from 'ng2-charts';
         MatSortModule,
         BaseChartDirective,
         ReactiveFormsModule,
-        MatPaginatorModule
+        MatPaginatorModule,
+        MatChipsModule
     ],
     providers: [],
     bootstrap: [AppComponent]

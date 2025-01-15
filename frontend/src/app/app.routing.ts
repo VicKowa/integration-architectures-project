@@ -12,6 +12,7 @@ import {SalesmanValuconComponent} from "@app/pages/salesman-valucon-page/salesma
 import {ListEvaluationComponent} from '@app/pages/list-evaluation/list-evaluation.component';
 import {provideHttpClient} from "@angular/common/http";
 import {SalesmanRegisterComponent} from "@app/pages/salesman-register-page/salesman-register-page.component";
+import {SalesmanValuconListPageComponent} from "@app/pages/salesman-valucon-list-page/salesman-valucon-list-page.component";
 
 /*
   This array holds the relation of paths and components which angular router should resolve.
@@ -30,6 +31,7 @@ const routes: Routes = [
     {path: 'eval/create', component: CreateEvaluationComponent, canActivate: [AuthGuardService]},
     {path: 'eval/list', component: ListEvaluationComponent, canActivate: [AuthGuardService]},
     {path: 'salesman/:sid', component: SalesmanDetailsComponent, canActivate: [AuthGuardService]},
+    {path: 'salesman/valucon/list', component: SalesmanValuconListPageComponent, canActivate: [AuthGuardService]},
     {path: 'salesman/valucon/:sid', component: SalesmanValuconComponent, canActivate: [AuthGuardService]},
     {path: '', component: LandingPageComponent, canActivate: [AuthGuardService]},
     {path: '**', component: NotFoundPageComponent} // these entries are matched from top to bottom => not found should be the last entry

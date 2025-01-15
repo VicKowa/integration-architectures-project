@@ -34,18 +34,17 @@ export class MenuBarComponent implements OnInit {
                 {title: 'Test', routerLink: 'test'},
             ],
             hr: [
-                {title: 'Welcome', routerLink: ''},
-                {title: 'Dashboard', routerLink: 'dashboard'},// TODO
-                {title: 'Test', routerLink: 'test'},
-                {title: 'Valucon', routerLink: 'salesman/valucon'} // TODO
+                { title: 'Welcome', routerLink: '' },
+                { title: 'Dashboard', routerLink: 'dashboard' },
+                { title: 'Test', routerLink: 'test' },
+                { title: 'Valucon', routerLink: 'salesman/valucon/list' },
             ],
             admin: [
-                {title: 'Welcome', routerLink: ''},
-                {title: 'Dashboard', routerLink: 'dashboard'},// TODO
-                {title: 'Test', routerLink: 'test'},
-                {title: 'Valucon', routerLink: 'salesman/valucon'} // TODO
-
-            ]
+                { title: 'Welcome', routerLink: '' },
+                { title: 'Dashboard', routerLink: 'dashboard' },
+                { title: 'Test', routerLink: 'test' },
+                { title: 'Valucon', routerLink: 'salesman/valucon/list' },
+            ],
         };
 
         public getButtons(role: string): { title: string; routerLink: string }[] {
