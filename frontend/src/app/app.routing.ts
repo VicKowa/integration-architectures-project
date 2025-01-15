@@ -9,9 +9,9 @@ import {TestPageComponent} from './pages/test-page/test-page.component';
 import {SalesmanDetailsComponent} from './pages/salesman-details-page/salesman-details.component';
 import {CreateEvaluationComponent} from '@app/pages/create-evaluation/create-evaluation.component';
 import {SalesmanValuconComponent} from "@app/pages/salesman-valucon-page/salesman-valucon.component";
-import {SalesmanRegisterComponent} from "@app/salesman-register-page/salesman-register-page.component";
 import {ListEvaluationComponent} from '@app/pages/list-evaluation/list-evaluation.component';
 import {provideHttpClient} from "@angular/common/http";
+import {SalesmanRegisterComponent} from "@app/pages/salesman-register-page/salesman-register-page.component";
 
 /*
   This array holds the relation of paths and components which angular router should resolve.
