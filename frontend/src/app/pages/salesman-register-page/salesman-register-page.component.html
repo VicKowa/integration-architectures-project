@@ -1,0 +1,59 @@
+<div class="registration-container">
+    <h1>Register</h1>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <div class="form-group" [ngClass]="{ 'has-error': submitted && f.username.errors }">
+            <label for="username">Username</label>
+            <input type="text" formControlName="username" id="username" class="form-control" />
+            <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                <div *ngIf="f.username.errors.required">Username is required</div>
+                <div *ngIf="f.username.errors.usernameTaken">Username is already taken</div>
+            </div>
+        </div>
+
+        <div class="form-group" [ngClass]="{ 'has-error': submitted && f.firstname.errors }">
+            <label for="firstname">First Name</label>
+            <input type="text" formControlName="firstname" id="firstname" class="form-control" />
+            <div *ngIf="submitted && f.firstname.errors" class="invalid-feedback">
+                <div *ngIf="f.firstname.errors.required">First Name is required</div>
+            </div>
+        </div>
+
+        <div class="form-group" [ngClass]="{ 'has-error': submitted && f.lastname.errors }">
+            <label for="lastname">Last Name</label>
+            <input type="text" formControlName="lastname" id="lastname" class="form-control" />
+            <div *ngIf="submitted && f.lastname.errors" class="invalid-feedback">
+                <div *ngIf="f.lastname.errors.required">Last Name is required</div>
+            </div>
+        </div>
+
+        <div class="form-group" [ngClass]="{ 'has-error': submitted && f.email.errors }">
+            <label for="email">Email</label>
+            <input type="email" formControlName="email" id="email" class="form-control" />
+            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                <div *ngIf="f.email.errors.required">Email is required</div>
+                <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+            </div>
+        </div>
+
+        <div class="form-group" [ngClass]="{ 'has-error': submitted && f.password.errors }">
+            <label for="password">Password</label>
+            <input type="password" formControlName="password" id="password" class="form-control" />
+            <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                <div *ngIf="f.password.errors.required">Password is required</div>
+            </div>
+        </div>
+
+        <div class="form-group" [ngClass]="{ 'has-error': submitted && f.confirmPassword.errors }">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" formControlName="confirmPassword" id="confirmPassword" class="form-control" />
+            <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
+                <div *ngIf="f.confirmPassword.errors.required">Password must be confirmed</div>
+                <div *ngIf="f.confirmPassword.errors.mustMatch">Passwords must match</div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" [disabled]="loading">Register</button>
+
+        <button type="submit" class="btn btn-primary" (click)="login()">Back</button>
+    </form>
+</div>

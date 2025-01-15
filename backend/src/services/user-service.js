@@ -1,10 +1,11 @@
 const crypto = require('crypto');
 const salt = 'integrationArchitectures';
+const orangeHRMService = require('./orange-hrm-service');
 
 /**
  * inserts a new user into database & hashes its password
  * @param db target database
- * @param {User} user new user
+ * @param {UserDTO} user new user
  * @return {Promise<any>}
  */
 exports.add = async function (db, user){
@@ -36,6 +37,30 @@ exports.verify = async function (db, credentials){
     if(!verifyPassword(credentials.password, user.password)) throw new Error('Password wrong!');
 
     return user;
+}
+
+/**
+ * checks if a username is available in the database
+ *
+ * @param db source database
+ * @param {string} username
+ * @return {Promise<boolean>}
+ * */
+exports.isUsernameAvailable = async function (db, username){
+    return await this.get(db, username) !== null;
+}
+
+/**
+ * checks if a user is a salesman stored in OrangeHRM
+ *
+ * @param db source database
+ * @param {string} username
+ * @return {Promise<*>}
+ * */
+exports.isSalesman = async function (db, username){
+    const salesman = await orangeHRMService.getSalesmanByCode(username);
+
+    return !!salesman;
 }
 
 /**
