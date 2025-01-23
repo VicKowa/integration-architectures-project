@@ -22,27 +22,27 @@ export class MenuBarComponent implements OnInit {
         private readonly buttonMap: Record<string, { title: string; routerLink: string }[]> = {
             salesman_valucon: [
                 {title: 'Welcome', routerLink: ''},
-                {title: 'My Profile', routerLink: 'salesman/valucon/:sid'}
+                {title: 'My Profile', routerLink: 'salesman/valucon/:id'}
             ],
             salesman: [
                 {title: 'Welcome', routerLink: ''},
-                {title: 'My Profile', routerLink: 'salesman/:id'}
+                {title: 'My Profile', routerLink: 'salesman/:sid'}
             ],
             ceo: [
                 {title: 'Welcome', routerLink: ''},
-                {title: 'Dashboard', routerLink: 'dashboard'},// TODO
-                {title: 'Test', routerLink: 'test'},
+                {title: 'Dashboard', routerLink: 'eval/list'},
+                {title: 'SmartHoover', routerLink: 'salesman/list'},
             ],
             hr: [
                 { title: 'Welcome', routerLink: '' },
-                { title: 'Dashboard', routerLink: 'dashboard' },
-                { title: 'Test', routerLink: 'test' },
+                { title: 'Dashboard', routerLink: 'eval/list' },
+                { title: 'SmartHoover', routerLink: 'salesman/list' },
                 { title: 'Valucon', routerLink: 'salesman/valucon/list' },
             ],
             admin: [
                 { title: 'Welcome', routerLink: '' },
-                { title: 'Dashboard', routerLink: 'dashboard' },
-                { title: 'Test', routerLink: 'test' },
+                { title: 'Dashboard', routerLink: 'eval/list' },
+                { title: 'SmartHoover', routerLink: 'salesman/list' },
                 { title: 'Valucon', routerLink: 'salesman/valucon/list' },
             ],
         };
@@ -67,7 +67,6 @@ export class MenuBarComponent implements OnInit {
 
     ngOnInit(): void {
         this.fetchUser();
-
     }
 
     ngOnRefresh(): void {
