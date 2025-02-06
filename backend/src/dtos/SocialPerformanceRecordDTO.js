@@ -8,6 +8,7 @@ class SocialPerformanceRecordDTO {
      */
     constructor(specifiedRecords = {}) {
         this.specifiedRecords = this.#ensureAllTypes(specifiedRecords);
+        this.totalBonus = this.calculateTotalBonus() || 0;
     }
 
     /**
@@ -37,10 +38,11 @@ class SocialPerformanceRecordDTO {
      * @param {number} targetValue
      * @param {number} actualValue
      * @param {number} bonus
+     * @param comment
      * @returns {{bonus, targetValue, actualValue}}
      */
-    static createSpecifiedRecord(targetValue, actualValue, bonus) {
-        return { targetValue, actualValue, bonus };
+    static createSpecifiedRecord(targetValue, actualValue, bonus, comment = '') {
+        return { targetValue, actualValue, bonus, comment };
     }
 
     /**
@@ -50,6 +52,30 @@ class SocialPerformanceRecordDTO {
      */
     static fromJSON(json) {
         return new SocialPerformanceRecordDTO(json.specifiedRecords);
+    }
+
+    /**
+     * Calculates the total bonus of all specified records
+     * @returns {any}
+     */
+    calculateTotalBonus() {
+        return Object.values(this.specifiedRecords).reduce((acc, record) => acc + record.bonus, 0);
+    }
+
+
+    static createRecordWithRandomActualValues(sid, year) {
+        const randomValue = () => Math.floor(Math.random() * 5);
+        const targetValue = 4;
+        const createRecord = () => SocialPerformanceRecordDTO.createSpecifiedRecord(targetValue, randomValue(), 0, '');
+
+        return new SocialPerformanceRecordDTO({
+            leadershipCompetence: createRecord(),
+            opennessToEmployee: createRecord(),
+            socialBehaviorToEmployee: createRecord(),
+            attitudeToClients: createRecord(),
+            communicationSkills: createRecord(),
+            integrityToCompany: createRecord()
+        });
     }
 }
 

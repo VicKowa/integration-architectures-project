@@ -3,10 +3,10 @@ import { ApiService } from '@app/services/api-service/api.service';
 import { SalesmanDTO } from '@app/dtos/SalesmanDTO';
 import { SalesmanService } from '@app/services/salesman.service';
 import { EvaluationService } from '@app/services/evaluation.service';
-import { ApprovalEnum, EvaluationDTO } from '@app/dtos/EvaluationDTO';
-import { SocialPerformanceRecordDTO } from "@app/dtos/SocialPerformanceRecordDTO";
-import { OrderEvaluationDTO } from "@app/dtos/OrderEvaluationDTO";
-import OpenCRXSaleDTO from "@app/dtos/OpenCRX/OpenCRXSaleDTO";
+import { ApprovalEnum, EvaluationDTO} from '@app/dtos/EvaluationDTO';
+import { Router } from '@angular/router';
+
+
 
 @Component({
     selector: 'app-create-bonus',
@@ -39,24 +39,27 @@ export class CreateEvaluationComponent implements OnInit {
         targetValue: string,
         actualValue: string,
         bonus: string,
-        comments: string
+        comment: string
     }[] = [
-        { column1: 'Leadership Competence', targetValue: '', actualValue: '', bonus: '', comments: '' },
-        { column1: 'Openness To Employee', targetValue: '', actualValue: '', bonus: '', comments: '' },
-        { column1: 'Social Behaviour To Employee', targetValue: '', actualValue: '', bonus: '', comments: '' },
-        { column1: 'Attitude Towards Clients', targetValue: '', actualValue: '', bonus: '', comments: '' },
-        { column1: 'Communication Skills', targetValue: '', actualValue: '', bonus: '', comments: '' },
-        { column1: 'Integrity To Company', targetValue: '', actualValue: '', bonus: '', comments: '' }
+        { column1: 'Leadership Competence', targetValue: '', actualValue: '', bonus: '', comment: '' },
+        { column1: 'Openness To Employee', targetValue: '', actualValue: '', bonus: '', comment: '' },
+        { column1: 'Social Behaviour To Employee', targetValue: '', actualValue: '', bonus: '', comment: '' },
+        { column1: 'Attitude Towards Clients', targetValue: '', actualValue: '', bonus: '', comment: '' },
+        { column1: 'Communication Skills', targetValue: '', actualValue: '', bonus: '', comment: '' },
+        { column1: 'Integrity To Company', targetValue: '', actualValue: '', bonus: '', comment: '' }
     ];
 
     socialPerformanceRecordBonus = '';
+
+    totalBonus = '';
 
     comments = '';
 
     constructor(
         private apiService: ApiService,
         private salesmanService: SalesmanService,
-        private evaluationService: EvaluationService
+        private evaluationService: EvaluationService,
+        private router: Router
     )
     {
         this.salesman = new SalesmanDTO(
@@ -72,7 +75,8 @@ export class CreateEvaluationComponent implements OnInit {
             'Unknown',
             null,
             null,
-            ApprovalEnum.NONE
+            ApprovalEnum.NONE,
+            ""
         );
     }
 
@@ -80,103 +84,73 @@ export class CreateEvaluationComponent implements OnInit {
         this.salesman = await this.salesmanService.getSalesmen(this.sid).toPromise();
         this.userRole = await this.apiService.getCurrentRole().toPromise();
 
-        this.fetchOrderEvaluationData();
+        // this.fetchOrderEvaluationData();
+        this.fetchAndMapEvaluationData();
 
-        switch (this.userRole) {
-            case 'admin':
-                await this.onInitCeo();
-                break;
-            case 'ceo':
-                await this.onInitCeo();
-                break;
-            case 'hr':
-                await this.onInitHR();
-                break;
-            case 'salesman':
-                await this.onInitSalesman();
-                break;
-            default:
-        }
+        // switch (this.userRole) {
+        //     case 'admin':
+        //         await this.onInitCeo();
+        //         break;
+        //     case 'ceo':
+        //         await this.onInitCeo();
+        //         break;
+        //     case 'hr':
+        //         await this.onInitHR();
+        //         break;
+        //     case 'salesman':
+        //         await this.onInitSalesman();
+        //         break;
+        //     default:
+        // }
     }
 
-    fetchOrderEvaluationData(): void {
-        if (!this.sid) return;
 
-        this.apiService.getSalesOrders(this.sid).subscribe({
-            next: (sales: OpenCRXSaleDTO[]) => {
-                sales.forEach((sale) => {
-                    sale.orders.forEach((order) => {
-                        this.orderEvaluationData.push({
-                            name: order.crx_product?.name || '',
-                            number: order.crx_product?.productNumber || '',
-                            client: sale.customer?.name || '',
-                            client_ranking: sale.priority || '',
-                            items: order.quantity || '',
-                            bonus: '',
-                            comments: ''
-                        });
-                    });
-                });
+    fetchAndMapEvaluationData(): void {
+        if (!this.sid || !this.year) return;
 
-                // Sort by name, then by client ranking (numeric, descending)
-                this.orderEvaluationData.sort((a, b) => {
-                    const nameComparison = a.name.localeCompare(b.name);
-                    if (nameComparison !== 0) {
-                        return nameComparison;
-                    }
-                    // Sort by client ranking in descending order
-                    return parseInt(b.client_ranking, 10) - parseInt(a.client_ranking, 10);
-                });
+        this.evaluationService.getEvaluation(this.sid, this.year).subscribe({
+            next: (evaluation: EvaluationDTO) => {
+                this.evaluation = evaluation;
+                console.log(evaluation);
 
-                // Map client_ranking numbers to terms
-                const rankingMap: { [key: number]: string } = {
-                    1: 'Low',
-                    2: 'Medium',
-                    3: 'High',
-                    4: 'Very High',
-                    5: 'Excellent'
-                };
-
-                // Replace rankings with mapped terms
-                this.orderEvaluationData = this.orderEvaluationData.map((item) => ({
-                    ...item,
-                    client_ranking: rankingMap[item.client_ranking] || 'Unknown'
+                // Map order evaluation data
+                this.orderEvaluationData = evaluation.orderEvaluation.orders.map(order => ({
+                    name: order.productName,
+                    number: order.productNumber,
+                    client: '', // Assuming client info is not available in order
+                    client_ranking: order.clientRanking,
+                    items: order.items.toString(),
+                    bonus: order.bonus.toString(),
+                    comments: order.comment.toString() // Assuming comments are not available in order
                 }));
 
-                // Update the reference to trigger change detection
-                this.orderEvaluationData = [...this.orderEvaluationData];
+                // Map social performance record data
+                const records = evaluation.socialPerformanceEvaluation.specifiedRecords;
+                this.socialPerformanceRecordData = [
+                    { column1: 'Leadership Competence', targetValue: records.leadershipCompetence.targetValue.toString(), actualValue: records.leadershipCompetence.actualValue.toString(), bonus: records.leadershipCompetence.bonus.toString(), comment: records.leadershipCompetence.comment.toString() },
+                    { column1: 'Openness To Employee', targetValue: records.opennessToEmployee.targetValue.toString(), actualValue: records.opennessToEmployee.actualValue.toString(), bonus: records.opennessToEmployee.bonus.toString(), comment: records.opennessToEmployee.comment.toString() },
+                    { column1: 'Social Behaviour To Employee', targetValue: records.socialBehaviorToEmployee.targetValue.toString(), actualValue: records.socialBehaviorToEmployee.actualValue.toString(), bonus: records.socialBehaviorToEmployee.bonus.toString(), comment: records.socialBehaviorToEmployee.comment.toString() },
+                    { column1: 'Attitude Towards Clients', targetValue: records.attitudeToClients.targetValue.toString(), actualValue: records.attitudeToClients.actualValue.toString(), bonus: records.attitudeToClients.bonus.toString(), comment: records.attitudeToClients.comment.toString() },
+                    { column1: 'Communication Skills', targetValue: records.communicationSkills.targetValue.toString(), actualValue: records.communicationSkills.actualValue.toString(), bonus: records.communicationSkills.bonus.toString(), comment: records.communicationSkills.comment.toString() },
+                    { column1: 'Integrity To Company', targetValue: records.integrityToCompany.targetValue.toString(), actualValue: records.integrityToCompany.actualValue.toString(), bonus: records.integrityToCompany.bonus.toString(), comment: records.integrityToCompany.comment.toString()}
+                ];
 
-                // Calculate Bonus
-                this.calculateOrderEvaluationBonus();
+                this.socialPerformanceRecordBonus = evaluation.socialPerformanceEvaluation.totalBonus.toString();
+                this.orderEvaluationBonus = evaluation.orderEvaluation.totalBonus.toString();
+                this.totalBonus = evaluation.totalBonus.toString();
+
+                this.comments = evaluation.comment;
+
+                // Update the references to trigger change detection
+                this.orderEvaluationData = [...this.orderEvaluationData];
+                this.socialPerformanceRecordData = [...this.socialPerformanceRecordData];
             },
-            error: (err) => console.error('Error fetching sales orders:', err)
+            error: (err) => console.error('Error fetching evaluation:', err)
         });
     }
 
     async onInitCeo(): Promise<void> {
-        this.evaluation = new EvaluationDTO(
-            this.sid,
-            this.year,
-            'unknown',
-            null,
-            null,
-            ApprovalEnum.NONE
-        );
-
-        // Random Target and Actual Values
-        this.socialPerformanceRecordData.forEach((record: {
-            targetValue: string,
-            actualValue: string
-        }): void => {
-            record.targetValue = Math.floor(Math.random() * 5).toString();
-            record.actualValue = Math.floor(Math.random() * 5).toString();
-        });
-
-        // Angular Change Detection
-        this.socialPerformanceRecordData = [...this.socialPerformanceRecordData];
-
-        // Calculate Bonus
-        this.calculateSocialPerformanceRecordBonus();
+        this.fetchAndMapEvaluationData();
     }
 
     private calculateSocialPerformanceRecordBonus(): void {
@@ -184,109 +158,6 @@ export class CreateEvaluationComponent implements OnInit {
 
         // Angular Change Detection
         this.socialPerformanceRecordData = [...this.socialPerformanceRecordData];
-    }
-
-    private calculateOrderEvaluationBonus(): void {
-        const revertToNumber = (ranking: string): number => {
-            switch (ranking) {
-                case 'Excellent':
-                    return 5;
-                case 'Very High':
-                    return 4;
-                case 'High':
-                    return 3;
-                case 'Medium':
-                    return 2;
-                case 'Low':
-                    return 1;
-                default:
-                    return 0;
-            }
-        }
-
-        // Rule:
-        // client_ranking = 'Excellent':
-        //      0 <= items < 10 -> factor = 125
-        //      10 <= items <= 20 -> factor = 140
-        //      20 < items -> factor = 155
-        // client_ranking = 'Very High':
-        //      0 <= items < 10 -> factor = 110
-        //      10 <= items <= 20 -> factor = 125
-        //      20 < items -> factor = 140
-        // client_ranking = 'High':
-        //      0 <= items < 10 -> factor = 80
-        //      10 <= items <= 20 -> factor = 95
-        //      20 < items -> factor = 110
-        // client_ranking = 'Medium':
-        //      0 <= items < 10 -> factor = 50
-        //      10 <= items <= 20 -> factor = 65
-        //      20 < items -> factor = 80
-        // client_ranking = 'Low':
-        //      0 <= items < 10 -> factor = 20
-        //      10 <= items <= 20 -> factor = 35
-        //      20 < items -> factor = 50
-
-        this.orderEvaluationData.forEach((order: {
-            client_ranking: string,
-            items: string,
-            bonus: string
-        }): void => {
-            const clientRanking: string = order.client_ranking;
-            const items: number = parseInt(order.items);
-            let factor: number = 0;
-
-            console.log('clientRanking:', clientRanking);
-
-            switch (clientRanking) {
-                case 'Excellent':
-                    if (items < 10)
-                        factor = 125;
-                    else if (items <= 20)
-                        factor = 140;
-                    else
-                        factor = 155;
-                    break;
-                case 'Very High':
-                    if (items < 10)
-                        factor = 110;
-                    else if (items <= 20)
-                        factor = 125;
-                    else
-                        factor = 140;
-                    break;
-                case 'High':
-                    if (items < 10)
-                        factor = 80;
-                    else if (items <= 20)
-                        factor = 95;
-                    else
-                        factor = 110;
-                    break;
-                case 'Medium':
-                    if (items < 10)
-                        factor = 50;
-                    else if (items <= 20)
-                        factor = 65;
-                    else
-                        factor = 80;
-                    break;
-                case 'Low':
-                    if (items < 10)
-                        factor = 20;
-                    else if (items <= 20)
-                        factor = 35;
-                    else
-                        factor = 50;
-                    break;
-                default:
-                    factor = 0;
-            }
-
-            order.bonus = (factor * revertToNumber(clientRanking)).toString();
-        });
-
-        // Angular Change Detection
-        this.orderEvaluationData = [...this.orderEvaluationData];
     }
 
     async onInitHR(): Promise<void> {
@@ -319,65 +190,106 @@ export class CreateEvaluationComponent implements OnInit {
         }
     }
 
+    // private async onSubmitCeo(): Promise<void> {
+    //     try {
+    //         const spr = this.createSocialPerformanceRecord();
+    //         const oe = this.createOrderEvaluation();
+    //
+    //         this.evaluation.socialPerformanceEvaluation = spr;
+    //         this.evaluation.orderEvaluation = oe;
+    //         this.evaluation.approvalStatus = ApprovalEnum.CEO;
+    //
+    //         console.log(this.evaluation);
+    //         // await this.evaluationService.createEvaluation(this.evaluation).toPromise();
+    //     } catch (error) {
+    //         console.error('Error during CEO submission:', error);
+    //     }
+    // }
     private async onSubmitCeo(): Promise<void> {
         try {
-            const spr = this.createSocialPerformanceRecord();
-            const oe = this.createOrderEvaluation();
+            // Update the order evaluation data
+            this.evaluation.orderEvaluation.orders.forEach((order, index) => {
+                order.bonus = parseInt(this.orderEvaluationData[index].bonus) || 0;
+                order.comment = this.orderEvaluationData[index].comments;
+            });
 
-            this.evaluation.socialPerformanceEvaluation = spr;
-            this.evaluation.orderEvaluation = oe;
+            // Update the social performance record data
+            const records = this.evaluation.socialPerformanceEvaluation.specifiedRecords;
+            this.socialPerformanceRecordData.forEach((record, index) => {
+                console.log("record", record);
+                const key = Object.keys(records)[index];
+                records[key].bonus = parseInt(record.bonus) || 0;
+                records[key].comment = record.comment;
+            });
+
+            // Update bonus and comments
+
+            this.evaluation.comment = this.comments;
             this.evaluation.approvalStatus = ApprovalEnum.CEO;
 
+            this.setBonusValues();
+
+            // Send the updated evaluation to the backend
             console.log(this.evaluation);
-            // await this.evaluationService.createEvaluation(this.evaluation).toPromise();
+            await this.evaluationService.updateEvaluation(this.evaluation).toPromise();
+            this.router.navigate(['/eval/list']);
         } catch (error) {
             console.error('Error during CEO submission:', error);
         }
     }
 
-    private createSocialPerformanceRecord(): SocialPerformanceRecordDTO {
-        const records = this.socialPerformanceRecordData.map((record) =>
-            SocialPerformanceRecordDTO.createSpecifiedRecord(
-                parseInt(record.targetValue) || 0,
-                parseInt(record.actualValue) || 0,
-                parseInt(record.bonus) || 0
-            )
-        );
-
-        return SocialPerformanceRecordDTO.fromJSON({
-            specifiedRecords: {
-                leadershipCompetence: records[0],
-                opennessToEmployee: records[1],
-                socialBehaviorToEmployee: records[2],
-                attitudeToClients: records[3],
-                communicationSkills: records[4],
-                integrityToCompany: records[5]
-            },
-            totalBonus: 0
-        });
-    }
-
-    private createOrderEvaluation(): OrderEvaluationDTO {
-        const orders = this.orderEvaluationData.map((order) =>
-            OrderEvaluationDTO.createOrder(
-                order.number,
-                order.name,
-                order.client_ranking,
-                parseInt(order.items) || 0,
-                parseInt(order.bonus) || 0
-            )
-        );
-
-        return OrderEvaluationDTO.fromJSON({ orders, totalBonus: 0 });
-    }
-
     async onSubmitHR(): Promise<void> {
-        console.log('onSubmitHr');
-        // TODO: call evaluationService.updateEvaluation with modified EvaluationDTO
+        try {
+            this.evaluation.approvalStatus = ApprovalEnum.HR;
+            await this.evaluationService.updateEvaluation(this.evaluation).toPromise();
+            this.router.navigate(['/eval/list']);
+        } catch (error) {
+            console.error('Error during HR submission:', error);
+        }
     }
 
     async onSubmitSalesman(): Promise<void> {
-        console.log('onSubmitSalesman');
-        // TODO: call evaluationService.updateEvaluation with modified EvaluationDTO(Only approvalStatus allowed to be changed)
+        try {
+            this.evaluation.approvalStatus = ApprovalEnum.SALESMAN;
+            await this.evaluationService.updateEvaluation(this.evaluation).toPromise();
+            this.router.navigate(['/eval/list']);
+        } catch (error) {
+            console.error('Error during Salesman submission:', error);
+        }
+    }
+
+    async reopen() {
+        try {
+            this.evaluation.approvalStatus = ApprovalEnum.NONE;
+            await this.evaluationService.updateEvaluation(this.evaluation).toPromise();
+            this.router.navigate(['/eval/list']);
+        } catch (error) {
+            console.error('Error during reopening:', error);
+        }
+    }
+
+
+
+    calculateTotalBonus(): void {
+        let calculatedOrderEvaluationBonus = 0;
+        let calculatedSocialPerformanceRecordBonus = 0;
+
+        this.orderEvaluationData.forEach((record) => {
+            calculatedOrderEvaluationBonus += parseInt(record.bonus) || 0;
+        });
+        this.orderEvaluationBonus = calculatedOrderEvaluationBonus.toString();
+
+        this.socialPerformanceRecordData.forEach((order) => {
+            calculatedSocialPerformanceRecordBonus += parseInt(order.bonus) || 0;
+        });
+        this.socialPerformanceRecordBonus = calculatedSocialPerformanceRecordBonus.toString();
+
+        this.totalBonus = (calculatedOrderEvaluationBonus + calculatedSocialPerformanceRecordBonus).toString();
+    }
+
+    private setBonusValues(): void {
+        this.evaluation.totalBonus = parseInt(this.totalBonus) || 0;
+        this.evaluation.socialPerformanceEvaluation.totalBonus = parseInt(this.socialPerformanceRecordBonus) || 0;
+        this.evaluation.orderEvaluation.totalBonus = parseInt(this.orderEvaluationBonus) || 0;
     }
 }

@@ -10,5 +10,7 @@
         <app-salesman-table #evaluatedSalesmenTable [salesmenDataSource]="evaluatedSalesmen"></app-salesman-table>
     </div>
 </div>
-<button mat-raised-button color="primary" (click)="createEvaluation()" class="submit-button">Create Evaluation</button>
+<button mat-raised-button color="primary" (click)="createEvaluation()" class="submit-button">
+    {{ userRole === 'ceo' ? 'Create Evaluation' : 'Process Evaluation' }}
+</button>
 

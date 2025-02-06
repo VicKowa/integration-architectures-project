@@ -4,6 +4,7 @@ export interface Order {
     clientRanking: string;
     items: number;
     bonus: number;
+    comment: string;
 }
 
 export class OrderEvaluationDTO {
@@ -21,13 +22,14 @@ export class OrderEvaluationDTO {
         this.orders = this.ensureOrders(orders);
     }
 
-    static createOrder(productNumber: string, productName: string, clientRanking: string, items: number, bonus: number): Order {
+    static createOrder(productNumber: string, productName: string, clientRanking: string, items: number, bonus: number, comment: string): Order {
         return {
             productNumber: productNumber,
             productName: productName,
             clientRanking: clientRanking,
             items: items,
-            bonus: bonus
+            bonus: bonus,
+            comment: comment
         };
     }
 
@@ -51,6 +53,7 @@ export class OrderEvaluationDTO {
             clientRanking: '',
             items: 0,
             bonus: 0,
+            comment: ''
         };
         const defaultItems = 0;
         return orders.map((order: Order): Order => {

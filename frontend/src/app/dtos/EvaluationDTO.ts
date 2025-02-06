@@ -3,10 +3,10 @@ import { SocialPerformanceRecordDTO } from './SocialPerformanceRecordDTO';
 
 /* eslint-disable no-shadow */
 export enum ApprovalEnum {
-    NONE = 0,
-    CEO = 1,
-    HR = 2,
-    SALESMAN = 3,
+    NONE = "NONE",
+    CEO = "CEO",
+    HR = "HR",
+    SALESMAN = "SALESMAN",
 }
 /* eslint-enable no-shadow */
 
@@ -18,6 +18,7 @@ export class EvaluationDTO {
     socialPerformanceEvaluation: SocialPerformanceRecordDTO;
     totalBonus: number;
     approvalStatus: ApprovalEnum;
+    comment: string;
 
     /**
      * Create a new EvaluationDTO
@@ -28,6 +29,7 @@ export class EvaluationDTO {
      * @param orderEvaluation - The order evaluation
      * @param socialPerformanceEvaluation - The social performance evaluation
      * @param approvalStatus - The approval status of the evaluation
+     * @param comment
      */
     constructor(
         sid: string,
@@ -35,7 +37,8 @@ export class EvaluationDTO {
         department: string,
         orderEvaluation: OrderEvaluationDTO,
         socialPerformanceEvaluation: SocialPerformanceRecordDTO,
-        approvalStatus: ApprovalEnum
+        approvalStatus: ApprovalEnum,
+        comment: string
     ) {
         this.sid = sid || null;
         this.year = year;
@@ -44,6 +47,7 @@ export class EvaluationDTO {
         this.socialPerformanceEvaluation = socialPerformanceEvaluation || null;
         this.totalBonus = 0;
         this.approvalStatus = approvalStatus || ApprovalEnum.NONE;
+        this.comment = comment || '';
     }
 
     /**
@@ -55,6 +59,9 @@ export class EvaluationDTO {
         if (this.orderEvaluation == null || this.socialPerformanceEvaluation == null) {
             throw new Error('OrderEvaluation or SocialPerformanceEvaluation is missing');
         }
+
+        this.orderEvaluation.calculateTotalBonus();
+        this.socialPerformanceEvaluation.calculateTotalBonus();
 
         this.totalBonus =
             // Sum of all order evaluation bonuses
@@ -78,7 +85,8 @@ export class EvaluationDTO {
             json.department || '',
             OrderEvaluationDTO.fromJSON(json.orderEvaluation) || null,
             SocialPerformanceRecordDTO.fromJSON(json.socialPerformanceEvaluation) || null,
-            json.approvalStatus || ApprovalEnum.NONE
+            json.approvalStatus || ApprovalEnum.NONE,
+            json.comment || ''
         );
     }
 }

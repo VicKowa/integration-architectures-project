@@ -27,6 +27,14 @@ export class EvaluationService {
         });
     }
 
+    createCompleteEvaluation(sid: string, year: string): Observable<boolean> {
+        return this.http.post(environment.apiEndpoint + `/api/eval/${sid}/${year}`, { withCredentials: true })
+            .pipe(
+                map((): boolean => true),
+                catchError((): Observable<boolean> => of(false))
+            );
+    }
+
     /**
      * Get the evaluation of a salesman for a specific year
      *

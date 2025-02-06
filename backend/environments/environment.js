@@ -24,6 +24,16 @@ const environment = {
         productURL: "https://sepp-crm.inf.h-brs.de/opencrx-rest-CRX/org.opencrx.kernel.product1/provider/CRX/segment/Standard",
         accountURL: "https://sepp-crm.inf.h-brs.de/opencrx-rest-CRX/org.opencrx.kernel.account1/provider/CRX/segment/Standard"
 
+    },
+    /**
+     * Enum for approval status
+     * @type {{SALESMAN: string, HR: string, NONE: string, CEO: string}}
+     */
+    approvalEnum: {
+        NONE: 'NONE',
+        CEO: 'CEO',
+        HR: 'HR',
+        SALESMAN: 'SALESMAN',
     }
 };
 

@@ -2,6 +2,7 @@ interface Record {
     targetValue: number;
     actualValue: number;
     bonus: number;
+    comment: string;
 }
 
 export interface SpecifiedRecords {
@@ -23,6 +24,7 @@ export class SocialPerformanceRecordDTO {
      * @param specifiedRecords - The specified records
      */
     constructor(specifiedRecords?: { specifiedRecords?: SpecifiedRecords }) {
+        console.log('specifiedRecords', specifiedRecords);
         this.specifiedRecords = this.ensureAllTypes(specifiedRecords);
     }
 
@@ -41,7 +43,7 @@ export class SocialPerformanceRecordDTO {
             'communicationSkills',
             'integrityToCompany'
         ];
-        const defaultRecord: Record = { targetValue: 0, actualValue: 0, bonus: 0 };
+        const defaultRecord: Record = { targetValue: 0, actualValue: 0, bonus: 0 , comment: '' };
 
         return requiredTypes.reduce((validated: SpecifiedRecords, type: keyof SpecifiedRecords): SpecifiedRecords => {
             validated[type] = (records as Partial<SpecifiedRecords>)[type] || { ...defaultRecord };
@@ -55,10 +57,11 @@ export class SocialPerformanceRecordDTO {
      * @param targetValue - The target value
      * @param actualValue - The actual value
      * @param bonus - The bonus
+     * @param comment
      * @returns a new SpecifiedRecord
      */
-    static createSpecifiedRecord(targetValue: number, actualValue: number, bonus: number): Record {
-        return { targetValue, actualValue, bonus };
+    static createSpecifiedRecord(targetValue: number, actualValue: number, bonus: number, comment: string): Record {
+        return { targetValue, actualValue, bonus, comment };
     }
 
     /**

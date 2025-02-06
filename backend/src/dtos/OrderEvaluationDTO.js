@@ -10,15 +10,15 @@ class OrderEvaluationDTO {
      *             bonus: string}]} orders List of orders
      */
     constructor(totalBonus, orders) {
-        this.totalBonus = totalBonus;
         this.orders = this.#ensureOrders(orders);
+        this.totalBonus = this.calculateTotalBonus();
     }
 
     /**
      * Calculate the total bonus
      */
     calculateTotalBonus() {
-        this.totalBonus = this.orders.reduce((acc, order) => acc + order.bonus, 0);
+        return this.orders.reduce((acc, order) => acc + order.bonus, 0);
     }
 
     /**
@@ -34,6 +34,7 @@ class OrderEvaluationDTO {
             clientRanking: '',
             items: 0,
             bonus: 0,
+            comment: ''
         }
         const defaultItems = 0;
         return orders.map(order => {
@@ -60,6 +61,7 @@ class OrderEvaluationDTO {
             json.orders
         );
     }
+
 }
 
 module.exports = OrderEvaluationDTO;

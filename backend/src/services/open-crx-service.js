@@ -45,7 +45,7 @@ exports.getAllSales = async function (){
  * Fetches all sales from OpenCRX for a given governmentId and year
  * @param sid SalesRep ID
  * @param year Year
- * @returns {Promise<List<OpenCRXSaleDTO>>} List of sales
+ * @returns {any} List of sales
  */
 exports.getSales = async function (sid, year) {
     // fetch a OpenCRXSalesmanDTO with the given governmentId if sid is given
@@ -84,7 +84,7 @@ exports.getSales = async function (sid, year) {
         listOfSales = listOfSales.filter(sale => sale.activeOn.includes(year));
     }
 
-    return await Promise.all(listOfSales.map(async sale => {
+    return Promise.all(listOfSales.map(async sale => {
         if (!sale)
             return null;
 
