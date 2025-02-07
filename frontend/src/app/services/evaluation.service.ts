@@ -4,7 +4,6 @@ import {EvaluationDTO} from '@app/dtos/EvaluationDTO';
 import {catchError, map} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
 import {environment} from '../../../environments/environment';
-import OrangeHRMBonusSalaryDTO from "@app/dtos/OrangeHRM/OrangeHRMBonusSalaryDTO";
 
 @Injectable({
     providedIn: 'root'
@@ -13,7 +12,11 @@ export class EvaluationService {
 
     constructor(private http: HttpClient) { }
 
-
+    /**
+     * Create a new evaluation
+     * @param evaluation - The evaluation to create
+     * @returns True if the evaluation was created, false otherwise
+     * */
     createEvaluation(evaluation: EvaluationDTO): Observable<boolean> {
         return this.http.post(environment.apiEndpoint + '/api/eval', evaluation, { withCredentials: true })
             .pipe(
@@ -21,6 +24,12 @@ export class EvaluationService {
                 catchError((): Observable<boolean> => of(false))
             );
     }
+
+    /**
+     * Get all evaluations
+     * @param query - The query to filter the evaluations
+     * @returns All evaluations
+     * */
     getAllEvaluations(query: Partial<any>): Observable<EvaluationDTO[]>{
         return this.http.get<EvaluationDTO[]>(environment.apiEndpoint + '/api/eval', {
             params: query,
@@ -28,6 +37,12 @@ export class EvaluationService {
         });
     }
 
+    /**
+     * Create a complete evaluation for a specific salesman and year
+     * @param sid - The salesman id
+     * @param year - The year
+     * @returns True if the evaluation was created, false otherwise
+     * */
     createCompleteEvaluation(sid: string, year: string): Observable<boolean> {
         return this.http.post(environment.apiEndpoint + `/api/eval/${sid}/${year}`, { withCredentials: true })
             .pipe(
@@ -38,7 +53,6 @@ export class EvaluationService {
 
     /**
      * Get the evaluation of a salesman for a specific year
-     *
      * @param sid - The salesman id
      * @param year - The year
      * @returns The evaluation of the salesman for the specific year
@@ -50,6 +64,11 @@ export class EvaluationService {
         );
     }
 
+    /**
+     * Get all evaluations of a specific salesman
+     * @param sid - The salesman id
+     * @returns All evaluations of the salesman
+     * */
     getAllEvaluationsFromSalesman(sid: string): Observable<EvaluationDTO[]>{
         return this.http.get<EvaluationDTO[]>(environment.apiEndpoint + '/api/eval',
             {
@@ -59,6 +78,11 @@ export class EvaluationService {
             });
     }
 
+    /**
+     * Update an evaluation
+     * @param evaluation
+     * @returns True if the evaluation was updated, false otherwise
+     */
     updateEvaluation(evaluation: EvaluationDTO): Observable<boolean> {
         return this.http.put(environment.apiEndpoint + '/api/eval', evaluation, { withCredentials: true })
             .pipe(

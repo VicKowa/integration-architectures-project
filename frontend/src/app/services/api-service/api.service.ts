@@ -17,6 +17,10 @@ export class ApiService {
 
     constructor(private http: HttpClient) { }
 
+    /**
+     * returns all salesmen
+     * @returns all salesmen
+     * */
     getSalesman(): Observable<OrangeHRMSalesmanDTO[]> {
         return this.http.get<Partial<OrangeHRMSalesmanDTO>[]>(`${this.URL}/salesmanohrm`).pipe(
             map((response: Partial<OrangeHRMSalesmanDTO>[]): OrangeHRMSalesmanDTO[] =>
@@ -27,6 +31,11 @@ export class ApiService {
         );
     }
 
+    /**
+     * returns a specific salesman
+     * @param sid - The salesman id
+     * @returns The salesman
+     * */
     getSalesmanById(sid: string): Observable<OrangeHRMSalesmanDTO> {
         return this.http.get<Partial<OrangeHRMSalesmanDTO>>(`${this.URL}/salesmanohrm/${sid}`).pipe(
             map((data: Partial<OrangeHRMSalesmanDTO>): OrangeHRMSalesmanDTO =>
@@ -35,6 +44,11 @@ export class ApiService {
         );
     }
 
+    /**
+     * returns all sales orders from a salesman
+     * @param sid - The salesman id
+     * @returns all sales orders from a salesman
+     * */
     getSalesOrders(sid: string): Observable<OpenCRXSaleDTO[]> {
         return this.http.get<Partial<OpenCRXSaleDTO>[]>(`${this.URL}/products/sales?salesman=${sid}`).pipe(
             map((response: Partial<OpenCRXSaleDTO>[]): OpenCRXSaleDTO[] =>
@@ -45,13 +59,17 @@ export class ApiService {
         );
     }
 
+    /**
+     * returns the bonuses of a salesman
+     * @param sid - The salesman id
+     * @returns The bonuses of the salesman
+     * */
     getBonuses(sid: string): Observable<string[]> {
         return this.http.get<string[]>(`${this.URL}/bonus/total/${sid}`); // TODO: Implement bonus endpoint for bonuses from all years
     }
 
     /**
      * returns all roles
-     *
      * @returns all roles in an array of strings
      * */
     getRoles(): Observable<string[]> {
@@ -60,7 +78,6 @@ export class ApiService {
 
     /**
      * returns the current role
-     *
      * @returns current role
      * */
     getCurrentRole(): Observable<string> {
@@ -69,6 +86,11 @@ export class ApiService {
         );
     }
 
+    /**
+     * returns the bonuses of an Odoo salesman
+     * @param id - The salesman id (Odoo)
+     * @returns The bonuses of the salesman (Odoo)
+     * */
     getOdooBonuses(id: string): Observable<OdooBonusDTO[]> {
         return this.http.get<Partial<OdooBonusDTO[]>>(`${this.URL}/odoo/bonus/${id}`).pipe(
             map((response: Partial<OdooBonusDTO[]>): OdooBonusDTO[] =>
@@ -79,6 +101,11 @@ export class ApiService {
         );
     }
 
+    /**
+     * returns a specific Odoo salesman
+     * @param id - The salesman id
+     * @returns The salesman
+     * */
     getOdooSalesman(id: string): Observable<OdooSalesmanDTO> {
         return this.http.get<Partial<OdooSalesmanDTO>>(`${this.URL}/odoo/salesman/${id}`).pipe(
             map((data: Partial<OdooSalesmanDTO>): OdooSalesmanDTO =>
@@ -87,6 +114,10 @@ export class ApiService {
         );
     }
 
+    /**
+     * returns all Odoo salesmen
+     * @returns all Odoo salesmen
+     * */
     getOdooAllSalesman(): Observable<OdooSalesmanDTO[]> {
         return this.http.get<Partial<OdooSalesmanDTO>[]>(`${this.URL}/odoo/salesman`).pipe(
             map((response: Partial<OdooSalesmanDTO>[]): OdooSalesmanDTO[] =>
