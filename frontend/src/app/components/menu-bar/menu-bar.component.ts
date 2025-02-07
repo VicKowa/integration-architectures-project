@@ -19,36 +19,40 @@ export class MenuBarComponent implements OnInit {
     buttons = [];
 
     private buttonMap = new class ButtonMap {
-        private readonly buttonMap: Record<string, { title: string; routerLink: string }[]> = {
-            salesman_valucon: [
-                {title: 'Welcome', routerLink: ''},
-                {title: 'My Profile', routerLink: 'salesman/valucon/:id'}
-            ],
-            salesman: [
-                {title: 'Welcome', routerLink: ''},
-                {title: 'My Profile', routerLink: 'salesman/:sid'}
-            ],
-            ceo: [
-                {title: 'Welcome', routerLink: ''},
-                {title: 'Dashboard', routerLink: 'eval/list'},
-                {title: 'SmartHoover', routerLink: 'salesman/list'},
-            ],
-            hr: [
-                { title: 'Welcome', routerLink: '' },
-                { title: 'Dashboard', routerLink: 'eval/list' },
-                { title: 'SmartHoover', routerLink: 'salesman/list' },
-                { title: 'Valucon', routerLink: 'salesman/valucon/list' },
-            ],
-            admin: [
-                { title: 'Welcome', routerLink: '' },
-                { title: 'Dashboard', routerLink: 'eval/list' },
-                { title: 'SmartHoover', routerLink: 'salesman/list' },
-                { title: 'Valucon', routerLink: 'salesman/valucon/list' },
-            ],
-        };
 
-        public getButtons(role: string): { title: string; routerLink: string }[] {
-            return this.buttonMap[role] || [];
+        private getButtonMap(username: string): Record<string, { title: string; routerLink: string }[]> {
+            return  {
+                salesman_valucon: [
+                    {title: 'Welcome', routerLink: ''},
+                    {title: 'My Profile', routerLink: `salesman/valucon/${username}`}
+                ],
+                salesman: [
+                    {title: 'Welcome', routerLink: ''},
+                    {title: 'My Profile', routerLink: `salesman/${username}`},
+                ],
+                ceo: [
+                    {title: 'Welcome', routerLink: ''},
+                    {title: 'Dashboard', routerLink: 'eval/list'},
+                    {title: 'SmartHoover', routerLink: 'salesman/list'},
+                ],
+                hr: [
+                    { title: 'Welcome', routerLink: '' },
+                    { title: 'Dashboard', routerLink: 'eval/list' },
+                    { title: 'SmartHoover', routerLink: 'salesman/list' },
+                    { title: 'Valucon', routerLink: 'salesman/valucon/list' },
+                ],
+                admin: [
+                    { title: 'Welcome', routerLink: '' },
+                    { title: 'Dashboard', routerLink: 'eval/list' },
+                    { title: 'SmartHoover', routerLink: 'salesman/list' },
+                    { title: 'Valucon', routerLink: 'salesman/valucon/list' },
+                ],
+            };
+        }
+
+
+        public getButtons(user: User): { title: string; routerLink: string }[] {
+            return this.getButtonMap(user.username)[user.role];
         }
     }();
 
@@ -87,7 +91,7 @@ export class MenuBarComponent implements OnInit {
     fetchUser(): void {
         this.userService.getOwnUser().subscribe((user): void => {
             this.user = user;
-            this.buttons = this.buttonMap.getButtons(this.user.role);
+            this.buttons = this.buttonMap.getButtons(this.user);
         });
     }
 }

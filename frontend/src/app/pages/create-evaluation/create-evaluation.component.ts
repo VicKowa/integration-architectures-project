@@ -84,24 +84,7 @@ export class CreateEvaluationComponent implements OnInit {
         this.salesman = await this.salesmanService.getSalesmen(this.sid).toPromise();
         this.userRole = await this.apiService.getCurrentRole().toPromise();
 
-        // this.fetchOrderEvaluationData();
         this.fetchAndMapEvaluationData();
-
-        // switch (this.userRole) {
-        //     case 'admin':
-        //         await this.onInitCeo();
-        //         break;
-        //     case 'ceo':
-        //         await this.onInitCeo();
-        //         break;
-        //     case 'hr':
-        //         await this.onInitHR();
-        //         break;
-        //     case 'salesman':
-        //         await this.onInitSalesman();
-        //         break;
-        //     default:
-        // }
     }
 
 
@@ -149,29 +132,6 @@ export class CreateEvaluationComponent implements OnInit {
         });
     }
 
-    async onInitCeo(): Promise<void> {
-        this.fetchAndMapEvaluationData();
-    }
-
-    private calculateSocialPerformanceRecordBonus(): void {
-
-
-        // Angular Change Detection
-        this.socialPerformanceRecordData = [...this.socialPerformanceRecordData];
-    }
-
-    async onInitHR(): Promise<void> {
-        this.evaluationService.getEvaluation(this.sid, this.year).subscribe((evaluation: EvaluationDTO) => {
-            this.evaluation = evaluation;
-        });
-    }
-
-    async onInitSalesman(): Promise<void> {
-        this.evaluationService.getEvaluation(this.sid, this.year).subscribe((evaluation: EvaluationDTO) => {
-            this.evaluation = evaluation;
-        });
-    }
-
     async submit(): Promise<void> {
         switch (this.userRole) {
             case 'admin':
@@ -190,21 +150,6 @@ export class CreateEvaluationComponent implements OnInit {
         }
     }
 
-    // private async onSubmitCeo(): Promise<void> {
-    //     try {
-    //         const spr = this.createSocialPerformanceRecord();
-    //         const oe = this.createOrderEvaluation();
-    //
-    //         this.evaluation.socialPerformanceEvaluation = spr;
-    //         this.evaluation.orderEvaluation = oe;
-    //         this.evaluation.approvalStatus = ApprovalEnum.CEO;
-    //
-    //         console.log(this.evaluation);
-    //         // await this.evaluationService.createEvaluation(this.evaluation).toPromise();
-    //     } catch (error) {
-    //         console.error('Error during CEO submission:', error);
-    //     }
-    // }
     private async onSubmitCeo(): Promise<void> {
         try {
             // Update the order evaluation data
@@ -242,6 +187,8 @@ export class CreateEvaluationComponent implements OnInit {
         try {
             this.evaluation.approvalStatus = ApprovalEnum.HR;
             await this.evaluationService.updateEvaluation(this.evaluation).toPromise();
+
+
             this.router.navigate(['/eval/list']);
         } catch (error) {
             console.error('Error during HR submission:', error);

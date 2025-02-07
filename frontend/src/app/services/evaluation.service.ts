@@ -4,6 +4,7 @@ import {EvaluationDTO} from '@app/dtos/EvaluationDTO';
 import {catchError, map} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
 import {environment} from '../../../environments/environment';
+import OrangeHRMBonusSalaryDTO from "@app/dtos/OrangeHRM/OrangeHRMBonusSalaryDTO";
 
 @Injectable({
     providedIn: 'root'

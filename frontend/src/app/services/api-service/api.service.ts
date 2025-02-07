@@ -13,7 +13,7 @@ import OdooSalesmanDTO from '@app/dtos/Odoo/OdooSalesmanDTO';
 })
 export class ApiService {
 
-    private URL = 'http://localhost:8080/api';
+    private URL = 'http://localhost:4200/api';
 
     constructor(private http: HttpClient) { }
 

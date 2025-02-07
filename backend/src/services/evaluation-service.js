@@ -13,6 +13,8 @@ const EvaluationDTO = require("../dtos/EvaluationDTO");
 const DEPARTMENT = "Sales";
 const environment = require('../../environments/environment.js');
 
+const OrangeHRMService = require('./orange-hrm-service.js');
+
 const { calculateAllBonuses } = require('./bonus-service.js');
 
 /**
@@ -91,6 +93,7 @@ exports.updateEvaluation = async function (db, evaluation){
     if (!evaluation || !evaluation.sid) {
         throw new Error('Evaluation not found!');
     }
+
 
     // remove _id from object
     const {_id, ...evalData} = evaluation;

@@ -92,6 +92,7 @@ export class SalesmanDetailsComponent implements OnInit {
         this.apiService.getSalesmanById(sid).subscribe((data: OrangeHRMSalesmanDTO): void => {
             this.salesman = data;
         });
+        console.log(this.salesman);
     }
 
     /**
@@ -100,7 +101,8 @@ export class SalesmanDetailsComponent implements OnInit {
      * @param sid The ID of the salesman
      * @returns void
      * */
-    fetchSalesOrders(sid: string): void {
+     fetchSalesOrders(sid: string): void {
+         console.log(sid);
         this.apiService.getSalesOrders(sid).subscribe((sales: OpenCRXSaleDTO[]): void => {
             // get the orders from the sales object
             for (const sale of sales) {
