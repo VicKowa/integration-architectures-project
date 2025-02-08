@@ -4,8 +4,9 @@ chai.use(require("chai-exclude"));
 
 const authService = require('../../src/services/auth-service');
 const User = require("../../src/models/User");
+const Roles = require("../../src/config/roles");
 
-const demouser = new User('testuser', 'John', 'Doe', 'jd@test.com', 'secret', false);
+const demouser = new User('testuser', 'John', 'Doe', 'jd@test.com', 'secret', Roles.SALESMAN);
 
 describe('auth-service unit-tests', function (){
     describe('auth session test', function (){
