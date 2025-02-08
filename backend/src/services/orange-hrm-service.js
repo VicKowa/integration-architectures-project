@@ -1,5 +1,7 @@
 const axios = require('axios');
 const OrangeHRMSalesmanDTO = require('../dtos/OrangeHRM/OrangeHRMSalesmanDTO');
+const SalesmanService = require('./salesman-service');
+const Salesman = require("../models/Salesman");
 
 const auth_url = 'https://sepp-hrm.inf.h-brs.de/symfony/web/index.php/oauth/issueToken';
 let access_token = null;
@@ -178,4 +180,21 @@ exports.createBonusSalary = async function (sid, bonus) {
         });
 
     return response.data;
+}
+
+exports.fetchAndStoreSalesmen = async function (db) {
+    // get salesmen from HRM system
+    const salesmen = await exports.getSalesmen();
+    for (const salesman of salesmen) {
+        // check if salesman already exists
+        const existingSalesman = await SalesmanService.getSalesman(db, salesman.code);
+
+        if (!existingSalesman) {
+            // store salesman in database
+            await SalesmanService.createSalesman(db, new Salesman(
+                salesman.firstName, salesman.lastName, salesman.code, salesman.jobTitle
+            ));
+        }
+    }
+
 }

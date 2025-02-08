@@ -11,6 +11,7 @@ class Evaluation {
         this.socialPerformanceEvaluation = evaluationDTO.socialPerformanceEvaluation || null;
         this.approvalStatus = evaluationDTO.approvalStatus || 0;
         this.totalBonus = evaluationDTO.totalBonus || 0;
+        this.comment = evaluationDTO.comment || '';
     }
 }
 

@@ -11,10 +11,19 @@ export class SalesmanService {
 
     constructor(private http: HttpClient) { }
 
+    /**
+     * Get all salesmen
+     * @returns all salesmen
+     * */
     getAllSalesmen(): Observable<SalesmanDTO[]> {
         return this.http.get<SalesmanDTO[]>(environment.apiEndpoint + '/api/salesman', {withCredentials: true});
     }
 
+    /**
+     * Get a specific salesman
+     * @param sid - The salesman id
+     * @returns The salesman
+     * */
     getSalesmen(sid: string): Observable<SalesmanDTO> {
         return this.http.get<SalesmanDTO>(environment.apiEndpoint + `/api/salesman/${sid}`, {withCredentials: true});
     }

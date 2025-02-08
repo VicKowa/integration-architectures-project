@@ -21,3 +21,29 @@ code{
   border-radius: 4px;
   padding: 3px;
 }
+
+/* src/styles.css */
+.mat-raised-button.mat-primary {
+    background-color: #16a085 !important; /* Change this to your desired color */
+    color: white !important; /* Ensure the text color is readable */
+}
+
+
+.mat-toolbar.mat-primary {
+    background: #16a085 !important; /* Change this to your desired color */
+    color: white !important; /* Ensure the text color is readable */
+}
+.mat-mdc
+
+.mat-flat-button.mat-primary {
+    background: #16a085 !important; /* Change this to your desired color */
+}
+
+.mat-mdc-raised-button.mat-primary {
+    --mdc-protected-button-container-color: #16a085;
+    --mdc-protected-button-label-text-color: #fff;
+}
+.mat-mdc-unelevated-button.mat-primary {
+    --mdc-filled-button-container-color: #16a085;
+    --mdc-filled-button-label-text-color: #fff;
+}

@@ -5,7 +5,7 @@ import {LandingPageComponent} from './pages/landing-page/landing-page.component'
 import {AuthGuardService} from './services/auth-guard.service';
 import {ExamplePageComponent} from './pages/example-page/example-page.component';
 import {NotFoundPageComponent} from './pages/not-found-page/not-found-page.component';
-import {TestPageComponent} from './pages/test-page/test-page.component';
+import {SalesmanListPageComponent} from '@app/pages/salesman-list-page/salesman-list-page.component';
 import {SalesmanDetailsComponent} from './pages/salesman-details-page/salesman-details.component';
 import {CreateEvaluationComponent} from '@app/pages/create-evaluation/create-evaluation.component';
 import {SalesmanValuconComponent} from "@app/pages/salesman-valucon-page/salesman-valucon.component";
@@ -27,11 +27,11 @@ const routes: Routes = [
     {path: 'login', component: LoginPageComponent},
     {path: 'register', component: SalesmanRegisterComponent},
     {path: 'example', component: ExamplePageComponent, canActivate: [AuthGuardService]},
-    {path: 'test', component: TestPageComponent, canActivate: [AuthGuardService]},
     {path: 'eval/create', component: CreateEvaluationComponent, canActivate: [AuthGuardService]},
     {path: 'eval/list', component: ListEvaluationComponent, canActivate: [AuthGuardService]},
     {path: 'salesman/valucon/list', component: SalesmanValuconListPageComponent, canActivate: [AuthGuardService]},
     {path: 'salesman/valucon/:sid', component: SalesmanValuconComponent, canActivate: [AuthGuardService]},
+    {path: 'salesman/list', component: SalesmanListPageComponent, canActivate: [AuthGuardService]},
     {path: 'salesman/:sid', component: SalesmanDetailsComponent, canActivate: [AuthGuardService]},
     {path: '', component: LandingPageComponent, canActivate: [AuthGuardService]},
     {path: '**', component: NotFoundPageComponent} // these entries are matched from top to bottom => not found should be the last entry

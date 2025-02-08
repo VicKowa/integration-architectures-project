@@ -3,8 +3,8 @@ import {OrderEvaluation} from '@app/dtos/OrderEvaluationDTO';
 import {SocialPerformanceRecord} from '@app/dtos/SocialPerformanceRecordDTO';
 
 export class Evaluation {
-    orderEvaluation: OrderEvaluation[];
-    socialPerformanceEvaluation: SocialPerformanceRecord[];
+    orderEvaluation: OrderEvaluation;
+    socialPerformanceEvaluation: SocialPerformanceRecord;
     totalBonus: number;
     year: string;
     department: string | null;

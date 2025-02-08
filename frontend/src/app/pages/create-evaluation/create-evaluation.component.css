@@ -95,3 +95,9 @@ textarea {
     min-height: 200px;
     font-size: 1rem;
 }
+
+::ng-deep .mat-raised-button.mat-primary {
+    background-color: #ff5722 !important; /* Custom primary color */
+    color: white !important;
+    font-weight: bold;
+}

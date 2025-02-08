@@ -75,7 +75,8 @@ router.get('/eval/oe/:id/:year', evaluationApi.getOrderEvaluation);
 router.get('/eval/spr/:id/:year', evaluationApi.getSocialPerformanceRecord);
 
 // Post Requests
-router.post('/eval', evaluationApi.createEvaluation);
+// router.post('/eval', evaluationApi.createEvaluation);
+router.post('/eval/:id/:year', evaluationApi.createEvaluation);
 
 // Put Requests
 router.put('/eval', evaluationApi.updateEvaluation);

@@ -5,10 +5,10 @@ import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-test-page',
-    templateUrl: './test-page.component.html',
-    styleUrls: ['./test-page.component.css']
+    templateUrl: './salesman-list-page.component.html',
+    styleUrls: ['./salesman-list-page.component.css']
 })
-export class TestPageComponent implements OnInit {
+export class SalesmanListPageComponent implements OnInit {
 
     displayedColumns: string[] = ['sid', 'firstname', 'lastname', 'recordCount'];
     salesmen: OrangeHRMSalesmanDTO[] = [];

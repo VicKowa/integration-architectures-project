@@ -10,12 +10,14 @@ const SocialPerformanceRecordDTO = require('../dtos/SocialPerformanceRecordDTO.j
  */
 exports.createEvaluation = function (req, res) {
     const db = req.app.get('db');
-    const evaluationDto = EvaluationDTO.fromJSON(req.body);
+    let sid = req.params.id;
+    let year = req.params.year;
+    // const evaluationDto = EvaluationDTO.fromJSON(req.body);
 
-    evaluationService.createEvaluation(db, evaluationDto).then(_ => {
-        res.status(200).send(`Evaluation with sid ${evaluationDto.sid} created!`);
+    evaluationService.createEvaluation(db, sid, year).then(_ => {
+        res.status(200).send(`Evaluation with sid ${sid} created!`);
     }).catch(_ => {
-        res.status(500).send(`Evaluation with sid ${evaluationDto.sid} and year ${evaluationDto.year} already exists!`);
+        res.status(500).send(`Evaluation with sid ${sid} and year ${year} already exists!`);
     });
 }
 

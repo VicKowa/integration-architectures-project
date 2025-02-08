@@ -19,7 +19,7 @@ import { ExamplePageComponent } from './pages/example-page/example-page.componen
 import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
-import { TestPageComponent } from './pages/test-page/test-page.component';
+import { SalesmanListPageComponent } from '@app/pages/salesman-list-page/salesman-list-page.component';
 import { SalesmanDetailsComponent } from './pages/salesman-details-page/salesman-details.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { SalesmanRegisterComponent } from "@app/pages/salesman-register-page/salesman-register-page.component";
@@ -34,6 +34,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { BaseChartDirective } from 'ng2-charts';
 import { SalesmanValuconListPageComponent } from './pages/salesman-valucon-list-page/salesman-valucon-list-page.component';
 import {MatChipsModule} from "@angular/material/chips";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {CommonModule} from "@angular/common";
 
 @NgModule({
     declarations: [
@@ -44,7 +46,7 @@ import {MatChipsModule} from "@angular/material/chips";
         MenuBarComponent,
         ExamplePageComponent,
         NotFoundPageComponent,
-        TestPageComponent,
+        SalesmanListPageComponent,
         SalesmanDetailsComponent,
         CreateEvaluationComponent,
         SalesmanValuconComponent,
@@ -67,10 +69,12 @@ import {MatChipsModule} from "@angular/material/chips";
         MatTableModule,
         MatTabsModule,
         MatSortModule,
-        BaseChartDirective,
+        MatFormFieldModule,
         ReactiveFormsModule,
         MatPaginatorModule,
-        MatChipsModule
+        MatChipsModule,
+        BaseChartDirective,
+        CommonModule
     ],
     providers: [],
     bootstrap: [AppComponent]

@@ -16,7 +16,7 @@ import {ApiService} from '@app/services/api-service/api.service';
 })
 export class ListEvaluationComponent implements OnInit {
 
-    @RoutingInput() year!: string | null;
+    @RoutingInput() year!: string | "2018"; // TODO remove year
 
     userRole: string;
 
@@ -39,8 +39,8 @@ export class ListEvaluationComponent implements OnInit {
     async ngOnInit(): Promise<void>{
         this.userRole = await this.apiService.getCurrentRole().toPromise();
 
-        // TODO: Remove dummy data
-        this.userRole = 'ceo';
+        // // TODO: Remove dummy data
+        // this.userRole = 'ceo';
 
         switch (this.userRole) {
         case 'ceo':
@@ -55,6 +55,7 @@ export class ListEvaluationComponent implements OnInit {
 
     async onInitCeo(): Promise<void> {
         const allSalesmen: SalesmanDTO[] = await this.salesmanService.getAllSalesmen().toPromise();
+        console.log(allSalesmen);
         const allEvaluations: Set<string> = new Set((await this.evaluationService
             .getAllEvaluations({year: this.year}).toPromise())
             .filter((e: EvaluationDTO): boolean => e.approvalStatus !== ApprovalEnum.NONE)
@@ -96,7 +97,7 @@ export class ListEvaluationComponent implements OnInit {
             {
                 queryParams:
                 {
-                    year: this.year,
+                    year: this.year || "2018", // TODO remove year
                     sid: selectedSalesman.sid,
                 }
             });
