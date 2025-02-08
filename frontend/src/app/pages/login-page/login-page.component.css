@@ -1,11 +1,45 @@
-:host{ /* :host selects the DOM element of the current component */
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+:host {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.mat-mdc-card{
-  width: 100%;
-  max-width: 300px;
+.mat-mdc-card {
+    width: 100%;
+    max-width: 300px;
+}
+
+.flexbox-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1{
+    margin-bottom: 0;
+}
+
+h2 {
+    margin-bottom: 0;
+    white-space: nowrap; /* Prevents text from wrapping */
+}
+
+.title {
+    padding-bottom: 3rem;
+}
+
+.subtitle-container {
+    display: flex;
+    align-items: center;
+}
+
+.subtitle-container h3 {
+    margin: 0 10px;
 }

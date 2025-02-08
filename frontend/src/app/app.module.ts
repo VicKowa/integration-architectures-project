@@ -35,7 +35,7 @@ import { BaseChartDirective } from 'ng2-charts';
 import { SalesmanValuconListPageComponent } from './pages/salesman-valucon-list-page/salesman-valucon-list-page.component';
 import {MatChipsModule} from "@angular/material/chips";
 import {MatFormFieldModule} from "@angular/material/form-field";
-import {CommonModule} from "@angular/common";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
 
 @NgModule({
     declarations: [
@@ -74,7 +74,8 @@ import {CommonModule} from "@angular/common";
         MatPaginatorModule,
         MatChipsModule,
         BaseChartDirective,
-        CommonModule
+        CommonModule,
+        NgOptimizedImage
     ],
     providers: [],
     bootstrap: [AppComponent]
