@@ -20,41 +20,50 @@ export class MenuBarComponent implements OnInit {
 
     private buttonMap = new class ButtonMap {
 
-        private getButtonMap(username: string): Record<string, { title: string; routerLink: string }[]> {
-            return  {
+        private getButtonMap(username: string): Record<string, { title: string; routerLink?: string; action?: () => void }[]> {
+            return {
                 salesman_valucon: [
-                    {title: 'Welcome', routerLink: ''},
-                    {title: 'My Profile', routerLink: `salesman/valucon/${username}`}
+                    { title: 'Welcome', routerLink: '/example' },
+                    { title: 'My Profile', routerLink: `salesman/valucon/${username}` }
                 ],
                 salesman: [
-                    {title: 'Welcome', routerLink: ''},
-                    {title: 'My Profile', routerLink: `salesman/${username}`},
+                    { title: 'Welcome', routerLink: '/example' },
+                    { title: 'My Profile', routerLink: `salesman/${username}` }
                 ],
                 ceo: [
-                    {title: 'Welcome', routerLink: ''},
-                    {title: 'Dashboard', routerLink: 'eval/list'},
-                    {title: 'SmartHoover', routerLink: 'salesman/list'},
+                    { title: 'Welcome', routerLink: '/example' },
+                    {
+                        title: 'Dashboard',
+                        action: () => window.location.href = '/eval/list?year=2025'
+                    },
+                    { title: 'SmartHoover', routerLink: 'salesman/list' }
                 ],
                 hr: [
-                    { title: 'Welcome', routerLink: '' },
-                    { title: 'Dashboard', routerLink: 'eval/list' },
+                    { title: 'Welcome', routerLink: '/example' },
+                    {
+                        title: 'Dashboard',
+                        action: () => window.location.href = '/eval/list?year=2025'
+                    },
                     { title: 'SmartHoover', routerLink: 'salesman/list' },
-                    { title: 'Valucon', routerLink: 'salesman/valucon/list' },
+                    { title: 'Valucon', routerLink: 'salesman/valucon/list' }
                 ],
                 admin: [
-                    { title: 'Welcome', routerLink: '' },
-                    { title: 'Dashboard', routerLink: 'eval/list' },
+                    { title: 'Welcome', routerLink: '/example' },
+                    {
+                        title: 'Dashboard',
+                        action: () => window.location.href = '/eval/list?year=2025'
+                    },
                     { title: 'SmartHoover', routerLink: 'salesman/list' },
-                    { title: 'Valucon', routerLink: 'salesman/valucon/list' },
+                    { title: 'Valucon', routerLink: 'salesman/valucon/list' }
                 ],
             };
         }
 
-
-        public getButtons(user: User): { title: string; routerLink: string }[] {
-            return this.getButtonMap(user.username)[user.role];
+        public getButtons(user: User): { title: string; routerLink?: string; action?: () => void }[] {
+            return this.getButtonMap(user.username)[user.role] || []; // Ensure it always returns an array
         }
     }();
+
 
     /**
      * The following parameters specify objects, which will be provided by dependency injection
@@ -94,4 +103,6 @@ export class MenuBarComponent implements OnInit {
             this.buttons = this.buttonMap.getButtons(this.user);
         });
     }
+
+
 }

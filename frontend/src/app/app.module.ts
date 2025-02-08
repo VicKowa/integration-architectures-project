@@ -75,7 +75,8 @@ import {CommonModule, NgOptimizedImage} from "@angular/common";
         MatChipsModule,
         BaseChartDirective,
         CommonModule,
-        NgOptimizedImage
+        NgOptimizedImage,
+        FormsModule
     ],
     providers: [],
     bootstrap: [AppComponent]

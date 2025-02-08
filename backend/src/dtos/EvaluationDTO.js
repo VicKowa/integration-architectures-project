@@ -81,7 +81,7 @@ class EvaluationDTO {
                 productNumber: order.crx_product?.productNumber || '',
                 productName: order.crx_product?.name || '',
                 clientRanking: sale.priority || '',
-                items: order.quantity || 0,
+                items: EvaluationDTO.formatItems(order.quantity) || '0',
                 bonus: 0, // Assuming bonus needs to be calculated later
                 comment: '',
             }))
@@ -89,6 +89,15 @@ class EvaluationDTO {
 
         const totalBonus = allOrders.reduce((acc, order) => acc + order.bonus, 0);
         return new OrderEvaluationDTO(totalBonus, allOrders);
+    }
+
+    /**
+     * Format the items to remove trailing zeros
+     * @param {number} quantity
+     * @returns {string} formatted quantity
+     */
+    static formatItems(quantity) {
+        return parseFloat(quantity).toString();
     }
 }
 

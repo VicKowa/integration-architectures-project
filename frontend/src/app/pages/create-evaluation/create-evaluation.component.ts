@@ -45,6 +45,8 @@ export class CreateEvaluationComponent implements OnInit {
 
     orderEvaluationBonus: string = '';
 
+    readOnly: boolean = false;
+
     socialPerformanceRecordData: SocialPerformanceRecordData[] = [
         { column1: 'Leadership Competence', targetValue: '', actualValue: '', bonus: '', comment: '' },
         { column1: 'Openness To Employee', targetValue: '', actualValue: '', bonus: '', comment: '' },
@@ -88,6 +90,7 @@ export class CreateEvaluationComponent implements OnInit {
     async ngOnInit(): Promise<void> {
         this.salesman = await this.salesmanService.getSalesmen(this.sid).toPromise();
         this.userRole = await this.apiService.getCurrentRole().toPromise();
+        this.readOnly = this.router.url.includes('view');
 
         this.fetchAndMapEvaluationData();
     }
@@ -222,7 +225,7 @@ export class CreateEvaluationComponent implements OnInit {
 
             // Send the updated evaluation to the backend
             await this.evaluationService.updateEvaluation(this.evaluation).toPromise();
-            await this.router.navigate(['/eval/list']);
+            await this.router.navigate(['/eval/list'], { queryParams: { year: this.year } });
         } catch (error) {
             console.error(`Error during CEO submission:\n${error}`);
         }
@@ -235,7 +238,7 @@ export class CreateEvaluationComponent implements OnInit {
         try {
             this.evaluation.approvalStatus = ApprovalEnum.HR;
             await this.evaluationService.updateEvaluation(this.evaluation).toPromise();
-            await this.router.navigate(['/eval/list']);
+            await this.router.navigate(['/eval/list'], { queryParams: { year: this.year } });
         } catch (error) {
             console.error(`Error during HR submission:\n${error}`);
         }
@@ -248,7 +251,7 @@ export class CreateEvaluationComponent implements OnInit {
         try {
             this.evaluation.approvalStatus = ApprovalEnum.SALESMAN;
             await this.evaluationService.updateEvaluation(this.evaluation).toPromise();
-            await this.router.navigate(['/eval/list']);
+            await this.router.navigate(['/eval/list?year=' + this.year]);
         } catch (error) {
             console.error(`Error during Salesman submission:\n${error}`);
         }

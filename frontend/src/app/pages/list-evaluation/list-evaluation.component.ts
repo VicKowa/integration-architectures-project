@@ -6,7 +6,7 @@ import {SalesmanService} from '@app/services/salesman.service';
 import {EvaluationService} from '@app/services/evaluation.service';
 import {SalesmanDTO} from '@app/dtos/SalesmanDTO';
 import {ApprovalEnum, EvaluationDTO} from '@app/dtos/EvaluationDTO';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ApiService} from '@app/services/api-service/api.service';
 
 @Component({
@@ -16,7 +16,8 @@ import {ApiService} from '@app/services/api-service/api.service';
 })
 export class ListEvaluationComponent implements OnInit {
 
-    @RoutingInput() year!: string | "2018"; // TODO remove year
+    @RoutingInput() year: string = "2025"; // Default year is 2025
+    years: number[] = [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025];
 
     userRole: string;
 
@@ -26,17 +27,24 @@ export class ListEvaluationComponent implements OnInit {
     @ViewChild('salesmenToEvaluateTable') salesmenToEvaluateTable!: SalesmanTableComponent;
     @ViewChild('evaluatedSalesmenTable') evaluatedSalesmenTable!: SalesmanTableComponent;
 
+    selectedEvaluatedSalesman: SalesmanDTO | null = null;
+
     constructor(
         private apiService: ApiService,
         private salesmanService: SalesmanService,
         private evaluationService: EvaluationService,
-        private router: Router
+        private router: Router,
+        private route: ActivatedRoute
     )
     {
 
     }
 
     async ngOnInit(): Promise<void>{
+        this.route.queryParams.subscribe(params => {
+            this.year = params['year'] || this.year;
+        });
+
         this.userRole = await this.apiService.getCurrentRole().toPromise();
 
         // // TODO: Remove dummy data
@@ -83,23 +91,53 @@ export class ListEvaluationComponent implements OnInit {
         this.evaluatedSalesmen.data = allSalesmen.filter((s: SalesmanDTO): boolean => higherEvaluations.has(s.sid));
     }
 
-    async createEvaluation(): Promise<void>{
+    async createEvaluation(): Promise<void> {
         const selectedSalesman: Salesman = this.salesmenToEvaluateTable.getSelectedSalesman();
 
-        if(!selectedSalesman)
-        {
+        if (!selectedSalesman) {
             return;
         }
 
         console.log('Create bonus for ' + selectedSalesman.firstname + ' ' + selectedSalesman.lastname);
 
-        await this.router.navigate(['/eval/create'],
-            {
-                queryParams:
-                {
-                    year: this.year || "2018", // TODO remove year
+        try {
+            await this.evaluationService.createEvaluation(selectedSalesman.sid, this.year).toPromise();
+            await this.router.navigate(['/eval/create'], {
+                queryParams: {
+                    year: this.year, // TODO remove year
                     sid: selectedSalesman.sid,
                 }
             });
+        } catch (error) {
+            console.error('Error creating evaluation:', error);
+        }
+    }
+
+    async viewEvaluation(): Promise<void> {
+        const salesman: Salesman = this.evaluatedSalesmenTable.getSelectedSalesman();
+        if (!salesman) {
+            return;
+        }
+        await this.router.navigate(['/eval/view'], {
+            queryParams: {
+                sid: salesman.sid,
+                year: this.year
+            }
+        });
+    }
+
+    async onYearChange(selectedYear: string): Promise<void> {
+        await this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: { year: selectedYear },
+            queryParamsHandling: 'merge'
+        }).then(() => {
+            window.location.reload();
+        });
+    }
+
+    onEvaluatedSalesmanSelect(salesman: SalesmanDTO): void {
+        this.selectedEvaluatedSalesman = salesman;
     }
 }
+

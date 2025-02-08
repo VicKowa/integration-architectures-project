@@ -10,69 +10,72 @@
     <div class="tab-section">
         <div class="tab">
             <h2>Order Evaluation</h2>
-            <table mat-table [dataSource]="orderEvaluationData" class="mat-elevation-z8 custom-table">
+            <div *ngIf="orderEvaluationData.length > 0; else noOrders">
+                <table mat-table [dataSource]="orderEvaluationData" class="mat-elevation-z8 custom-table">
+                    <!-- Product Name Column -->
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef>Name of Product</th>
+                        <td mat-cell *matCellDef="let group; let i = index">
+                            <ng-container *ngIf="i === 0 || orderEvaluationData[i - 1]?.name !== group.name">
+                                {{ group.name }}
+                            </ng-container>
+                        </td>
+                    </ng-container>
 
-                <!-- Product Name Column -->
-                <ng-container matColumnDef="name">
-                    <th mat-header-cell *matHeaderCellDef>Name of Product</th>
-                    <td mat-cell *matCellDef="let group; let i = index">
-                        <ng-container *ngIf="i === 0 || orderEvaluationData[i - 1]?.name !== group.name">
-                            {{ group.name }}
-                        </ng-container>
-                    </td>
-                </ng-container>
+                    <!-- Product Number Column -->
+                    <ng-container matColumnDef="number">
+                        <th mat-header-cell *matHeaderCellDef>Product Number</th>
+                        <td mat-cell *matCellDef="let element">{{ element.number }}</td>
+                    </ng-container>
 
-                <!-- Product Number Column -->
-                <ng-container matColumnDef="number">
-                    <th mat-header-cell *matHeaderCellDef>Product Number</th>
-                    <td mat-cell *matCellDef="let element">{{ element.number }}</td>
-                </ng-container>
+                    <!-- Client Ranking Column -->
+                    <ng-container matColumnDef="client-ranking">
+                        <th mat-header-cell *matHeaderCellDef>Client Ranking</th>
+                        <td mat-cell *matCellDef="let element">{{ element.client_ranking }}</td>
+                    </ng-container>
 
-                <!-- Client Ranking Column -->
-                <ng-container matColumnDef="client-ranking">
-                    <th mat-header-cell *matHeaderCellDef>Client Ranking</th>
-                    <td mat-cell *matCellDef="let element">{{ element.client_ranking }}</td>
-                </ng-container>
+                    <!-- Items Column -->
+                    <ng-container matColumnDef="items">
+                        <th mat-header-cell *matHeaderCellDef>Items</th>
+                        <td mat-cell *matCellDef="let element">{{ element.items }}</td>
+                    </ng-container>
 
-                <!-- Items Column -->
-                <ng-container matColumnDef="items">
-                    <th mat-header-cell *matHeaderCellDef>Items</th>
-                    <td mat-cell *matCellDef="let element">{{ element.items }}</td>
-                </ng-container>
+                    <!-- Bonus Column -->
+                    <ng-container matColumnDef="bonus">
+                        <th mat-header-cell *matHeaderCellDef>Bonus</th>
+                        <td mat-cell *matCellDef="let element">
+                            <div *ngIf="!readOnly && (this.userRole === 'ceo' || this.userRole === 'admin')" class="input-field">
+                                <input [(ngModel)]="element.bonus" placeholder="Enter Value" (ngModelChange)="calculateTotalBonus()">
+                            </div>
+                            <div *ngIf="readOnly || (this.userRole === 'hr' || this.userRole === 'salesman')">
+                                {{ element.bonus }}
+                            </div>
+                        </td>
+                    </ng-container>
 
-                <!-- Bonus Column -->
-                <ng-container matColumnDef="bonus">
-                    <th mat-header-cell *matHeaderCellDef>Bonus</th>
-                    <td mat-cell *matCellDef="let element">
-                        <div *ngIf="this.userRole === 'ceo' || this.userRole === 'admin'" class="input-field">
-                            <input [(ngModel)]="element.bonus" placeholder="Enter Value" (ngModelChange)="calculateTotalBonus()">
-                        </div>
-                        <div *ngIf="(this.userRole === 'hr' || this.userRole === 'salesman')">
-                            {{ element.bonus }}
-                        </div>
-                    </td>
-                </ng-container>
+                    <!-- Comments Column -->
+                    <ng-container matColumnDef="comments">
+                        <th mat-header-cell *matHeaderCellDef>Comments</th>
+                        <td mat-cell *matCellDef="let element">
+                            <div *ngIf="!readOnly && (this.userRole === 'ceo' || this.userRole === 'admin')" class="input-field">
+                                <input [(ngModel)]="element.comments" placeholder="Enter Comment">
+                            </div>
+                            <div *ngIf="readOnly || (this.userRole === 'hr' || this.userRole === 'salesman')">
+                                {{ element.comments }}
+                            </div>
+                        </td>
+                    </ng-container>
 
-                <!-- Comments Column -->
-                <ng-container matColumnDef="comments">
-                    <th mat-header-cell *matHeaderCellDef>Comments</th>
-                    <td mat-cell *matCellDef="let element">
-                        <div *ngIf="this.userRole === 'ceo' || this.userRole === 'admin'" class="input-field">
-                            <input [(ngModel)]="element.comments" placeholder="Enter Comment">
-                        </div>
-                        <div *ngIf="(this.userRole === 'hr' || this.userRole === 'salesman')">
-                            {{ element.comments }}
-                        </div>
-                    </td>
-                </ng-container>
-
-                <tr mat-header-row *matHeaderRowDef="['name', 'number', 'client-ranking', 'items', 'bonus', 'comments']"></tr>
-                <tr mat-row *matRowDef="let row; columns: ['name', 'number', 'client-ranking', 'items', 'bonus', 'comments'];"></tr>
-
-            </table>
-            <div class="total-bonus">
-                <label class="total-bonus-label">Order Evaluation Bonus: {{ this.orderEvaluationBonus }}$</label>
+                    <tr mat-header-row *matHeaderRowDef="['name', 'number', 'client-ranking', 'items', 'bonus', 'comments']"></tr>
+                    <tr mat-row *matRowDef="let row; columns: ['name', 'number', 'client-ranking', 'items', 'bonus', 'comments'];"></tr>
+                </table>
+                <div class="total-bonus">
+                    <label class="total-bonus-label">Order Evaluation Bonus: {{ this.orderEvaluationBonus }}$</label>
+                </div>
             </div>
+            <ng-template #noOrders>
+                <p>No products were sold by the Salesman in {{this.year}}</p>
+            </ng-template>
         </div>
 
         <div class="tab">
@@ -96,13 +99,10 @@
                 <ng-container matColumnDef="bonus">
                     <th mat-header-cell *matHeaderCellDef>Bonus</th>
                     <td mat-cell *matCellDef="let element">
-                        <!-- If a CEO is logged in, he should be able to change the bonus -->
-                        <div *ngIf="this.userRole === 'ceo' || this.userRole === 'admin'" class="input-field">
+                        <div *ngIf="!readOnly && (this.userRole === 'ceo' || this.userRole === 'admin')" class="input-field">
                             <input [(ngModel)]="element.bonus" placeholder="Enter Value" (ngModelChange)="calculateTotalBonus()">
                         </div>
-
-                        <!-- If a Salesman/HR Employee is logged in, he should not be able to change the bonus -->
-                        <div *ngIf="this.userRole === 'hr' || this.userRole === 'salesman'">
+                        <div *ngIf="readOnly || (this.userRole === 'hr' || this.userRole === 'salesman')">
                             {{ element.bonus }}
                         </div>
                     </td>
@@ -111,13 +111,10 @@
                 <ng-container matColumnDef="comments">
                     <th mat-header-cell *matHeaderCellDef>Comments</th>
                     <td mat-cell *matCellDef="let element">
-                        <!-- If a CEO is logged in, he should be able to change the bonus -->
-                        <div *ngIf="this.userRole === 'ceo' || this.userRole === 'admin'" class="input-field">
+                        <div *ngIf="!readOnly && (this.userRole === 'ceo' || this.userRole === 'admin')" class="input-field">
                             <input [(ngModel)]="element.comment" placeholder="Enter Comment">
                         </div>
-
-                        <!-- If a Salesman/HR Employee is logged in, he should not be able to change the bonus -->
-                        <div *ngIf="this.userRole === 'hr' || this.userRole === 'salesman'">
+                        <div *ngIf="readOnly || (this.userRole === 'hr' || this.userRole === 'salesman')">
                             {{ element.comment }}
                         </div>
                     </td>
@@ -136,20 +133,20 @@
 
         <div class="tab full-width">
             <h2>Comments</h2>
-            <mat-form-field *ngIf="userRole === 'ceo'" appearance="outline" class="comments-field full-width">
+            <mat-form-field *ngIf="!readOnly && userRole === 'ceo'" appearance="outline" class="comments-field full-width">
                 <mat-label>Comments</mat-label>
                 <textarea matInput [(ngModel)]="comments" placeholder="Enter your comments here..."></textarea>
             </mat-form-field>
-            <div class="mat-input-element mat-form-field-autofill-control" *ngIf="userRole !== 'ceo'" style="white-space: pre-wrap; padding: 1rem; border: 1px solid rgba(0, 0, 0, 0.23); margin-bottom: 2rem; border-radius: 4px;">
+            <div class="mat-input-element mat-form-field-autofill-control" *ngIf="readOnly || userRole !== 'ceo'" style="white-space: pre-wrap; padding: 1rem; border: 1px solid rgba(0, 0, 0, 0.23); margin-bottom: 2rem; border-radius: 4px;">
                 {{ comments }}
             </div>
         </div>
     </div>
 
-    <button mat-raised-button color="primary" (click)="submit()" class="submit-button">
+    <button mat-raised-button color="primary" (click)="submit()" class="submit-button" [disabled]="readOnly">
         {{ userRole === 'ceo' ? 'Submit' : 'Approve' }}
     </button>
-    <button mat-raised-button color="primary" (click)="reopen()" class="submit-button" style="margin-left: 1rem;" *ngIf="userRole !== 'ceo' && userRole !== 'admin'">
+    <button mat-raised-button color="primary" (click)="reopen()" class="submit-button" style="margin-left: 1rem;" *ngIf="!readOnly && userRole !== 'ceo' && userRole !== 'admin'">
         Reopen
     </button>
 </div>
