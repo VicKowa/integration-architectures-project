@@ -14,11 +14,12 @@ export class EvaluationService {
 
     /**
      * Create a new evaluation
-     * @param evaluation - The evaluation to create
      * @returns True if the evaluation was created, false otherwise
+     * @param sid - The salesman id
+     * @param year - The year of performance
      * */
-    createEvaluation(evaluation: EvaluationDTO): Observable<boolean> {
-        return this.http.post(environment.apiEndpoint + '/api/eval', evaluation, { withCredentials: true })
+    createEvaluation(sid: String, year: String): Observable<boolean> {
+        return this.http.post(environment.apiEndpoint + `/api/eval/${sid}/${year}`, { withCredentials: true })
             .pipe(
                 map((): boolean => true),
                 catchError((): Observable<boolean> => of(false))
@@ -35,20 +36,6 @@ export class EvaluationService {
             params: query,
             withCredentials: true
         });
-    }
-
-    /**
-     * Create a complete evaluation for a specific salesman and year
-     * @param sid - The salesman id
-     * @param year - The year
-     * @returns True if the evaluation was created, false otherwise
-     * */
-    createCompleteEvaluation(sid: string, year: string): Observable<boolean> {
-        return this.http.post(environment.apiEndpoint + `/api/eval/${sid}/${year}`, { withCredentials: true })
-            .pipe(
-                map((): boolean => true),
-                catchError((): Observable<boolean> => of(false))
-            );
     }
 
     /**

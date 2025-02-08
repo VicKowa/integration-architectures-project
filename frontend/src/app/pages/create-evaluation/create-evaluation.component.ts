@@ -222,7 +222,7 @@ export class CreateEvaluationComponent implements OnInit {
 
             // Send the updated evaluation to the backend
             await this.evaluationService.updateEvaluation(this.evaluation).toPromise();
-            await this.router.navigate(['/eval/list']);
+            await this.router.navigate(['/eval/list'], { queryParams: { year: this.year } });
         } catch (error) {
             console.error(`Error during CEO submission:\n${error}`);
         }
@@ -248,7 +248,7 @@ export class CreateEvaluationComponent implements OnInit {
         try {
             this.evaluation.approvalStatus = ApprovalEnum.SALESMAN;
             await this.evaluationService.updateEvaluation(this.evaluation).toPromise();
-            await this.router.navigate(['/eval/list']);
+            await this.router.navigate(['/eval/list?year=' + this.year]);
         } catch (error) {
             console.error(`Error during Salesman submission:\n${error}`);
         }
