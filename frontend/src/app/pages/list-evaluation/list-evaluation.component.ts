@@ -27,6 +27,8 @@ export class ListEvaluationComponent implements OnInit {
     @ViewChild('salesmenToEvaluateTable') salesmenToEvaluateTable!: SalesmanTableComponent;
     @ViewChild('evaluatedSalesmenTable') evaluatedSalesmenTable!: SalesmanTableComponent;
 
+    selectedEvaluatedSalesman: SalesmanDTO | null = null;
+
     constructor(
         private apiService: ApiService,
         private salesmanService: SalesmanService,
@@ -111,8 +113,21 @@ export class ListEvaluationComponent implements OnInit {
         }
     }
 
-    onYearChange(selectedYear: string): void {
-        this.router.navigate([], {
+    async viewEvaluation(): Promise<void> {
+        const salesman: Salesman = this.evaluatedSalesmenTable.getSelectedSalesman();
+        if (!salesman) {
+            return;
+        }
+        await this.router.navigate(['/eval/view'], {
+            queryParams: {
+                sid: salesman.sid,
+                year: this.year
+            }
+        });
+    }
+
+    async onYearChange(selectedYear: string): Promise<void> {
+        await this.router.navigate([], {
             relativeTo: this.route,
             queryParams: { year: selectedYear },
             queryParamsHandling: 'merge'
@@ -120,4 +135,9 @@ export class ListEvaluationComponent implements OnInit {
             window.location.reload();
         });
     }
+
+    onEvaluatedSalesmanSelect(salesman: SalesmanDTO): void {
+        this.selectedEvaluatedSalesman = salesman;
+    }
 }
+

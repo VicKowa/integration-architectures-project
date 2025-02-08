@@ -40,3 +40,7 @@ label {
 #year-select {
     margin-bottom: 20px; /* Add space below the dropdown */
 }
+
+.button {
+    margin-right: 1rem;
+}

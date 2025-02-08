@@ -28,6 +28,7 @@ const routes: Routes = [
     {path: 'register', component: SalesmanRegisterComponent},
     {path: 'example', component: ExamplePageComponent, canActivate: [AuthGuardService]},
     {path: 'eval/create', component: CreateEvaluationComponent, canActivate: [AuthGuardService]},
+    {path: 'eval/view', component: CreateEvaluationComponent, canActivate: [AuthGuardService]},
     {path: 'eval/list', component: ListEvaluationComponent, canActivate: [AuthGuardService]},
     {path: 'salesman/valucon/list', component: SalesmanValuconListPageComponent, canActivate: [AuthGuardService]},
     {path: 'salesman/valucon/:sid', component: SalesmanValuconComponent, canActivate: [AuthGuardService]},
