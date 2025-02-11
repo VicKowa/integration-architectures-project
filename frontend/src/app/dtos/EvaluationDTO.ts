@@ -2,11 +2,12 @@ import { OrderEvaluationDTO } from './OrderEvaluationDTO';
 import { SocialPerformanceRecordDTO } from './SocialPerformanceRecordDTO';
 
 /* eslint-disable no-shadow */
+// ApprovalEnum for the approval status of the evaluation. The Integer value is used to define the order of the approval process.
 export enum ApprovalEnum {
-    NONE = "NONE",
-    CEO = "CEO",
-    HR = "HR",
-    SALESMAN = "SALESMAN",
+    NONE = 0,
+    CEO = 1,
+    HR = 2,
+    SALESMAN = 3,
 }
 /* eslint-enable no-shadow */
 
