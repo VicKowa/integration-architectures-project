@@ -5,6 +5,7 @@ import OrangeHRMBonusSalaryDTO from "@app/dtos/OrangeHRM/OrangeHRMBonusSalaryDTO
 import {Observable} from "rxjs";
 import {SocialPerformanceRecordDTO} from "@app/dtos/SocialPerformanceRecordDTO";
 import {OrderEvaluationDTO} from "@app/dtos/OrderEvaluationDTO";
+import {EvaluationDTO} from "@app/dtos/EvaluationDTO";
 
 @Injectable({
     providedIn: 'root'
@@ -23,6 +24,14 @@ export class BonusServiceService {
     getSPRBonus(sid: string, year: string): Observable<SocialPerformanceRecordDTO> {
         return this.http.get<SocialPerformanceRecordDTO>(
             `${environment.apiEndpoint}/api/bonus/spr/${sid}/${year}`,
+            {withCredentials: true}
+        );
+    }
+
+    recalculateSPRBonus(evaluation: EvaluationDTO): Observable<SocialPerformanceRecordDTO> {
+        return this.http.post<SocialPerformanceRecordDTO>(
+            `${environment.apiEndpoint}/api/bonus/spr`,
+            evaluation,
             {withCredentials: true}
         );
     }

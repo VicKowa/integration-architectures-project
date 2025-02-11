@@ -88,12 +88,12 @@ exports.getEvaluation = async function (db, sid, year){
  * @returns {Promise<any>}
  */
 exports.updateEvaluation = async function (db, evaluation){
-
     // check if evaluation exists
-    if (!evaluation || !evaluation.sid) {
+    if (!evaluation || !evaluation.sid)
         throw new Error('Evaluation not found!');
-    }
 
+    // recalculates bonuses
+    calculateAllBonuses(evaluation);
 
     // remove _id from object
     const {_id, ...evalData} = evaluation;

@@ -1,12 +1,13 @@
 import { Component, Input as RoutingInput, OnInit } from '@angular/core';
 import { ApiService } from '@app/services/api-service/api.service';
+import { BonusServiceService } from "@app/services/bonus-service.service";
 import { SalesmanDTO } from '@app/dtos/SalesmanDTO';
 import { SalesmanService } from '@app/services/salesman.service';
 import { EvaluationService } from '@app/services/evaluation.service';
 import { ApprovalEnum, EvaluationDTO} from '@app/dtos/EvaluationDTO';
 import { Router } from '@angular/router';
 import {Order} from "@app/dtos/OrderEvaluationDTO";
-import {SpecifiedRecords} from "@app/dtos/SocialPerformanceRecordDTO";
+import {SocialPerformanceRecordDTO, SpecifiedRecords} from "@app/dtos/SocialPerformanceRecordDTO";
 
 export interface OrderEvaluationData {
     name: string;
@@ -66,6 +67,7 @@ export class CreateEvaluationComponent implements OnInit {
         private apiService: ApiService,
         private salesmanService: SalesmanService,
         private evaluationService: EvaluationService,
+        private bonusService: BonusServiceService,
         private router: Router
     )
     {
@@ -204,27 +206,36 @@ export class CreateEvaluationComponent implements OnInit {
     private async onSubmitCeo(): Promise<void> {
         try {
             // Update the order evaluation data
+            //     -> Update the bonus with the values in the input fields or 0
+            //     -> Update the comments with the values in the input fields
             this.evaluation.orderEvaluation.orders.forEach((order: Order, index: number): void => {
                 order.bonus = parseInt(this.orderEvaluationData[index].bonus) || 0;
                 order.comment = this.orderEvaluationData[index].comments;
             });
 
             // Update the social performance record data
-            const records: SpecifiedRecords = this.evaluation.socialPerformanceEvaluation.specifiedRecords;
+            //     -> Update the bonus with the values in the input fields or 0
+            //     -> Update the comments with the values in the input fields
             this.socialPerformanceRecordData.forEach((record: SocialPerformanceRecordData, index: number): void  => {
-                const key: string = Object.keys(records)[index];
-                records[key].bonus = parseInt(record.bonus) || 0;
-                records[key].comment = record.comment;
+                // Get the key of the record
+                const key: string = Object.keys(this.evaluation.socialPerformanceEvaluation.specifiedRecords)[index];
+
+                this.evaluation.socialPerformanceEvaluation.specifiedRecords[key].bonus = parseInt(record.bonus) || 0;
+                this.evaluation.socialPerformanceEvaluation.specifiedRecords[key].comment = record.comment;
             });
 
-            // Update bonus and comments
+            // Update the general comment
             this.evaluation.comment = this.comments;
+
+            // Set the approval status to CEO
             this.evaluation.approvalStatus = ApprovalEnum.CEO;
 
             this.setBonusValues();
 
             // Send the updated evaluation to the backend
             await this.evaluationService.updateEvaluation(this.evaluation).toPromise();
+
+            // Navigate to the list of evaluations
             await this.router.navigate(['/eval/list'], { queryParams: { year: this.year } });
         } catch (error) {
             console.error(`Error during CEO submission:\n${error}`);
@@ -236,8 +247,16 @@ export class CreateEvaluationComponent implements OnInit {
      * */
     async onSubmitHR(): Promise<void> {
         try {
+            // Remove all potential changes made by the HR assistant
+            this.evaluation = await this.evaluationService.getEvaluation(this.sid, this.year).toPromise();
+
+            // Approved by HR
             this.evaluation.approvalStatus = ApprovalEnum.HR;
+
+            // Update the evaluation (in this case only the approval status)
             await this.evaluationService.updateEvaluation(this.evaluation).toPromise();
+
+            // Navigate to the list of evaluations
             await this.router.navigate(['/eval/list'], { queryParams: { year: this.year } });
         } catch (error) {
             console.error(`Error during HR submission:\n${error}`);
@@ -262,7 +281,10 @@ export class CreateEvaluationComponent implements OnInit {
      * */
     async reopen(): Promise<void> {
         try {
+            // Set the approval status to NONE
             this.evaluation.approvalStatus = ApprovalEnum.NONE;
+
+            // Update the evaluation (with all changes from HR)
             await this.evaluationService.updateEvaluation(this.evaluation).toPromise();
             await this.router.navigate(['/eval/list']);
         } catch (error) {
@@ -277,19 +299,50 @@ export class CreateEvaluationComponent implements OnInit {
         let calculatedOrderEvaluationBonus: number = 0;
         let calculatedSocialPerformanceRecordBonus: number = 0;
 
-        this.orderEvaluationData.forEach((record: OrderEvaluationData): void => {
-            calculatedOrderEvaluationBonus += parseInt(record.bonus) || 0;
+        this.orderEvaluationData.forEach((order: OrderEvaluationData): void => {
+            calculatedOrderEvaluationBonus += parseInt(order.bonus) || 0;
         });
 
         this.orderEvaluationBonus = calculatedOrderEvaluationBonus.toString();
 
-        this.socialPerformanceRecordData.forEach((order: SocialPerformanceRecordData): void => {
-            calculatedSocialPerformanceRecordBonus += parseInt(order.bonus) || 0;
+        this.socialPerformanceRecordData.forEach((record: SocialPerformanceRecordData): void => {
+            calculatedSocialPerformanceRecordBonus += parseInt(record.bonus) || 0;
         });
 
         this.socialPerformanceRecordBonus = calculatedSocialPerformanceRecordBonus.toString();
 
         this.totalBonus = (calculatedOrderEvaluationBonus + calculatedSocialPerformanceRecordBonus).toString();
+    }
+
+    /**
+     * Called when the user (HR) updates the actual and target values of the social performance record.
+     * Adjusts the view to reflect the changes.
+     * */
+    updateSocialPerformanceRecord(): void {
+        // Update the local evaluation object with the new values
+        const keys: string[] = Object.keys(this.evaluation.socialPerformanceEvaluation.specifiedRecords);
+        keys.forEach((key: string, index: number): void => {
+            this.evaluation.socialPerformanceEvaluation.specifiedRecords[key].targetValue =
+                parseInt(this.socialPerformanceRecordData[index].targetValue) || 0;
+
+            this.evaluation.socialPerformanceEvaluation.specifiedRecords[key].actualValue =
+                parseInt(this.socialPerformanceRecordData[index].actualValue) || 0;
+        });
+
+        // Recalculate the bonus
+        this.bonusService.recalculateSPRBonus(this.evaluation).subscribe({
+            next: (record: SocialPerformanceRecordDTO): void => {
+                // Save the new bonus values in the evaluation object
+                this.evaluation.socialPerformanceEvaluation = record;
+
+                // Update the bonus values in the view
+                this.socialPerformanceRecordData.forEach((_: SocialPerformanceRecordData, index: number): void => {
+                    this.socialPerformanceRecordData[index].bonus = record.specifiedRecords[keys[index]].bonus.toString();
+                });
+            }
+        });
+
+        this.calculateTotalBonus();
     }
 
     /**

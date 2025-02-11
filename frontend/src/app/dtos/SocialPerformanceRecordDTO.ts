@@ -24,7 +24,6 @@ export class SocialPerformanceRecordDTO {
      * @param specifiedRecords - The specified records
      */
     constructor(specifiedRecords?: { specifiedRecords?: SpecifiedRecords }) {
-        console.log('specifiedRecords', specifiedRecords);
         this.specifiedRecords = this.ensureAllTypes(specifiedRecords);
     }
 

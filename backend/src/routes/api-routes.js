@@ -96,4 +96,6 @@ router.get('/bonus/spr/:id/:year', bonusApi.getSPRBonus);
 router.get('/bonus/oe/:id/:year', bonusApi.getOEBonus);
 router.get('/bonus/:id/:year', bonusApi.getTotalBonus);
 
+router.post('/bonus/spr', bonusApi.recalculateSPRBonus);
+
 module.exports = router;

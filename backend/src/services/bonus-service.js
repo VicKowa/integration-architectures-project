@@ -1,5 +1,8 @@
 const salesmanService = require('./salesman-service');
 const openCrxService = require('./open-crx-service');
+const evaluationService = require('./evaluation-service');
+
+const {calculateTotalBonus} = require("../dtos/OrderEvaluationDTO");
 /**
  * calculates the total bonus of social performance records for a specific evaluation of a salesman
  * @param db
@@ -19,6 +22,22 @@ exports.getSPRBonus = async function(db, sid, year) {
 }
 
 /**
+ * recalculates the total bonus of social performance records for a specific evaluation of a salesman
+ * @param db
+ * @param evaluation : EvaluationDTO
+ * @returns {Promise<SocialPerformanceRecordDTO>}
+ */
+exports.recalculateSPRBonus = async function(db, evaluation) {
+    if(!evaluation)
+        throw new Error("Evaluation not found");
+
+    if(!evaluation.socialPerformanceEvaluation)
+        throw new Error("SocialPerformanceEvaluation not found");
+
+    return calculateSocialPerformanceRecordBonus(evaluation.socialPerformanceEvaluation);
+}
+
+/**
  * calculates the total bonus of social performance records for a specific evaluation of a salesman
  *
  * @param spr : SocialPerformanceRecordDTO
@@ -32,6 +51,7 @@ function calculateSocialPerformanceRecordBonus(spr) {
     for (const record of Object.values(spr.specifiedRecords)) {
         const targetValue = parseInt(record.targetValue);
         const actualValue = parseInt(record.actualValue);
+
         let bonus = 0;
 
         if (actualValue >= targetValue)
@@ -164,7 +184,8 @@ const calculateOrderEvaluationBonus = (orderEvaluation) => {
     orderEvaluation.orders.forEach(order => {
         order.bonus = getOrderEvaluationBonus(order.clientRanking, order.items);
     });
-    return orderEvaluation.calculateTotalBonus();
+
+    return calculateTotalBonus(orderEvaluation);
 }
 
 /**
