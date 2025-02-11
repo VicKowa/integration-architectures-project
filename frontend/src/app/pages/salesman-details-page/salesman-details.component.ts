@@ -7,6 +7,8 @@ import { OrangeHRMSalesmanDTO } from '@app/dtos/OrangeHRM/OrangeHRMSalesmanDTO';
 import OpenCRXSaleDTO from '@app/dtos/OpenCRX/OpenCRXSaleDTO';
 import {MatTabGroup} from '@angular/material/tabs';
 import OpenCRXOrderDTO from '@app/dtos/OpenCRX/OpenCRXOrderDTO';
+import {EvaluationService} from '@app/services/evaluation.service';
+import {ApprovalEnum, EvaluationDTO} from "@app/dtos/EvaluationDTO";
 
 Chart.register(BarController, BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
 
@@ -72,14 +74,14 @@ export class SalesmanDetailsComponent implements OnInit {
         ]
     };
 
-    constructor(private route: ActivatedRoute, private apiService: ApiService) { }
+    constructor(private route: ActivatedRoute, private apiService: ApiService, private evaluationService: EvaluationService) { }
 
     ngOnInit(): void {
         const sid = this.route.snapshot.paramMap.get('sid');
         if (sid) {
             this.fetchSalesmanDetails(sid);
             this.fetchSalesOrders(sid);
-            // this.fetchBonuses(sid);
+            this.fetchBonuses(sid);
         }
     }
 
@@ -132,8 +134,16 @@ export class SalesmanDetailsComponent implements OnInit {
      * @param sid The ID of the salesman
      * @returns void
      * */
-    // TODO: Implement bonus endpoint for bonuses from all years
-
+    fetchBonuses(sid: string): void {
+        this.evaluationService.getAllEvaluations({sid, approvalStatus: ApprovalEnum.SALESMAN}).subscribe((evaluations): void => {
+            // this.bonuses = evaluations.map((e) => {e.year, e.totalBonus}) ;
+            this.bonuses = evaluations.map((e: EvaluationDTO): {year: string; amount: number} => ({
+                year: e.year,
+                amount: e.totalBonus
+            }));
+            console.log(this.bonuses);
+        });
+    }
     /**
      * Selects an order
      *

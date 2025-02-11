@@ -64,6 +64,10 @@ exports.getAllEvaluations = async function (db, query){
         if (!allowedFilters.includes(f)) {
             delete query[f];
         }
+
+        if(f === "approvalStatus"){
+            query["approvalStatus"] = parseInt(query["approvalStatus"]);
+        }
     });
 
     return db.collection('eval').find(query).toArray();
