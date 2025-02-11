@@ -21,6 +21,10 @@ class OrderEvaluationDTO {
         return this.orders.reduce((acc, order) => acc + order.bonus, 0);
     }
 
+    static calculateTotalBonus(orderEvaluation) {
+        return orderEvaluation.orders.reduce((acc, order) => acc + order.bonus, 0);
+    }
+
     /**
      * ensure that orders have valid no negative items
      * @param {{productNumber: string, productName: string, clientRanking: string, items: number, bonus: string}[]} orders

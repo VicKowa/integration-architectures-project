@@ -123,7 +123,6 @@ export class AuthService {
             .pipe(
                 tap((response: HttpResponse<any>): void => {
                     if (response.status === 200) {
-                        console.log('User registered');
                         this.loggedIn = true;
                         this.emitLoginChange(true);
                     }

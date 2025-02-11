@@ -27,8 +27,6 @@ export class ListEvaluationComponent implements OnInit {
     @ViewChild('salesmenToEvaluateTable') salesmenToEvaluateTable!: SalesmanTableComponent;
     @ViewChild('evaluatedSalesmenTable') evaluatedSalesmenTable!: SalesmanTableComponent;
 
-    selectedEvaluatedSalesman: SalesmanDTO | null = null;
-
     constructor(
         private apiService: ApiService,
         private salesmanService: SalesmanService,
@@ -40,16 +38,19 @@ export class ListEvaluationComponent implements OnInit {
 
     }
 
-    async ngOnInit(): Promise<void>{
+    async ngOnInit(): Promise<void>{+
+        // Get the year from the query params
         this.route.queryParams.subscribe(params => {
             this.year = params['year'] || this.year;
         });
 
+        // Get user role
         this.userRole = await this.apiService.getCurrentRole().toPromise();
 
         // // TODO: Remove dummy data
         // this.userRole = 'ceo';
 
+        // different actions based on role
         switch (this.userRole) {
         case 'ceo':
             await this.onInitCeo();
@@ -61,50 +62,85 @@ export class ListEvaluationComponent implements OnInit {
         }
     }
 
+    /**
+     * Actions to be taken when the user is a CEO
+     * */
     async onInitCeo(): Promise<void> {
+        // get all salesmen
         const allSalesmen: SalesmanDTO[] = await this.salesmanService.getAllSalesmen().toPromise();
-        console.log(allSalesmen);
+
+        // get all evaluations from the year
+        //     -> filter out evaluations with approval status NONE
+        //     -> get the sid of the evaluations
         const allEvaluations: Set<string> = new Set((await this.evaluationService
             .getAllEvaluations({year: this.year}).toPromise())
             .filter((e: EvaluationDTO): boolean => e.approvalStatus !== ApprovalEnum.NONE)
             .map((e: EvaluationDTO): string => e.sid));
 
+        // sort salesmen into two groups
+        //     -> salesmen to evaluate
+        //     -> evaluated salesmen
         this.salesmenToEvaluate.data = allSalesmen.filter((s: SalesmanDTO): boolean => !allEvaluations.has(s.sid));
         this.evaluatedSalesmen.data = allSalesmen.filter((s: SalesmanDTO): boolean => allEvaluations.has(s.sid));
     }
 
+    /**
+     * Actions to be taken when the user is an HR
+     * */
     async onInitHR(): Promise<void> {
+        // get all salesmen
         const allSalesmen: SalesmanDTO[] = await this.salesmanService.getAllSalesmen().toPromise();
 
+        // get all evaluations from the year
         const allEvaluations: EvaluationDTO[] = (await this.evaluationService
             .getAllEvaluations({year: this.year}).toPromise());
 
+        //     -> filter evaluations with approval status CEO
+        //     -> get the sid of the evaluations
         const ceoEvaluations: Set<string> = new Set(allEvaluations
             .filter((e: EvaluationDTO): boolean => e.approvalStatus === ApprovalEnum.CEO)
             .map((e: EvaluationDTO): string => e.sid));
 
-        const higherEvaluations: Set<string> = new Set(allEvaluations
-            .filter((e: EvaluationDTO): boolean =>  e.approvalStatus >= ApprovalEnum.HR)
+        // Approval Hierarchy for the evaluations
+        const ApprovalHierarchy: Record<ApprovalEnum, number> = {
+            NONE: 0,
+            SALESMAN: 1,
+            HR: 2,
+            CEO: 3
+        };
+
+        //     -> filter evaluations with approval status HR or lower, so that HR can view them again
+        //     -> get the sid of the evaluations
+        const lowerEvaluations: Set<string> = new Set(allEvaluations
+            .filter((e: EvaluationDTO): boolean => ApprovalHierarchy[e.approvalStatus] <= ApprovalHierarchy[ApprovalEnum.HR])
             .map((e: EvaluationDTO): string => e.sid));
 
+        // sort salesmen into two groups
+        //     -> salesmen to evaluate
+        //     -> evaluated salesmen
         this.salesmenToEvaluate.data = allSalesmen.filter((s: SalesmanDTO): boolean => ceoEvaluations.has(s.sid));
-        this.evaluatedSalesmen.data = allSalesmen.filter((s: SalesmanDTO): boolean => higherEvaluations.has(s.sid));
+        this.evaluatedSalesmen.data = allSalesmen.filter((s: SalesmanDTO): boolean => lowerEvaluations.has(s.sid));
     }
 
+    /**
+     * Create an evaluation for the selected salesman
+     * */
     async createEvaluation(): Promise<void> {
+        // get the selected salesman
         const selectedSalesman: Salesman = this.salesmenToEvaluateTable.getSelectedSalesman();
 
-        if (!selectedSalesman) {
+        if (!selectedSalesman)
             return;
-        }
-
-        console.log('Create bonus for ' + selectedSalesman.firstname + ' ' + selectedSalesman.lastname);
 
         try {
-            await this.evaluationService.createEvaluation(selectedSalesman.sid, this.year).toPromise();
+            // create an empty evaluation for the selected salesman if the role is the CEO
+            if (this.userRole === 'ceo')
+                await this.evaluationService.createEvaluation(selectedSalesman.sid, this.year).toPromise();
+
+            // redirect to the evaluation creation page
             await this.router.navigate(['/eval/create'], {
                 queryParams: {
-                    year: this.year, // TODO remove year
+                    year: this.year,
                     sid: selectedSalesman.sid,
                 }
             });
@@ -113,11 +149,17 @@ export class ListEvaluationComponent implements OnInit {
         }
     }
 
+    /**
+     * View the (already existing) evaluation of the selected salesman
+     * */
     async viewEvaluation(): Promise<void> {
+        // get the selected salesman
         const salesman: Salesman = this.evaluatedSalesmenTable.getSelectedSalesman();
-        if (!salesman) {
+
+        if (!salesman)
             return;
-        }
+
+        // redirect to the evaluation view page
         await this.router.navigate(['/eval/view'], {
             queryParams: {
                 sid: salesman.sid,
@@ -126,6 +168,9 @@ export class ListEvaluationComponent implements OnInit {
         });
     }
 
+    /**
+     * Redirect to the evaluation creation page
+     * */
     async onYearChange(selectedYear: string): Promise<void> {
         await this.router.navigate([], {
             relativeTo: this.route,
@@ -134,10 +179,6 @@ export class ListEvaluationComponent implements OnInit {
         }).then(() => {
             window.location.reload();
         });
-    }
-
-    onEvaluatedSalesmanSelect(salesman: SalesmanDTO): void {
-        this.selectedEvaluatedSalesman = salesman;
     }
 }
 
