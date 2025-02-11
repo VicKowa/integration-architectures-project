@@ -28,15 +28,7 @@ export class SalesmanDetailsComponent implements OnInit {
     bonuses: {
         year: string;
         amount: number;
-    }[] = [
-            { year: '2019', amount: 1000 },
-            { year: '2020', amount: 2000 },
-            { year: '2021', amount: 3000 },
-            { year: '2022', amount: 4000 },
-            { year: '2023', amount: 5000 },
-            { year: '2024', amount: 6000 },
-            { year: '2025', amount: 7000 },
-        ]; // Bonuses for the salesman (here: example data in ascending order)
+    }[] = [];
 
     // Chart.js options
     public chartOptions: ChartOptions = {
@@ -139,7 +131,6 @@ export class SalesmanDetailsComponent implements OnInit {
                 year: e.year,
                 amount: e.totalBonus
             }));
-            console.log(this.bonuses);
         });
     }
     /**

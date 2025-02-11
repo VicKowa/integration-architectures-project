@@ -101,18 +101,10 @@ export class ListEvaluationComponent implements OnInit {
             .filter((e: EvaluationDTO): boolean => e.approvalStatus === ApprovalEnum.CEO)
             .map((e: EvaluationDTO): string => e.sid));
 
-        // Approval Hierarchy for the evaluations
-        const ApprovalHierarchy: Record<ApprovalEnum, number> = {
-            NONE: 0,
-            SALESMAN: 1,
-            HR: 2,
-            CEO: 3
-        };
-
         //     -> filter evaluations with approval status HR or lower, so that HR can view them again
         //     -> get the sid of the evaluations
         const lowerEvaluations: Set<string> = new Set(allEvaluations
-            .filter((e: EvaluationDTO): boolean => ApprovalHierarchy[e.approvalStatus] <= ApprovalHierarchy[ApprovalEnum.HR])
+            .filter((e: EvaluationDTO): boolean => e.approvalStatus <= ApprovalEnum.HR)
             .map((e: EvaluationDTO): string => e.sid));
 
         // sort salesmen into two groups
