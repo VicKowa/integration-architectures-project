@@ -1,10 +1,10 @@
 import { EvaluationDTO } from '../dtos/EvaluationDTO';
-import {OrderEvaluation} from '@app/dtos/OrderEvaluationDTO';
-import {SocialPerformanceRecord} from '@app/dtos/SocialPerformanceRecordDTO';
+import {OrderEvaluation} from '@app/models/OrderEvaluation';
+import {SocialPerformanceRecord} from '@app/models/SocialPerformanceRecord';
 
 export class Evaluation {
-    orderEvaluation: OrderEvaluation;
-    socialPerformanceEvaluation: SocialPerformanceRecord;
+    orderEvaluation: OrderEvaluation | any[];
+    socialPerformanceEvaluation: SocialPerformanceRecord | any[];
     totalBonus: number;
     year: string;
     department: string | null;

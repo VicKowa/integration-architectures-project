@@ -268,9 +268,14 @@ export class CreateEvaluationComponent implements OnInit {
      * */
     async onSubmitSalesman(): Promise<void> {
         try {
+            // Set the approval status to SALESMAN
             this.evaluation.approvalStatus = ApprovalEnum.SALESMAN;
+
+            // Update the evaluation with no changes except the approval status
             await this.evaluationService.updateEvaluation(this.evaluation).toPromise();
-            await this.router.navigate(['/eval/list?year=' + this.year]);
+
+            // Redirect to the My Profile page
+            await this.router.navigate(['/salesman/' + this.sid]);
         } catch (error) {
             console.error(`Error during Salesman submission:\n${error}`);
         }
@@ -286,7 +291,10 @@ export class CreateEvaluationComponent implements OnInit {
 
             // Update the evaluation (with all changes from HR)
             await this.evaluationService.updateEvaluation(this.evaluation).toPromise();
-            await this.router.navigate(['/eval/list']);
+
+            // Navigate to the list of evaluations or the My Profile page
+            if (this.userRole === 'salesman') await this.router.navigate(['/salesman/' + this.sid]);
+            else await this.router.navigate(['/eval/list'], { queryParams: { year: this.year } });
         } catch (error) {
             console.error(`Error during reopening:\n${error}`);
         }

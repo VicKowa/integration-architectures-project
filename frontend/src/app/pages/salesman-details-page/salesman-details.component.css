@@ -195,3 +195,7 @@ p {
 .chart-section {
     padding-top: 1rem;
 }
+
+.hr-approval {
+    background: rgba(255, 0, 0, 0.1); /* Leicht rötlicher Hintergrund */
+}
