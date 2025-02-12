@@ -16,6 +16,8 @@ const environment = require('../../environments/environment.js');
 const OrangeHRMService = require('./orange-hrm-service.js');
 
 const { calculateAllBonuses } = require('./bonus-service.js');
+const OrangeHRMBonusSalaryDTO = require("../dtos/OrangeHRM/OrangeHRMBonusSalaryDTO");
+const ApprovalEnum = environment.default.approvalEnum;
 
 /**
  * creates a new evaluation report in the database
@@ -96,8 +98,18 @@ exports.updateEvaluation = async function (db, evaluation){
     if (!evaluation || !evaluation.sid)
         throw new Error('Evaluation not found!');
 
+
     // recalculates bonuses
     calculateAllBonuses(evaluation);
+
+    // if salesman approves the evaluation, the bonus can be stored in orangehrm
+    if(evaluation.approvalStatus === ApprovalEnum.SALESMAN) {
+        try {
+            await OrangeHRMService.createBonusSalary(evaluation.sid, new OrangeHRMBonusSalaryDTO(evaluation.year, evaluation.totalBonus));
+        } catch (e) {
+            console.log(e);
+        }
+    }
 
     // remove _id from object
     const {_id, ...evalData} = evaluation;

@@ -5,7 +5,7 @@ import { SalesmanDTO } from '@app/dtos/SalesmanDTO';
 import { SalesmanService } from '@app/services/salesman.service';
 import { EvaluationService } from '@app/services/evaluation.service';
 import { ApprovalEnum, EvaluationDTO} from '@app/dtos/EvaluationDTO';
-import { Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Order} from "@app/dtos/OrderEvaluationDTO";
 import {SocialPerformanceRecordDTO, SpecifiedRecords} from "@app/dtos/SocialPerformanceRecordDTO";
 
@@ -34,8 +34,8 @@ export interface SocialPerformanceRecordData {
 })
 export class CreateEvaluationComponent implements OnInit {
 
-    @RoutingInput() year: string | null;
-    @RoutingInput() sid: string | null;
+    year: string | null;
+    sid: string | null;
 
     // default role is salesman
     userRole: string = 'salesman';
@@ -68,7 +68,8 @@ export class CreateEvaluationComponent implements OnInit {
         private salesmanService: SalesmanService,
         private evaluationService: EvaluationService,
         private bonusService: BonusServiceService,
-        private router: Router
+        private router: Router,
+        private route: ActivatedRoute
     )
     {
         this.salesman = new SalesmanDTO(
@@ -90,6 +91,14 @@ export class CreateEvaluationComponent implements OnInit {
     }
 
     async ngOnInit(): Promise<void> {
+        this.sid = this.route.snapshot.paramMap.get('sid');
+        this.year = this.route.snapshot.paramMap.get('year'); // or paramMap.get('year') if set as a route parameter
+
+        if (!this.sid || !this.year) {
+            console.error('Salesman ID or Year is missing in the route parameters.');
+            return;
+        }
+
         this.salesman = await this.salesmanService.getSalesmen(this.sid).toPromise();
         this.userRole = await this.apiService.getCurrentRole().toPromise();
         this.readOnly = this.router.url.includes('view');
@@ -274,6 +283,8 @@ export class CreateEvaluationComponent implements OnInit {
             // Update the evaluation with no changes except the approval status
             await this.evaluationService.updateEvaluation(this.evaluation).toPromise();
 
+
+
             // Redirect to the My Profile page
             await this.router.navigate(['/salesman/' + this.sid]);
         } catch (error) {
@@ -290,6 +301,7 @@ export class CreateEvaluationComponent implements OnInit {
             this.evaluation.approvalStatus = ApprovalEnum.NONE;
 
             // Update the evaluation (with all changes from HR)
+            console.log(this.evaluation);
             await this.evaluationService.updateEvaluation(this.evaluation).toPromise();
 
             // Navigate to the list of evaluations or the My Profile page
