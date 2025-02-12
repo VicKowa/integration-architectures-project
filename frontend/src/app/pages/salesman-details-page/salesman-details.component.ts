@@ -20,6 +20,8 @@ import {MatTabGroup} from '@angular/material/tabs';
 import OpenCRXOrderDTO from '@app/dtos/OpenCRX/OpenCRXOrderDTO';
 import {EvaluationService} from '@app/services/evaluation.service';
 import {ApprovalEnum, EvaluationDTO} from "@app/dtos/EvaluationDTO";
+import {Observable, of} from "rxjs";
+import {catchError, map} from "rxjs/operators";
 
 Chart.register(BarController, BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
 
@@ -141,19 +143,21 @@ export class SalesmanDetailsComponent implements OnInit {
      * @returns void
      * */
     fetchBonuses(sid: string): void {
-        this.evaluationService.getAllEvaluations({sid}).subscribe((evaluations: EvaluationDTO[]): void => {
+        this.evaluationService.getAllEvaluations({ sid }).subscribe((evaluations: EvaluationDTO[]): void => {
             this.bonuses = evaluations
                 .filter((e: EvaluationDTO): boolean =>
                     e.approvalStatus === ApprovalEnum.SALESMAN ||
                     e.approvalStatus === ApprovalEnum.HR)
-                .map((e: EvaluationDTO): {year: string; amount: number} => ({
+                .map((e: EvaluationDTO): { year: string; amount: number } => ({
                     year: e.year,
                     amount: e.totalBonus
                 }));
 
+            console.log("Filtered bonuses:", this.bonuses);
             this.updateChartData();
         });
     }
+
 
     /**
      * Redirects to the Bonus View Page (either editable or readonly depending on the approval status)
@@ -167,20 +171,10 @@ export class SalesmanDetailsComponent implements OnInit {
         this.evaluationService.getEvaluation(this.salesman.code, bonus.year).subscribe((evaluation: EvaluationDTO): void => {
             // redirect to the create page if the HR has approved the evaluation
             if (evaluation.approvalStatus === ApprovalEnum.HR)
-                this.router.navigate(['/eval/create'], {
-                    queryParams: {
-                        year: bonus.year,
-                        sid: this.salesman.code,
-                    }
-                });
+                this.router.navigate([`/eval/create/${this.salesman.code}/${bonus.year}`]);
             // redirect to the view page if the HR has not approved the evaluation
             else
-                this.router.navigate(['/eval/view'], {
-                    queryParams: {
-                        year: bonus.year,
-                        sid: this.salesman.code,
-                    }
-                });
+                this.router.navigate([`/eval/view/${this.salesman.code}/${bonus.year}`]);
         });
     }
 
@@ -188,18 +182,17 @@ export class SalesmanDetailsComponent implements OnInit {
      * Checks if the HR has approved the bonus of a selected row in the table
      * @param bonus The bonus to check
      * */
-    isHrApproval(bonus: {
-        year: string;
-        amount: number;
-    }): boolean {
-        // get the evaluation for the year
-        let approval: boolean = true;
-
-        this.evaluationService.getEvaluation(this.salesman.code, bonus.year).subscribe((evaluation: EvaluationDTO): void => {
-            approval = evaluation.approvalStatus === ApprovalEnum.HR;
-        });
-
-        return approval;
+    isHrApproval(bonus: { year: string; amount: number }): Observable<boolean> {
+        if (!this.salesman || !this.salesman.code) {
+            return of(false);
+        }
+        return this.evaluationService.getEvaluation(this.salesman.code, bonus.year).pipe(
+            map((evaluation: EvaluationDTO) => evaluation.approvalStatus === ApprovalEnum.HR),
+            catchError(err => {
+                console.error(`Error fetching HR approval for year ${bonus.year}:`, err);
+                return of(false);
+            })
+        );
     }
 
     /**
