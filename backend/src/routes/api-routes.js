@@ -71,7 +71,7 @@ router.get('/eval/spr/:id/:year', checkAuthorization(ROLES.SALESMAN),  evaluatio
 
 // Post Requests
 // router.post('/eval', evaluationApi.createEvaluation);
-router.post('/eval/:id/:year', checkAuthorization(ROLES.CEO),  evaluationApi.createEvaluation);
+router.post('/eval/:id/:year', checkAuthorization(ROLES.SALESMAN), evaluationApi.createEvaluation);
 
 // Put Requests
 router.put('/eval', checkAuthorization(ROLES.SALESMAN),  evaluationApi.updateEvaluation);
@@ -82,15 +82,15 @@ router.put('/eval/spr/:id/:year', checkAuthorization(ROLES.SALESMAN),  evaluatio
 router.delete('/eval/:id/:year', checkAuthorization(ROLES.SALESMAN),  evaluationApi.deleteEvaluation);
 
 
-// --- Bonus API Routes ---
-//
-// const bonusApi = require('../apis/bonus-api'); //api for bonus
-//
-// // // GET Requests
-// // router.get('/bonus/spr/:id/:year', checkAuthorization(ROLES.SALESMAN),  bonusApi.getSPRBonus);
-// // router.get('/bonus/oe/:id/:year', checkAuthorization(ROLES.SALESMAN),  bonusApi.getOEBonus);
-// // router.get('/bonus/:id/:year', checkAuthorization(ROLES.SALESMAN),  bonusApi.getTotalBonus);
-// //
-// // router.post('/bonus/spr', bonusApi.recalculateSPRBonus);
+//--- Bonus API Routes ---
+
+const bonusApi = require('../apis/bonus-api'); //api for bonus
+
+// GET Requests
+router.get('/bonus/spr/:id/:year', checkAuthorization(ROLES.SALESMAN),  bonusApi.getSPRBonus);
+router.get('/bonus/oe/:id/:year', checkAuthorization(ROLES.SALESMAN),  bonusApi.getOEBonus);
+router.get('/bonus/:id/:year', checkAuthorization(ROLES.SALESMAN),  bonusApi.getTotalBonus);
+
+router.post('/bonus/spr', bonusApi.recalculateSPRBonus);
 
 module.exports = router;
