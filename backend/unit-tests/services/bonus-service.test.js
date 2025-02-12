@@ -5,12 +5,18 @@ const EvaluationService = require('../../src/services/evaluation-service');
 const openCrxService = require('../../src/services/open-crx-service');
 
 describe('bonus-service unit tests', function () {
+    // Set up the bonus factor map before each test
     before(function () {
         global.bonusFactorMap = [
             { productName: "ProductA", bonusPerSale: 100 },
             { productName: "ProductB", bonusPerSale: 200 }
         ];
     });
+
+    after(() => {
+            delete global.bonusFactorMap;
+        }
+    )
 
     afterEach(function () {
         sinon.restore();
@@ -73,6 +79,7 @@ describe('bonus-service unit tests', function () {
 
     describe('calculateAllBonuses', function () {
         it('should calculate order evaluation and social performance bonuses and sum them', function () {
+            // Mock evaluation object
             const evaluation = {
                 orderEvaluation: {
                     orders: [

@@ -45,6 +45,7 @@ describe('open-crx-service unit-tests', () => {
 
             const expectedSales = mockSales.map(sale => OpenCRXSaleDTO.fromJSON(sale));
 
+            // stub the axios.get method to return the mock sales
             sandbox.stub(axios, 'get').resolves({data: {objects: mockSales}});
             sandbox.stub(OpenCRXService, 'getCustomer').resolves(null);
             sandbox.stub(OpenCRXService, 'getOrders').resolves([]);
@@ -86,6 +87,7 @@ describe('open-crx-service unit-tests', () => {
             const expectedSales = mockSalesOrders.objects.map(sale => OpenCRXSaleDTO.fromJSON(sale));
             const mockSalesman = new OpenCRXSalesmanDTO('salesRep_href', sid);
 
+            // stub the OpenCRXService methods to return the mock data and axios.get to return the mock sales
             sandbox.stub(OpenCRXService, 'getSalesman').withArgs('123').resolves(mockSalesman);
             sandbox.stub(axios, 'get').resolves({ data: mockSalesOrders });
             sandbox.stub(OpenCRXService, 'getCustomer').resolves(null);
