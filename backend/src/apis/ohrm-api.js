@@ -1,5 +1,6 @@
 const ohrmService = require('../services/orange-hrm-service');
 const evaluationService = require("../services/evaluation-service");
+const OrangeHRMBonusSalaryDTO = require("../dtos/OrangeHRM/OrangeHRMBonusSalaryDTO");
 
 /**
  * Get all salesmen from the HRM system
@@ -28,20 +29,11 @@ exports.getSalesmanOHRM = function (req, res) {
 exports.createBonusSalary = function (req, res) {
     let sid = req.params.id;
     let year = req.params.year;
+    const bonus = new OrangeHRMBonusSalaryDTO(year, "100");
 
-    evaluationService.getTotalBonus(sid, year).then(totalBonus => {
-        const bonus = OrangeHRMBonusSalaryDTO.fromJSON(
-            {
-                value: totalBonus,
-                year: year
-            });
-
-        ohrmService.createBonusSalary(sid, bonus).then(salesman => {
-            res.status(200).send(salesman);
-        }).catch(_ => {
-            res.status(404).send(`No Salesman with ${sid} found!`);
-        });
+    ohrmService.createBonusSalary(sid, bonus).then(salesman => {
+        res.status(200).send(salesman);
     }).catch(_ => {
-        res.status(500).send('Bonus not created!');
+        res.status(404).send(`No Salesman with ${sid} found!`);
     });
 }

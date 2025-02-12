@@ -165,17 +165,18 @@ exports.createBonusSalary = async function (sid, bonus) {
 
     const salesmanDTO = await this.getSalesmanByCode(sid);
 
+    console.log(parseInt(bonus.year));
     // create bonus salary
     const response = await axios.post(
-        `https://sepp-hrm.inf.h-brs.de/symfony/web/index.php/api/v1/employee/${sid}/bonussalary`,
+        `https://sepp-hrm.inf.h-brs.de/symfony/web/index.php/api/v1/employee/${salesmanDTO.employeeId}/bonussalary`,
         {
-            id: parseInt(salesmanDTO.employeeId),
             year: parseInt(bonus.year),
             value: parseInt(bonus.value)
         },
         {
             headers: {
-                Authorization: `Bearer ${access_token}`
+                Authorization: `Bearer ${access_token}`,
+                "Content-Type": "application/x-www-form-urlencoded"
             }
         });
 
