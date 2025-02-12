@@ -155,10 +155,14 @@ export class SalesmanDetailsComponent implements OnInit {
         });
     }
 
-    async viewBonus(bonus: {
+    /**
+     * Redirects to the Bonus View Page (either editable or readonly depending on the approval status)
+     * @param bonus The bonus to view
+     * */
+    viewBonus(bonus: {
         year: string;
         amount: number;
-    }): Promise<void> {
+    }): void {
         // redirecting depending on the approval status
         this.evaluationService.getEvaluation(this.salesman.code, bonus.year).subscribe((evaluation: EvaluationDTO): void => {
             // redirect to the create page if the HR has approved the evaluation
@@ -180,6 +184,10 @@ export class SalesmanDetailsComponent implements OnInit {
         });
     }
 
+    /**
+     * Checks if the HR has approved the bonus of a selected row in the table
+     * @param bonus The bonus to check
+     * */
     isHrApproval(bonus: {
         year: string;
         amount: number;
@@ -210,6 +218,9 @@ export class SalesmanDetailsComponent implements OnInit {
         this.orderDetails = [...this.orderDetails];
     }
 
+    /**
+     * Updates the chart data based on the bonuses
+     * */
     updateChartData(): void {
         this.chartData = {
             // get all the years from the bonuses array
