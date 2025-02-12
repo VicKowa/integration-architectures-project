@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const proxyquire = require('proxyquire');
 
-describe('Odoo Service Integration Tests', function() {
+describe('odoo-service unit-tests', function() {
     // stub functions used by the fake Odoo class.
     let connectStub, executeKwStub, OdooStub, odooService;
 

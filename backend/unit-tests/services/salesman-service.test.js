@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const SalesmanService = require('../../src/services/salesman-service');
 
-describe('Salesman Service CRUD Tests', function () {
+describe('salesman-service unit-tests', function () {
     let dbMock, collectionMock;
 
     beforeEach(function () {

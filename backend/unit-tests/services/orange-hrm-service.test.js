@@ -5,7 +5,7 @@ const SalesmanService = require('../../src/services/salesman-service');
 
 let hrmService;
 
-describe('OrangeHRM Service Integration Tests', function () {
+describe('orange-hrm-service unit-tests', function () {
     // Stubs for axios methods and SalesmanService functions
     let postStub, getStub;
     let salesmanGetStub, salesmanCreateStub;
