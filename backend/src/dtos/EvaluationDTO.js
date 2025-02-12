@@ -106,10 +106,10 @@ class EvaluationDTO {
  * @type {{SALESMAN: string, HR: string, NONE: string, CEO: string}}
  */
 const approvalEnum = {
-    NONE: 'NONE',
-    CEO: 'CEO',
-    HR: 'HR',
-    SALESMAN: 'SALESMAN',
+    NONE: 0,
+    CEO: 1,
+    HR: 2,
+    SALESMAN: 3,
 };
 
 module.exports = EvaluationDTO;

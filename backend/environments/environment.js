@@ -30,10 +30,10 @@ const environment = {
      * @type {{SALESMAN: string, HR: string, NONE: string, CEO: string}}
      */
     approvalEnum: {
-        NONE: 'NONE',
-        CEO: 'CEO',
-        HR: 'HR',
-        SALESMAN: 'SALESMAN',
+        NONE: 0,
+        CEO: 1,
+        HR: 2,
+        SALESMAN: 3,
     }
 };
 
