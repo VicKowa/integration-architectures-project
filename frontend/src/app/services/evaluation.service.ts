@@ -18,12 +18,16 @@ export class EvaluationService {
      * @param sid - The salesman id
      * @param year - The year of performance
      * */
-    createEvaluation(sid: String, year: String): Observable<boolean> {
-        return this.http.post(environment.apiEndpoint + `/api/eval/${sid}/${year}`, { withCredentials: true })
-            .pipe(
-                map((): boolean => true),
-                catchError((): Observable<boolean> => of(false))
-            );
+    createEvaluation(sid: string, year: string): Observable<boolean> {
+        console.log(sid, year);
+        return this.http.post(
+            `${environment.apiEndpoint}/api/eval/${sid}/${year}`,
+            null, // no request body
+            { observe: 'response', withCredentials: true }
+        ).pipe(
+            map((): boolean => true),
+            catchError((): Observable<boolean> => of(false))
+        );
     }
 
     /**
