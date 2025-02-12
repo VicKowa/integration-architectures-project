@@ -25,15 +25,15 @@ const roleHierarchy = {
  */
 exports.checkAuthorization = (requiredRole) => {
     return (req, res, next) => {
-        // First, ensure that the user is authenticated
         if (req.session && req.session.authenticated) {
             const userRole = req.session.user && req.session.user.role;
-            // If the user's role exists and its hierarchy level is greater than or equal to the required role's level, allow the request.
+
             if (userRole && roleHierarchy[userRole] >= roleHierarchy[requiredRole]) {
                 return next();
+            } else {
+                throw new Error("Authorization failed: insufficient role level.");
             }
         }
-        // If not authenticated or not authorized, send a 401 status.
         res.status(401).send();
     };
 };
