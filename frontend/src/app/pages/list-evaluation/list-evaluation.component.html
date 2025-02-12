@@ -13,8 +13,8 @@
         <app-salesman-table #evaluatedSalesmenTable [salesmenDataSource]="evaluatedSalesmen"></app-salesman-table>
     </div>
 </div>
-<button mat-raised-button color="primary" (click)="createEvaluation()" class="button">
-    {{ userRole === 'ceo' ? 'Create Evaluation' : 'Process Evaluation' }}
+<button mat-raised-button color="primary" (click)="createEvaluation()" class="button" *ngIf="salesmenToEvaluateTable.getSelectedSalesman() !== null">
+    {{ userRole === 'ceo' ? 'Create Evaluation' : 'Verify Evaluation' }}
 </button>
 <button mat-raised-button color="primary" (click)="viewEvaluation()" class="button" *ngIf="evaluatedSalesmenTable.getSelectedSalesman() !== null">
     View Evaluation
