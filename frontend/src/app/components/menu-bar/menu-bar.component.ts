@@ -1,25 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '@app/services/auth.service';
 import { Router } from '@angular/router';
 import { User } from '@app/models/User';
 import { UserService } from '@app/services/user.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-menu-bar',
     templateUrl: './menu-bar.component.html',
     styleUrls: ['./menu-bar.component.css']
 })
-export class MenuBarComponent implements OnInit {
+export class MenuBarComponent implements OnInit, OnDestroy {
 
     user: User;
+    buttons: { title: string; routerLink?: string; action?: () => void }[] = [];
+    private authSubscription: Subscription;
 
-    /*
-    This array holds the definition of the menu's buttons.
-    */
-    buttons = [];
-
+    // The buttonMap provides the mapping between roles and buttons.
     private buttonMap = new class ButtonMap {
-
         private getButtonMap(username: string): Record<string, { title: string; routerLink?: string; action?: () => void }[]> {
             return {
                 salesman_valucon: [
@@ -60,18 +58,10 @@ export class MenuBarComponent implements OnInit {
         }
 
         public getButtons(user: User): { title: string; routerLink?: string; action?: () => void }[] {
-            return this.getButtonMap(user.username)[user.role] || []; // Ensure it always returns an array
+            return this.getButtonMap(user.username)[user.role] || [];
         }
     }();
 
-
-    /**
-     * The following parameters specify objects, which will be provided by dependency injection
-     *
-     * @param authService
-     * @param router
-     * @param userService
-     */
     constructor(
         private authService: AuthService,
         private router: Router,
@@ -79,30 +69,66 @@ export class MenuBarComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this.fetchUser();
-    }
-
-    ngOnRefresh(): void {
-        this.fetchUser();
-    }
-
-    /**
-     * Function which handles clicking the logout button
-     */
-    handleLogout(): void {
-        this.authService.logout().subscribe();
-        void this.router.navigate(['login']); // after logout, go back to the login-page
-    }
-
-    /**
-     * Fetches information about the logged-in user
-     */
-    fetchUser(): void {
-        this.userService.getOwnUser().subscribe((user): void => {
-            this.user = user;
-            this.buttons = this.buttonMap.getButtons(this.user);
+        // Subscribe to login state changes.
+        // When the user is logged in, fetch the user data.
+        // When logged out, clear the local state.
+        this.authSubscription = this.authService.isLoggedIn$.subscribe(isLoggedIn => {
+            if (isLoggedIn) {
+                this.fetchUser();
+            } else {
+                this.clearUserData();
+            }
         });
     }
 
+    ngOnDestroy(): void {
+        if (this.authSubscription) {
+            this.authSubscription.unsubscribe();
+        }
+    }
 
+    /**
+     * Logout the current user.
+     */
+    handleLogout(): void {
+        console.log('Logging out...');
+        this.authService.logout().subscribe({
+            next: () => {
+                // Clear the local state immediately after a successful logout.
+                this.clearUserData();
+                // Navigate to the login page.
+                this.router.navigate(['/login']);
+            },
+            error: (err) => {
+                console.error('Logout failed:', err);
+                // Even on error, clear local state and navigate to login.
+                this.clearUserData();
+                this.router.navigate(['/login']);
+            }
+        });
+    }
+
+    /**
+     * Fetches the currently logged-in user's details.
+     */
+    fetchUser(): void {
+        this.userService.getOwnUser().subscribe({
+            next: (user: User): void => {
+                this.user = user;
+                this.buttons = this.buttonMap.getButtons(this.user);
+            },
+            error: (err): void => {
+                console.error('Error fetching user:', err);
+                this.router.navigate(['/login']);
+            }
+        });
+    }
+
+    /**
+     * Clears the local user data and button array.
+     */
+    private clearUserData(): void {
+        this.user = null;
+        this.buttons = [];
+    }
 }

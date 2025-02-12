@@ -36,6 +36,12 @@ import { SalesmanValuconListPageComponent } from './pages/salesman-valucon-list-
 import {MatChipsModule} from "@angular/material/chips";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {CommonModule, NgOptimizedImage} from "@angular/common";
+import { APP_INITIALIZER } from '@angular/core';
+import { AuthService } from './services/auth.service';
+
+export function initializeApp(authService: AuthService) {
+    return () => authService.checkLogin().toPromise();
+}
 
 @NgModule({
     declarations: [
@@ -78,7 +84,14 @@ import {CommonModule, NgOptimizedImage} from "@angular/common";
         NgOptimizedImage,
         FormsModule
     ],
-    providers: [],
+    providers: [
+        {
+            provide: APP_INITIALIZER,
+            useFactory: initializeApp,
+            deps: [AuthService],
+            multi: true
+        }
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

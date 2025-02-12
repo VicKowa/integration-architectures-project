@@ -22,7 +22,7 @@ export class ApiService {
      * @returns all salesmen
      * */
     getSalesman(): Observable<OrangeHRMSalesmanDTO[]> {
-        return this.http.get<Partial<OrangeHRMSalesmanDTO>[]>(`${this.URL}/salesmanohrm`).pipe(
+        return this.http.get<Partial<OrangeHRMSalesmanDTO>[]>(`${this.URL}/salesmanohrm`, {withCredentials: true}).pipe(
             map((response: Partial<OrangeHRMSalesmanDTO>[]): OrangeHRMSalesmanDTO[] =>
                 response.map((data: Partial<OrangeHRMSalesmanDTO>): OrangeHRMSalesmanDTO =>
                     OrangeHRMSalesmanDTO.fromJSON(data)
@@ -37,7 +37,7 @@ export class ApiService {
      * @returns The salesman
      * */
     getSalesmanById(sid: string): Observable<OrangeHRMSalesmanDTO> {
-        return this.http.get<Partial<OrangeHRMSalesmanDTO>>(`${this.URL}/salesmanohrm/${sid}`).pipe(
+        return this.http.get<Partial<OrangeHRMSalesmanDTO>>(`${this.URL}/salesmanohrm/${sid}`, {withCredentials: true}).pipe(
             map((data: Partial<OrangeHRMSalesmanDTO>): OrangeHRMSalesmanDTO =>
                 OrangeHRMSalesmanDTO.fromJSON(data)
             )
@@ -50,7 +50,9 @@ export class ApiService {
      * @returns all sales orders from a salesman
      * */
     getSalesOrders(sid: string): Observable<OpenCRXSaleDTO[]> {
-        return this.http.get<Partial<OpenCRXSaleDTO>[]>(`${this.URL}/products/sales?salesman=${sid}`).pipe(
+        return this.http.get<Partial<OpenCRXSaleDTO>[]>(`${this.URL}/products/sales?salesman=${sid}`, {
+            withCredentials: true
+        }).pipe(
             map((response: Partial<OpenCRXSaleDTO>[]): OpenCRXSaleDTO[] =>
                 response.map((data: Partial<OpenCRXSaleDTO>): OpenCRXSaleDTO =>
                     OpenCRXSaleDTO.fromJSON(data)
@@ -59,14 +61,6 @@ export class ApiService {
         );
     }
 
-    /**
-     * returns the bonuses of a salesman
-     * @param sid - The salesman id
-     * @returns The bonuses of the salesman
-     * */
-    getBonuses(sid: string): Observable<string[]> {
-        return this.http.get<string[]>(`${this.URL}/bonus/total/${sid}`); // TODO: Implement bonus endpoint for bonuses from all years
-    }
 
     /**
      * returns all roles
@@ -92,7 +86,7 @@ export class ApiService {
      * @returns The bonuses of the salesman (Odoo)
      * */
     getOdooBonuses(id: string): Observable<OdooBonusDTO[]> {
-        return this.http.get<Partial<OdooBonusDTO[]>>(`${this.URL}/odoo/bonus/${id}`).pipe(
+        return this.http.get<Partial<OdooBonusDTO[]>>(`${this.URL}/odoo/bonus/${id}`, { withCredentials: true }).pipe(
             map((response: Partial<OdooBonusDTO[]>): OdooBonusDTO[] =>
                 response.map((data: Partial<OdooBonusDTO>): OdooBonusDTO =>
                     OdooBonusDTO.fromJSON(data)
@@ -107,7 +101,7 @@ export class ApiService {
      * @returns The salesman
      * */
     getOdooSalesman(id: string): Observable<OdooSalesmanDTO> {
-        return this.http.get<Partial<OdooSalesmanDTO>>(`${this.URL}/odoo/salesman/${id}`).pipe(
+        return this.http.get<Partial<OdooSalesmanDTO>>(`${this.URL}/odoo/salesman/${id}`, { withCredentials: true }).pipe(
             map((data: Partial<OdooSalesmanDTO>): OdooSalesmanDTO =>
                 OdooSalesmanDTO.fromJSON(data)
             )

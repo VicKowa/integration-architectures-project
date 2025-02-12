@@ -20,24 +20,29 @@ exports.login = function (req, res){
 }
 
 /**
- * endpoint, which handles logout
- * @param req express request
- * @param res express response
- * @return {Promise<void>}
+ * Endpoint that handles logout.
+ * @param req Express request
+ * @param res Express response
  */
-exports.logout = function (req, res){
-    authService.deAuthenticate(req.session); //destroy session
+exports.logout = function (req, res) {
+    console.log("Logout endpoint called.");
 
-    req.session.destroy(err => {
-        if (err) {
-            return res.status(500).send('Logout failed');
-        }
+    // Temporarily remove this call to see if it causes the hang:
+    authService.deAuthenticate(req.session);
 
-        res.clearCookie('session');
-        res.clearCookie('session.sig');
-        res.send('Logout successful')
-    });
-}
+    // req.session = null;
+    // console.log("Session cleared (set to null).");
+    //
+    // // Clear cookies (optional, depending on your configuration)
+    // res.clearCookie('session');
+    // res.clearCookie('session.sig');
+    // console.log("Cookies cleared. Sending response now.");
+
+    res.send('Logout successful');
+    console.log("Logout response sent.");
+};
+
+
 
 /**
  * endpoint, which returns whether a user is authenticated
