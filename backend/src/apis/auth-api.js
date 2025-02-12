@@ -27,7 +27,16 @@ exports.login = function (req, res){
  */
 exports.logout = function (req, res){
     authService.deAuthenticate(req.session); //destroy session
-    res.send('logout successful');
+
+    req.session.destroy(err => {
+        if (err) {
+            return res.status(500).send('Logout failed');
+        }
+
+        res.clearCookie('session');
+        res.clearCookie('session.sig');
+        res.send('Logout successful')
+    });
 }
 
 /**

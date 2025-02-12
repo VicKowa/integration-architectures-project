@@ -19,7 +19,7 @@ export class AuthGuardService {
     // mapping isLoggedIn():Observable to this function:
         return this.authService.isLoggedIn()
             .pipe(
-                map((state): boolean => {
+                map((state: boolean): boolean => {
                     if (!state) { // go back to login, if user is not allowed to enter
                         void this.router.navigate(['login']);
                     }

@@ -1,4 +1,4 @@
-import {Component, NgModule, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {AuthService} from './services/auth.service';
 
 @Component({
@@ -6,15 +6,16 @@ import {AuthService} from './services/auth.service';
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
-
-    isLoggedIn: boolean;
-
-    constructor(private authService: AuthService) {
-    }
+export class AppComponent implements OnInit {
+    constructor(
+        protected authService: AuthService,
+        private cd: ChangeDetectorRef
+    ) { }
 
     ngOnInit(): void {
-        this.authService.subscribeLoginChange((newState: boolean): void => {this.isLoggedIn = newState; });
-        this.authService.isLoggedIn().subscribe();
+        this.authService.isLoggedIn$.subscribe((value: boolean) => {
+            console.log('Aktueller isLoggedIn-Wert in Menubar:', value);
+            this.cd.markForCheck();
+        });
     }
 }

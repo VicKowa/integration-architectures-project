@@ -1,10 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Credentials} from '../models/Credentials';
 import {HttpClient, HttpResponse} from '@angular/common/http';
-import {Observable, Observer} from 'rxjs';
-import {map, tap} from 'rxjs/operators';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {tap} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
-import {User} from "@app/models/User";
 import UserDTO from "@app/dtos/UserDTO";
 
 /**
@@ -16,50 +15,23 @@ import UserDTO from "@app/dtos/UserDTO";
 })
 export class AuthService {
 
-    loggedIn = false;
-    authPreCheck = false;
-    listeners: ((param: boolean) => void)[] = [];
+    private loggedInSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    isLoggedIn$: Observable<boolean> = this.loggedInSubject.asObservable();
 
     constructor(private http: HttpClient) {
+        // Check login status on startup
+        this.checkLogin().subscribe();
     }
 
     /**
      * returns the current login state
      */
     isLoggedIn(): Observable<boolean> {
-        if (!this.authPreCheck) {
-            return this.checkLogin()
-                .pipe(
-                    map((response: HttpResponse<{ loggedIn: boolean }>): boolean => {
-                        this.emitLoginChange(response.body.loggedIn);
-                        return response.body.loggedIn;
-                    })
-                );
-        }
-        return new Observable((observer: Observer<boolean>): void => {
-            observer.next(this.loggedIn);
-            observer.complete();
-        });
+        return this.isLoggedIn$;
     }
 
-    /**
-     * subscribe to changes of the login state
-     *
-     * @param callback
-     */
-    subscribeLoginChange(callback: (param: boolean) => void): void {
-        this.listeners.push(callback);
-    }
-
-    /**
-     * notifies all listeners with a new login state
-     *
-     * @param newState
-     */
-    emitLoginChange(newState: boolean): void {
-        this.listeners.forEach((callback): void => {
-            callback(newState);
-        });
+    private setLoginState(newState: boolean): void {
+        this.loggedInSubject.next(newState);
     }
 
     /**
@@ -69,7 +41,11 @@ export class AuthService {
         return this.http.get<{ loggedIn: boolean }>(environment.apiEndpoint + '/api/login', {
             withCredentials: true,
             observe: 'response'
-        });
+        }).pipe(
+            tap((response: HttpResponse<{ loggedIn: boolean }>): void => {
+                this.setLoginState(response.body.loggedIn);
+            })
+        );
     }
 
     /**
@@ -82,28 +58,27 @@ export class AuthService {
             withCredentials: true,
             observe: 'response',
             responseType: 'text'
-        })
-            .pipe(
-                tap((response): void => {
-                    if (response.status === 200) { // if request was successful
-                        this.loggedIn = true; // set new stat
-                        this.emitLoginChange(true); // notify listeners
-                    }
-                })
-            );
+        }).pipe(
+            tap((response: HttpResponse<any>): void => {
+                if (response.status === 200) { // if request was successful
+                    this.setLoginState(true);
+                }
+            })
+        );
     }
 
     /**
      *
      */
     logout(): Observable<HttpResponse<any>> {
-        return this.http.delete(environment.apiEndpoint + '/api/login',
-            {withCredentials: true, observe: 'response', responseType: 'text'}
-        ).pipe(
-            tap((response): void => {
+        return this.http.delete(environment.apiEndpoint + '/api/login', {
+            withCredentials: true,
+            observe: 'response',
+            responseType: 'text'
+        }).pipe(
+            tap((response: HttpResponse<any>): void => {
                 if (response.status === 200) {
-                    this.loggedIn = false;
-                    this.emitLoginChange(false);
+                    this.setLoginState(false);
                 }
             })
         );
@@ -123,8 +98,7 @@ export class AuthService {
             .pipe(
                 tap((response: HttpResponse<any>): void => {
                     if (response.status === 200) {
-                        this.loggedIn = true;
-                        this.emitLoginChange(true);
+                        this.setLoginState(true);
                     }
                 })
             );
