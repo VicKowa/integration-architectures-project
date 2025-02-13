@@ -13,6 +13,7 @@ import {ApiService} from '@app/services/api-service/api.service';
     selector: 'app-listed-bonuses-page',
     templateUrl: './list-evaluation.component.html',
     styleUrls: ['./list-evaluation.component.css'],
+    standalone: false
 })
 export class ListEvaluationComponent implements OnInit {
     @RoutingInput() year = '2025'; // Default year is 2025

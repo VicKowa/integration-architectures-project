@@ -7,7 +7,8 @@ import {Router} from '@angular/router';
 @Component({
     selector: 'app-salesman-valucon-list-page',
     templateUrl: './salesman-valucon-list-page.component.html',
-    styleUrls: ['./salesman-valucon-list-page.component.css']
+    styleUrls: ['./salesman-valucon-list-page.component.css'],
+    standalone: false
 })
 export class SalesmanValuconListPageComponent implements OnInit {
     data: {

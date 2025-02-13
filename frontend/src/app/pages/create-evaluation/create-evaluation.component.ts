@@ -30,7 +30,8 @@ export interface SocialPerformanceRecordData {
 @Component({
     selector: 'app-create-bonus',
     templateUrl: './create-evaluation.component.html',
-    styleUrls: ['./create-evaluation.component.css']
+    styleUrls: ['./create-evaluation.component.css'],
+    standalone: false
 })
 export class CreateEvaluationComponent implements OnInit {
 

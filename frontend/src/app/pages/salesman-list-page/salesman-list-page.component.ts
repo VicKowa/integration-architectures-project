@@ -6,7 +6,8 @@ import { Router } from '@angular/router';
 @Component({
     selector: 'app-test-page',
     templateUrl: './salesman-list-page.component.html',
-    styleUrls: ['./salesman-list-page.component.css']
+    styleUrls: ['./salesman-list-page.component.css'],
+    standalone: false
 })
 export class SalesmanListPageComponent implements OnInit {
 

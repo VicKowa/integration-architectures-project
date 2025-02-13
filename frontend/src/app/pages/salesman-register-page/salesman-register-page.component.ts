@@ -9,7 +9,8 @@ import { HttpResponse } from '@angular/common/http';
 @Component({
     selector: 'app-registration-view',
     templateUrl: './salesman-register-page.component.html',
-    styleUrls: ['./salesman-register-page.component.css']
+    styleUrls: ['./salesman-register-page.component.css'],
+    standalone: false
 })
 export class SalesmanRegisterComponent implements OnInit {
     registerForm: FormGroup;

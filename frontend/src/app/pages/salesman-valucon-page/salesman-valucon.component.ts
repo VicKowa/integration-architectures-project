@@ -8,7 +8,8 @@ import OdooSalesmanDTO from '@app/dtos/Odoo/OdooSalesmanDTO';
 @Component({
     selector: 'app-salesman-valucon',
     templateUrl: './salesman-valucon.component.html',
-    styleUrls: ['./salesman-valucon.component.css']
+    styleUrls: ['./salesman-valucon.component.css'],
+    standalone: false
 })
 
 export class SalesmanValuconComponent implements OnInit {

@@ -33,7 +33,8 @@ Chart.register(BarController, BarElement, CategoryScale, LinearScale, Title, Too
         .mat-mdc-table .mat-mdc-row.hr-approval .mat-mdc-cell {
             background-color: rgba(255, 0, 0, 0.1) !important;
         }
-    `]
+    `],
+    standalone: false
 })
 
 export class SalesmanDetailsComponent implements OnInit {

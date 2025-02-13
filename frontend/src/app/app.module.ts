@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, inject, provideAppInitializer } from '@angular/core';
 
 import { AppRouting } from './app.routing';
 import { AppComponent } from './app.component';
@@ -35,7 +35,7 @@ import { SalesmanValuconListPageComponent } from './pages/salesman-valucon-list-
 import {MatChipsModule} from '@angular/material/chips';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {CommonModule, NgOptimizedImage} from '@angular/common';
-import { APP_INITIALIZER } from '@angular/core';
+
 import { AuthService } from './services/auth.service';
 
 export const initializeApp = (authService: AuthService): (() => Promise<HttpResponse<any>>) =>
@@ -79,12 +79,10 @@ export const initializeApp = (authService: AuthService): (() => Promise<HttpResp
         CommonModule,
         NgOptimizedImage,
         FormsModule], providers: [
-        {
-            provide: APP_INITIALIZER,
-            useFactory: initializeApp,
-            deps: [AuthService],
-            multi: true
-        },
+        provideAppInitializer(() => {
+        const initializerFn = (initializeApp)(inject(AuthService));
+        return initializerFn();
+      }),
         provideHttpClient(withInterceptorsFromDi())
     ] })
 export class AppModule { }
