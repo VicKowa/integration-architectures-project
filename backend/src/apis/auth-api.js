@@ -1,5 +1,6 @@
 const userService = require('../services/user-service')
 const authService = require('../services/auth-service');
+const UserDTO = require("../dtos/UserDTO");
 
 /**
  * endpoint, which handles login
@@ -19,15 +20,26 @@ exports.login = function (req, res){
 }
 
 /**
- * endpoint, which handles logout
- * @param req express request
- * @param res express response
- * @return {Promise<void>}
+ * Endpoint that handles logout.
+ * @param req Express request
+ * @param res Express response
  */
-exports.logout = function (req, res){
-    authService.deAuthenticate(req.session); //destroy session
-    res.send('logout successful');
-}
+exports.logout = function (req, res) {
+    // Temporarily remove this call to see if it causes the hang:
+    authService.deAuthenticate(req.session);
+
+    // req.session = null;
+    // console.log("Session cleared (set to null).");
+    //
+    // // Clear cookies (optional, depending on your configuration)
+    // res.clearCookie('session');
+    // res.clearCookie('session.sig');
+    // console.log("Cookies cleared. Sending response now.");
+
+    res.send('Logout successful');
+};
+
+
 
 /**
  * endpoint, which returns whether a user is authenticated
@@ -41,4 +53,38 @@ exports.isLoggedIn = function (req, res){
     }else {
         res.send({loggedIn: false});
     }
+}
+
+exports.register = function (req, res){
+    const db = req.app.get('db'); //get database from express
+    const user = req.body;
+
+    userService.add(db, UserDTO.fromJSON(user)).then(_=>{ //add user via user-service
+        res.status(201).send('registration successful');
+    }).catch(_=>{
+        res.status(400).send('registration failed');
+    })
+}
+
+exports.isValidUsername = function (req, res){
+    const db = req.app.get('db');//get database from express
+    const username = req.query.username;
+
+    userService.isUsernameAvailable(db, username).then(user=>{ //check if user exists
+        // return false if a user with that username already exists
+        if (user) {
+            res.send({
+                valid: false,
+                ohrm: false
+            });
+            return;
+        }
+
+        // check if the username is a sid from a salesman stored in OrangeHRM or an id from a user stored in Odoo
+        userService.isSalesman(db, username).then(data => {
+            res.send(data);
+        }).catch(_ => {
+            res.send({valid: false});
+        });
+    })
 }

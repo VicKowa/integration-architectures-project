@@ -1,14 +1,37 @@
 <h1>Bonus management</h1>
-<h2>{{year}}</h2>
+<label for="year-select">Year of Performance:</label>
+<select id="year-select" [(ngModel)]="year" (change)="onYearChange($event.target.value)">
+    <option *ngFor="let y of years" [value]="y">{{ y }}</option>
+</select>
 <div class="content-wrapper">
     <div class="content-column">
         <h3>TODO</h3>
-        <app-salesman-table #salesmenToEvaluateTable [salesmenDataSource]="salesmenToEvaluate"></app-salesman-table>
+        <app-salesman-table
+            #salesmenToEvaluateTable
+            [salesmenDataSource]="salesmenToEvaluate"
+            [globalSelectedSalesman]="eventData.selectedSalesman"
+            (salesmanSelected)="onSalesmanSelected($event, true)">
+        </app-salesman-table>
     </div>
     <div class="content-column">
         <h3>Done</h3>
-        <app-salesman-table #evaluatedSalesmenTable [salesmenDataSource]="evaluatedSalesmen"></app-salesman-table>
+        <app-salesman-table
+            #evaluatedSalesmenTable
+            [salesmenDataSource]="evaluatedSalesmen"
+            [globalSelectedSalesman]="eventData.selectedSalesman"
+            (salesmanSelected)="onSalesmanSelected($event, false)">
+        </app-salesman-table>
     </div>
 </div>
-<button mat-raised-button color="primary" (click)="createEvaluation()" class="submit-button">Create Evaluation</button>
-
+<button mat-raised-button color="primary"
+        (click)="createEvaluation()"
+        class="button"
+        *ngIf="salesmenToEvaluateTable.getSelectedSalesman() !== null && eventData.toEvaluate">
+    {{ userRole === 'ceo' ? 'Evaluate' : 'Verify Evaluation' }}
+</button>
+<button mat-raised-button color="primary"
+        (click)="viewEvaluation()"
+        class="button"
+        *ngIf="evaluatedSalesmenTable.getSelectedSalesman() !== null && !eventData.toEvaluate">
+    View Evaluation
+</button>

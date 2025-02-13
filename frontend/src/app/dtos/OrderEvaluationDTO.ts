@@ -4,6 +4,7 @@ export interface Order {
     clientRanking: string;
     items: number;
     bonus: number;
+    comment: string;
 }
 
 export class OrderEvaluationDTO {
@@ -41,6 +42,7 @@ export class OrderEvaluationDTO {
             clientRanking: '',
             items: 0,
             bonus: 0,
+            comment: ''
         };
         const defaultItems = 0;
         return orders.map((order: Order): Order => {

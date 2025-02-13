@@ -5,12 +5,12 @@ import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-test-page',
-    templateUrl: './test-page.component.html',
-    styleUrls: ['./test-page.component.css']
+    templateUrl: './salesman-list-page.component.html',
+    styleUrls: ['./salesman-list-page.component.css']
 })
-export class TestPageComponent implements OnInit {
+export class SalesmanListPageComponent implements OnInit {
 
-    displayedColumns: string[] = ['sid', 'firstname', 'lastname', 'recordCount'];
+    displayedColumns: string[] = ['sid', 'name'];
     salesmen: OrangeHRMSalesmanDTO[] = [];
 
     constructor(private apiService: ApiService, private router: Router) { }
@@ -23,10 +23,6 @@ export class TestPageComponent implements OnInit {
         this.apiService.getSalesman().subscribe((data: OrangeHRMSalesmanDTO[]): void => {
             this.salesmen = data;
         });
-    }
-
-    getRecordCount(salesman: OrangeHRMSalesmanDTO): number {
-        return 0; // TODO: Implement record count
     }
 
     navigateToDetails(sid: string): void {

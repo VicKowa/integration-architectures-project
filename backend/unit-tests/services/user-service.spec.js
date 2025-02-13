@@ -10,9 +10,10 @@ const User = require("../../src/models/User");
 const crypto = require("crypto");
 const Credentials = require("../../src/models/Credentials");
 const {copyObject} = require("../support/copyObject");
+const Roles = require("../../src/config/roles");
 
-const demouser = new User('testuser', 'John', 'Doe', 'jd@test.com', 'secret', false);
-const demouser2 = new User('testuser2', 'Jane', 'Doe', 'jad@test.com', 'xyz', false);
+const demouser = new User('testuser', 'John', 'Doe', 'jd@test.com', 'secret', Roles.SALESMAN);
+const demouser2 = new User('testuser2', 'Jane', 'Doe', 'jad@test.com', 'xyz', Roles.SALESMAN);
 
 let db;
 

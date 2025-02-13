@@ -142,6 +142,7 @@ module.exports = {
             }
           ],
           "@typescript-eslint/no-unused-expressions": "error",
+          "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
           "@typescript-eslint/no-use-before-define": "off",
           "@typescript-eslint/no-var-requires": "off",
           "@typescript-eslint/prefer-for-of": "error",

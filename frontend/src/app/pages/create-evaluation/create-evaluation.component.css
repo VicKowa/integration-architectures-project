@@ -67,6 +67,7 @@
     box-shadow: 0 0 5px rgba(63, 81, 181, 0.5);
 }
 
+
 /* Comments Section Styles */
 .tab.full-width {
     width: 100%;
@@ -94,4 +95,10 @@ textarea {
     width: 100%;
     min-height: 200px;
     font-size: 1rem;
+}
+
+::ng-deep .mat-raised-button.mat-primary {
+    background-color: #ff5722 !important; /* Custom primary color */
+    color: white !important;
+    font-weight: bold;
 }

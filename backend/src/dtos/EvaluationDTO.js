@@ -12,7 +12,7 @@ class EvaluationDTO {
      * @param {OrderEvaluationDTO}orderEvaluation
      * @param {SocialPerformanceRecordDTO} socialPerformanceEvaluation
      * @param approvalStatus
-     * @param totalBonus
+     * @param comment
      */
 
     constructor(sid,
@@ -21,14 +21,15 @@ class EvaluationDTO {
                 orderEvaluation,
                 socialPerformanceEvaluation,
                 approvalStatus,
-                totalBonus) {
+                comment) {
         this.approvalStatus = approvalStatus || approvalEnum.NONE;
         this.orderEvaluation = orderEvaluation || null;
         this.socialPerformanceEvaluation = socialPerformanceEvaluation || null;
-        this.totalBonus = totalBonus || 0;
+        this.totalBonus = this.calculateTotalBonus() || 0;
         this.year = year;
         this.department = department;
         this.sid = sid || null;
+        this.comment = comment || '';
     }
 
     /**
@@ -42,7 +43,7 @@ class EvaluationDTO {
             throw new Error("OrderEvaluation or SocialPerformanceEvaluation is missing");
         }
 
-        this.totalBonus =
+        return this.totalBonus =
             // Sum of all order evaluation bonuses
             this.orderEvaluation.totalBonus
         +
@@ -57,15 +58,46 @@ class EvaluationDTO {
      * @returns {EvaluationDTO} EvaluationDTO object
      */
     static fromJSON(json) {
-        return new EvaluationDTO(
-            json.sid,
-            json.year,
-            json.department,
-            OrderEvaluationDTO.fromJSON(json.orderEvaluation),
-            SocialPerformanceRecordDTO.fromJSON(json.socialPerformanceEvaluation),
-            json.approvalStatus,
-            json.totalBonus,
+       return new EvaluationDTO(
+              json.sid,
+              json.year,
+              json.department,
+              json.orderEvaluation,
+              json.socialPerformanceEvaluation,
+              json.approvalStatus,
+              json.comment
+       )
+    }
+
+    // TODO change
+    /**
+     *
+     * @param salesOrders
+     * @returns {*}
+     */
+    static fromOpenCRXSaleDTO(salesOrders) {
+        const allOrders = salesOrders.flatMap(sale =>
+            sale.orders.map(order => ({
+                productNumber: order.crx_product?.productNumber || '',
+                productName: order.crx_product?.name || '',
+                clientRanking: sale.priority || '',
+                items: EvaluationDTO.formatItems(order.quantity) || '0',
+                bonus: 0, // Assuming bonus needs to be calculated later
+                comment: '',
+            }))
         );
+
+        const totalBonus = allOrders.reduce((acc, order) => acc + order.bonus, 0);
+        return new OrderEvaluationDTO(totalBonus, allOrders);
+    }
+
+    /**
+     * Format the items to remove trailing zeros
+     * @param {number} quantity
+     * @returns {string} formatted quantity
+     */
+    static formatItems(quantity) {
+        return parseFloat(quantity).toString();
     }
 }
 
@@ -74,10 +106,10 @@ class EvaluationDTO {
  * @type {{SALESMAN: string, HR: string, NONE: string, CEO: string}}
  */
 const approvalEnum = {
-    NONE: 'NONE',
-    CEO: 'CEO',
-    HR: 'HR',
-    SALESMAN: 'SALESMAN',
+    NONE: 0,
+    CEO: 1,
+    HR: 2,
+    SALESMAN: 3,
 };
 
 module.exports = EvaluationDTO;

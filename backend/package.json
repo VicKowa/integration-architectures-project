@@ -7,7 +7,8 @@
     "start_win": "set NODE_ENV=development&& node ./src/app.js",
     "start_production": "set NODE_ENV=production&& node ./src/app.js",
     "test_unit": "mocha",
-    "coverage": "nyc --all --reporter=cobertura --reporter=text-summary npm run test_unit"
+    "coverage": "nyc --all --reporter=cobertura --reporter=text-summary npm run test_unit",
+    "coverage-sevices": "nyc --all --include=unit-tests/services --reporter=cobertura --reporter=text-summary npm run test_unit"
   },
   "mocha": {
     "exit": true,
@@ -30,11 +31,9 @@
     "yaml": "^2.6.1"
   },
   "devDependencies": {
-    "chai": "^4.3.6",
     "chai-as-promised": "^7.1.1",
     "chai-exclude": "^2.1.0",
     "cypress-multi-reporters": "^1.6.1",
-    "mocha": "^10.0.0",
     "mocha-junit-reporter": "^2.0.2",
     "mongo-mock": "^4.1.0",
     "nyc": "^15.1.0"

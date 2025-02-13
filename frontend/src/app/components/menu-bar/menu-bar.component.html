@@ -1,12 +1,31 @@
 <mat-toolbar color="primary">
     <mat-icon class="app-icon">token</mat-icon>
     <span class="appName">SmartHoover LTD.</span>
-    <button class="menu-button" mat-flat-button color="primary" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" [routerLink]="button.routerLink" *ngFor="let button of buttons">{{button.title}}</button>
-    <!-- *ngFor specifies a foreach loop for rendering an element repeatedly; in double curly braces {{}} javascript-expressions/variables can be printed out to the page -->
+
+    <!-- Loop through buttons, handling both routerLink and click actions -->
+    <button
+        class="menu-button"
+        mat-flat-button
+        color="primary"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}"
+        *ngFor="let button of buttons"
+        [routerLink]="button.routerLink || null"
+        (click)="button.action ? button.action() : null">
+        {{ button.title }}
+    </button>
+
     <span class="spacer"></span>
-    <span *ngIf="user" class="user-displayname" >{{user.firstname + ' ' + user.lastname}}</span> <!-- *ngIf contains a condition, which has to be met before this element is rendered -->
-    <!-- Add a label for the user's role -->
+
+    <!-- Display the logged-in user's full name -->
+    <span *ngIf="user" class="user-displayname">
+        {{ user.firstname + ' ' + user.lastname }}
+    </span>
+
+    <!-- Display the user's role -->
     <span *ngIf="user?.role" class="user-role">({{ user.role }})</span>
+
+    <!-- Logout Button -->
     <button mat-icon-button aria-label="Logout button" (click)="handleLogout()">
         <mat-icon>logout</mat-icon>
     </button>

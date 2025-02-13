@@ -1,0 +1,23 @@
+<h1>SmartHoover Senior Salesperson</h1>
+<table mat-table class="mat-elevation-z8 cdk-table" [dataSource]="salesmen">
+
+    <ng-container matColumnDef="sid">
+        <th mat-header-cell *matHeaderCellDef>SID</th>
+        <td mat-cell *matCellDef="let salesman" (click)="navigateToDetails(salesman.code)">
+            {{ salesman.code }}
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let salesman" (click)="navigateToDetails(salesman.code)">
+            {{ salesman.firstName }} {{ salesman.lastName }}
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+        (click)="navigateToDetails(row.code)"
+        style="cursor: pointer;">
+    </tr>
+</table>

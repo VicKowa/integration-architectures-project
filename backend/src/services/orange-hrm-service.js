@@ -1,5 +1,8 @@
 const axios = require('axios');
 const OrangeHRMSalesmanDTO = require('../dtos/OrangeHRM/OrangeHRMSalesmanDTO');
+const SalesmanService = require('./salesman-service');
+const Salesman = require("../models/Salesman");
+const openCRXService = require('./open-crx-service');
 
 const auth_url = 'https://sepp-hrm.inf.h-brs.de/symfony/web/index.php/oauth/issueToken';
 let access_token = null;
@@ -83,6 +86,7 @@ exports.getSalesmen = async function () {
     // get access token
     await getToken();
 
+
     // get all salesmen with access token
     const response = await axios.get('https://sepp-hrm.inf.h-brs.de/symfony/web/index.php/api/v1/employee/search', {
         headers: {
@@ -96,6 +100,18 @@ exports.getSalesmen = async function () {
 
     salesmen = salesmen.filter(salesman => salesman.jobTitle === 'Senior Salesman');
 
+    // get all open crx salesmen
+    const openCRXSalesmen = await openCRXService.getAllSalesmen();
+
+    // create list of all governmentIds
+    const governmentIds = [];
+    openCRXSalesmen.forEach(salesman => {
+        governmentIds.push(`${salesman.governmentId}`);
+    });
+
+    // filter out salesmen that are not in openCRX
+    salesmen = salesmen.filter(salesman => governmentIds.includes(salesman.code));
+
     return salesmen;
 }
 
@@ -107,12 +123,12 @@ exports.getSalesmen = async function () {
  * @returns {Promise<OrangeHRMSalesmanDTO>}
  */
 exports.getSalesmanByCode = async function (code) {
-    // get access token
-    await getToken();
-
     // check if code is given
     if (!code)
         throw new Error('Code is required!');
+
+    // get access token
+    await getToken();
 
     // get all salesmen
     const salesmen = await this.getSalesmen();
@@ -128,12 +144,12 @@ exports.getSalesmanByCode = async function (code) {
  * @returns {Promise<OrangeHRMSalesmanDTO>}
  */
 exports.getSalesmanById = async function (employeeId) {
-    // get access token
-    await getToken();
-
     // check if code is given
     if (!employeeId)
         throw new Error('Employee ID is required!');
+
+    // get access token
+    await getToken();
 
     const response = await axios.get(
         `https://sepp-hrm.inf.h-brs.de/symfony/web/index.php/api/v1/employee/${employeeId}`,
@@ -154,28 +170,45 @@ exports.getSalesmanById = async function (employeeId) {
  * @returns {Promise<any>}
  */
 exports.createBonusSalary = async function (sid, bonus) {
-    // get access token
-    await getToken();
-
     // check if sid and bonus are given
     if (!sid || !bonus)
         throw new Error('SID and Bonus are required!');
+
+    // get access token
+    await getToken();
 
     const salesmanDTO = await this.getSalesmanByCode(sid);
 
     // create bonus salary
     const response = await axios.post(
-        `https://sepp-hrm.inf.h-brs.de/symfony/web/index.php/api/v1/employee/${sid}/bonussalary`,
+        `https://sepp-hrm.inf.h-brs.de/symfony/web/index.php/api/v1/employee/${salesmanDTO.employeeId}/bonussalary`,
         {
-            id: parseInt(salesmanDTO.employeeId),
             year: parseInt(bonus.year),
             value: parseInt(bonus.value)
         },
         {
             headers: {
-                Authorization: `Bearer ${access_token}`
+                Authorization: `Bearer ${access_token}`,
+                "Content-Type": "application/x-www-form-urlencoded"
             }
         });
 
     return response.data;
+}
+
+exports.fetchAndStoreSalesmen = async function (db) {
+    // get salesmen from HRM system
+    const salesmen = await exports.getSalesmen();
+    for (const salesman of salesmen) {
+        // check if salesman already exists
+        const existingSalesman = await SalesmanService.getSalesman(db, salesman.code);
+
+        if (!existingSalesman) {
+            // store salesman in database
+            await SalesmanService.createSalesman(db, new Salesman(
+                salesman.firstName, salesman.lastName, salesman.code, salesman.jobTitle
+            ));
+        }
+    }
+
 }

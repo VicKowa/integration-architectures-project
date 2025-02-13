@@ -1,3 +1,20 @@
-<mat-card appearance="outlined">
-  <app-login></app-login>
-</mat-card>
+<ng-container class="flexbox-container">
+    <div class="login-container">
+        <img ngSrc="assets/images/application-logo.png" alt="Application Logo" class="app-logo" width="300" height="300">
+        <div class="title">
+            <h1>SmartHoover LTD.</h1>
+            <div class="subtitle-container">
+                <svg width="20" height="10">
+                    <line x1="0" y1="5" x2="20" y2="5" stroke="black" stroke-width="2"/>
+                </svg>
+                <h3>HighPerformance</h3>
+                <svg width="20" height="10">
+                    <line x1="0" y1="5" x2="20" y2="5" stroke="black" stroke-width="2"/>
+                </svg>
+            </div>
+        </div>
+        <mat-card appearance="outlined">
+            <app-login></app-login>
+        </mat-card>
+    </div>
+</ng-container>

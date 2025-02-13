@@ -21,3 +21,5 @@ class OrangeHRMBonusSalaryDTO {
         );
     }
 }
+
+module.exports = OrangeHRMBonusSalaryDTO;

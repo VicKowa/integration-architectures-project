@@ -22,6 +22,8 @@ const swaggerDocument = YAML.parse(swaggerFile);
 
 const ROLES = require('./config/roles');
 
+const {fetchAndStoreSalesmen} = require('./services/orange-hrm-service.js');
+
 let environment;
 if(process.env.NODE_ENV === 'development'){
     environment = require('../environments/environment.js').default;
@@ -62,6 +64,7 @@ MongoClient.connect('mongodb://' + db_credentials + environment.db.host + ':' + 
     const db = dbo.db(environment.db.name);
     await initDb(db); // run initialization function
     app.set('db',db); // register database in the express app
+    await fetchAndStoreSalesmen(db); // fetch and store salesmen from orangeHRM
 
     app.listen(environment.port, () => { // start webserver, after database-connection was established
         console.log('Webserver started.');
@@ -75,13 +78,12 @@ async function initDb(db){
 
         const adminPassword = environment.defaultAdminPassword;
         await userService.add(db, new User('admin', '', 'admin', '', adminPassword, ROLES.ADMIN));
-
+        await userService.add(db, new User('ceo', '', 'ceo', '', adminPassword, ROLES.CEO));
+        await userService.add(db, new User('hr', '', 'hr', '', adminPassword, ROLES.HR));
     }
 }
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-app.use("/api-docs", swaggerUi.serve, (req, res, next) => {
-    const swaggerDocument = YAML.load(path.join(__dirname, "./swagger.yaml"));
-    swaggerUi.setup(swaggerDocument)(req, res, next);
-});
+
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));

@@ -1,64 +1,63 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '@app/services/auth.service';
 import { Router } from '@angular/router';
 import { User } from '@app/models/User';
 import { UserService } from '@app/services/user.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-menu-bar',
     templateUrl: './menu-bar.component.html',
     styleUrls: ['./menu-bar.component.css']
 })
-export class MenuBarComponent implements OnInit {
+export class MenuBarComponent implements OnInit, OnDestroy {
 
     user: User;
+    buttons: { title: string; routerLink?: string; action?: () => void }[] = [];
+    private authSubscription: Subscription;
 
-    /*
-    This array holds the definition of the menu's buttons.
-    */
-    buttons = [];
-
+    // The buttonMap provides the mapping between roles and buttons.
     private buttonMap = new class ButtonMap {
-        private readonly buttonMap: Record<string, { title: string; routerLink: string }[]> = {
-            salesman_valucon: [
-                { title: 'Welcome', routerLink: '' },
-                { title: 'My Profile', routerLink: 'salesman/:sid' },
-            ],
-            salesman: [
-                { title: 'Welcome', routerLink: '' },
-                { title: 'My Profile', routerLink: 'salesman/valucon/:id' },
-            ],
-            ceo: [
-                { title: 'Welcome', routerLink: '' },
-                { title: 'Dashboard', routerLink: 'dashboard' },
-                { title: 'Test', routerLink: 'test' },
-            ],
-            hr: [
-                { title: 'Welcome', routerLink: '' },
-                { title: 'Dashboard', routerLink: 'dashboard' },
-                { title: 'Test', routerLink: 'test' },
-                { title: 'Valucon', routerLink: 'salesman/valucon' },
-            ],
-            admin: [
-                { title: 'Welcome', routerLink: '' },
-                { title: 'Dashboard', routerLink: 'dashboard' },
-                { title: 'Test', routerLink: 'test' },
-                { title: 'Valucon', routerLink: 'salesman/valucon' },
-            ],
-        };
+        private getButtonMap(username: string): Record<string, { title: string; routerLink?: string; action?: () => void }[]> {
+            return {
+                salesman_valucon: [
+                    { title: 'Welcome', routerLink: '/' },
+                    { title: 'My Profile', routerLink: `salesman/valucon/${username}` }
+                ],
+                salesman: [
+                    { title: 'Welcome', routerLink: '/' },
+                    { title: 'My Profile', routerLink: `salesman/${username}` }
+                ],
+                ceo: [
+                    { title: 'Welcome', routerLink: '/' },
+                    {
+                        title: 'Dashboard',
+                        action: (): string => window.location.href = '/eval/list?year=2025'
+                    },
+                    { title: 'SmartHoover', routerLink: 'salesman/list' },
+                    { title: 'Valucon', routerLink: 'salesman/valucon/list' }
+                ],
+                hr: [
+                    { title: 'Welcome', routerLink: '/' },
+                    {
+                        title: 'Dashboard',
+                        action: (): string => window.location.href = '/eval/list?year=2025'
+                    },
+                    { title: 'SmartHoover', routerLink: 'salesman/list' },
+                    { title: 'Valucon', routerLink: 'salesman/valucon/list' }
+                ],
+                admin: [
+                    { title: 'SmartHoover', routerLink: 'salesman/list' },
+                    { title: 'Valucon', routerLink: 'salesman/valucon/list' }
+                ],
+            };
+        }
 
-        public getButtons(role: string): { title: string; routerLink: string }[] {
-            return this.buttonMap[role] || [];
+        public getButtons(user: User): { title: string; routerLink?: string; action?: () => void }[] {
+            return this.getButtonMap(user.username)[user.role] || [];
         }
     }();
 
-    /**
-     * The following parameters specify objects, which will be provided by dependency injection
-     *
-     * @param authService
-     * @param router
-     * @param userService
-     */
     constructor(
         private authService: AuthService,
         private router: Router,
@@ -66,28 +65,66 @@ export class MenuBarComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this.fetchUser();
+        // Subscribe to login state changes.
+        // When the user is logged in, fetch the user data.
+        // When logged out, clear the local state.
+        this.authSubscription = this.authService.isLoggedIn$.subscribe((isLoggedIn: boolean): void => {
+            if (isLoggedIn) {
+                this.fetchUser();
+            } else {
+                this.clearUserData();
+            }
+        });
     }
 
-    ngOnRefresh(): void {
-        this.fetchUser();
+    ngOnDestroy(): void {
+        if (this.authSubscription) {
+            this.authSubscription.unsubscribe();
+        }
     }
 
     /**
-     * Function which handles clicking the logout button
+     * Logout the current user.
      */
     handleLogout(): void {
-        this.authService.logout().subscribe();
-        void this.router.navigate(['login']); // after logout, go back to the login-page
+        console.log('Logging out...');
+        this.authService.logout().subscribe({
+            next: (): void => {
+                // Clear the local state immediately after a successful logout.
+                this.clearUserData();
+                // Navigate to the login page.
+                void this.router.navigate(['/login']);
+            },
+            error: (err: any): void => {
+                console.error('Logout failed:', err);
+                // Even on error, clear local state and navigate to login.
+                this.clearUserData();
+                void this.router.navigate(['/login']);
+            }
+        });
     }
 
     /**
-     * Fetches information about the logged-in user
+     * Fetches the currently logged-in user's details.
      */
     fetchUser(): void {
-        this.userService.getOwnUser().subscribe((user): void => {
-            this.user = user;
-            this.buttons = this.buttonMap.getButtons(this.user.role);
+        this.userService.getOwnUser().subscribe({
+            next: (user: User): void => {
+                this.user = user;
+                this.buttons = this.buttonMap.getButtons(this.user);
+            },
+            error: (err: any): void => {
+                console.error('Error fetching user:', err);
+                void this.router.navigate(['/login']);
+            }
         });
+    }
+
+    /**
+     * Clears the local user data and button array.
+     */
+    private clearUserData(): void {
+        this.user = null;
+        this.buttons = [];
     }
 }
