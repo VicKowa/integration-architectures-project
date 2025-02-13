@@ -1,4 +1,4 @@
-interface Record {
+export interface Record {
     targetValue: number;
     actualValue: number;
     bonus: number;

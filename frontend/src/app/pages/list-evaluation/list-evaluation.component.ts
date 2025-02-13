@@ -6,7 +6,7 @@ import {SalesmanService} from '@app/services/salesman.service';
 import {EvaluationService} from '@app/services/evaluation.service';
 import {SalesmanDTO} from '@app/dtos/SalesmanDTO';
 import {ApprovalEnum, EvaluationDTO} from '@app/dtos/EvaluationDTO';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 import {ApiService} from '@app/services/api-service/api.service';
 
 @Component({
@@ -15,11 +15,18 @@ import {ApiService} from '@app/services/api-service/api.service';
     styleUrls: ['./list-evaluation.component.css'],
 })
 export class ListEvaluationComponent implements OnInit {
-
-    @RoutingInput() year: string = "2025"; // Default year is 2025
+    @RoutingInput() year = '2025'; // Default year is 2025
     years: number[] = [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025];
 
     userRole: string;
+
+    eventData: {
+        selectedSalesman: SalesmanDTO | null;
+        toEvaluate: boolean;
+    } = {
+            selectedSalesman: null,
+            toEvaluate: false
+        };
 
     salesmenToEvaluate: MatTableDataSource<SalesmanDTO> = new MatTableDataSource();
     evaluatedSalesmen: MatTableDataSource<SalesmanDTO> = new MatTableDataSource();
@@ -33,22 +40,18 @@ export class ListEvaluationComponent implements OnInit {
         private evaluationService: EvaluationService,
         private router: Router,
         private route: ActivatedRoute
-    )
-    {
+    ) { }
 
-    }
-
-    async ngOnInit(): Promise<void>{+
+    async ngOnInit(): Promise<void>{
         // Get the year from the query params
-        this.route.queryParams.subscribe(params => {
-            this.year = params['year'] || this.year;
+        this.route.queryParams.subscribe((params: Params): void => {
+            if (typeof params.year === 'string') {
+                this.year = params.year;
+            }
         });
 
         // Get user role
         this.userRole = await this.apiService.getCurrentRole().toPromise();
-
-        // // TODO: Remove dummy data
-        // this.userRole = 'ceo';
 
         // different actions based on role
         switch (this.userRole) {
@@ -115,19 +118,47 @@ export class ListEvaluationComponent implements OnInit {
     }
 
     /**
+     * Set the selected salesman
+     * */
+    onSalesmanSelected(salesman: SalesmanDTO, toEvaluate: boolean): void {
+        this.eventData = {
+            selectedSalesman: salesman,
+            toEvaluate
+        };
+    }
+
+    /**
      * Create an evaluation for the selected salesman
      * */
     async createEvaluation(): Promise<void> {
         // get the selected salesman
         const selectedSalesman: Salesman = this.salesmenToEvaluateTable.getSelectedSalesman();
 
-        if (!selectedSalesman)
+        if (!selectedSalesman) {
             return;
+        }
+
+        // check if the selected salesman is already being evaluated
+        let evaluation: EvaluationDTO = null;
+        try {
+            evaluation = await this.evaluationService.getEvaluation(selectedSalesman.sid, this.year).toPromise();
+        } catch (_) {
+            // do nothing
+        }
+
+        if (evaluation) {
+            // redirect to the evaluation creation page because it already exists
+            await this.router.navigate([`/eval/create/${selectedSalesman.sid}/${this.year}`]);
+
+            // stop the function so that the evaluation is not created again
+            return;
+        }
 
         try {
             // create an empty evaluation for the selected salesman if the role is the CEO
-            if (this.userRole === 'ceo')
+            if (this.userRole === 'ceo') {
                 await this.evaluationService.createEvaluation(selectedSalesman.sid, this.year).toPromise();
+            }
 
             // redirect to the evaluation creation page
             await this.router.navigate([`/eval/create/${selectedSalesman.sid}/${this.year}`]);
@@ -143,8 +174,9 @@ export class ListEvaluationComponent implements OnInit {
         // get the selected salesman
         const salesman: Salesman = this.evaluatedSalesmenTable.getSelectedSalesman();
 
-        if (!salesman)
+        if (!salesman) {
             return;
+        }
 
         // redirect to the evaluation view page
         await this.router.navigate([`/eval/view/${salesman.sid}/${this.year}`]);
@@ -158,7 +190,7 @@ export class ListEvaluationComponent implements OnInit {
             relativeTo: this.route,
             queryParams: { year: selectedYear },
             queryParamsHandling: 'merge'
-        }).then(() => {
+        }).then((): void => {
             window.location.reload();
         });
     }

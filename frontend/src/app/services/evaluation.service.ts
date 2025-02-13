@@ -14,6 +14,7 @@ export class EvaluationService {
 
     /**
      * Create a new evaluation
+     *
      * @returns True if the evaluation was created, false otherwise
      * @param sid - The salesman id
      * @param year - The year of performance
@@ -32,6 +33,7 @@ export class EvaluationService {
 
     /**
      * Get all evaluations
+     *
      * @param query - The query to filter the evaluations
      * @returns All evaluations
      * */
@@ -44,6 +46,7 @@ export class EvaluationService {
 
     /**
      * Get the evaluation of a salesman for a specific year
+     *
      * @param sid - The salesman id
      * @param year - The year
      * @returns The evaluation of the salesman for the specific year
@@ -57,6 +60,7 @@ export class EvaluationService {
 
     /**
      * Get all evaluations of a specific salesman
+     *
      * @param sid - The salesman id
      * @returns All evaluations of the salesman
      * */
@@ -71,6 +75,7 @@ export class EvaluationService {
 
     /**
      * Update an evaluation
+     *
      * @param evaluation
      * @returns True if the evaluation was updated, false otherwise
      */

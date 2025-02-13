@@ -29,7 +29,7 @@ export class MenuBarComponent implements OnInit, OnDestroy {
                 ceo: [
                     {
                         title: 'Dashboard',
-                        action: () => window.location.href = '/eval/list?year=2025'
+                        action: (): string => window.location.href = '/eval/list?year=2025'
                     },
                     { title: 'SmartHoover', routerLink: 'salesman/list' },
                     { title: 'Valucon', routerLink: 'salesman/valucon/list' }
@@ -37,16 +37,12 @@ export class MenuBarComponent implements OnInit, OnDestroy {
                 hr: [
                     {
                         title: 'Dashboard',
-                        action: () => window.location.href = '/eval/list?year=2025'
+                        action: (): string => window.location.href = '/eval/list?year=2025'
                     },
                     { title: 'SmartHoover', routerLink: 'salesman/list' },
                     { title: 'Valucon', routerLink: 'salesman/valucon/list' }
                 ],
                 admin: [
-                    {
-                        title: 'Dashboard',
-                        action: () => window.location.href = '/eval/list?year=2025'
-                    },
                     { title: 'SmartHoover', routerLink: 'salesman/list' },
                     { title: 'Valucon', routerLink: 'salesman/valucon/list' }
                 ],
@@ -68,7 +64,7 @@ export class MenuBarComponent implements OnInit, OnDestroy {
         // Subscribe to login state changes.
         // When the user is logged in, fetch the user data.
         // When logged out, clear the local state.
-        this.authSubscription = this.authService.isLoggedIn$.subscribe(isLoggedIn => {
+        this.authSubscription = this.authService.isLoggedIn$.subscribe((isLoggedIn: boolean): void => {
             if (isLoggedIn) {
                 this.fetchUser();
             } else {
@@ -89,17 +85,17 @@ export class MenuBarComponent implements OnInit, OnDestroy {
     handleLogout(): void {
         console.log('Logging out...');
         this.authService.logout().subscribe({
-            next: () => {
+            next: (): void => {
                 // Clear the local state immediately after a successful logout.
                 this.clearUserData();
                 // Navigate to the login page.
-                this.router.navigate(['/login']);
+                void this.router.navigate(['/login']);
             },
-            error: (err) => {
+            error: (err: any): void => {
                 console.error('Logout failed:', err);
                 // Even on error, clear local state and navigate to login.
                 this.clearUserData();
-                this.router.navigate(['/login']);
+                void this.router.navigate(['/login']);
             }
         });
     }
@@ -113,9 +109,9 @@ export class MenuBarComponent implements OnInit, OnDestroy {
                 this.user = user;
                 this.buttons = this.buttonMap.getButtons(this.user);
             },
-            error: (err): void => {
+            error: (err: any): void => {
                 console.error('Error fetching user:', err);
-                this.router.navigate(['/login']);
+                void this.router.navigate(['/login']);
             }
         });
     }
