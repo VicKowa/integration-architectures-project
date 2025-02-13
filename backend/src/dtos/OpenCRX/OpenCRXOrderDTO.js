@@ -27,11 +27,19 @@ class OpenCRXOrderDTO {
     toJSON() {
         return {
             crx_product: this.crx_product ? this.crx_product.toJSON() : '',
-            amount: this.amount || '',
-            quantity: this.quantity || '',
+            amount: this.formatAmount(this.amount) || '',
+            quantity: this.formatQuantity(this.quantity) || '',
             pricePerUnit: this.pricePerUnit || '',
             amountWithTax: this.amountWithTax || '',
         };
+    }
+
+    formatAmount(amount) {
+        return parseFloat(amount).toFixed(2).toString();
+    }
+
+    formatQuantity(quantity) {
+        return parseFloat(quantity).toString();
     }
 }
 
