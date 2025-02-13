@@ -80,7 +80,6 @@ async function initDb(db){
         await userService.add(db, new User('admin', '', 'admin', '', adminPassword, ROLES.ADMIN));
         await userService.add(db, new User('ceo', '', 'ceo', '', adminPassword, ROLES.CEO));
         await userService.add(db, new User('hr', '', 'hr', '', adminPassword, ROLES.HR));
-
     }
 }
 

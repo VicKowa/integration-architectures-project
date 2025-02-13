@@ -1,6 +1,7 @@
 const crypto = require('crypto');
 const salt = 'integrationArchitectures';
 const orangeHRMService = require('./orange-hrm-service');
+const odooService = require('./odoo-service');
 
 /**
  * inserts a new user into database & hashes its password
@@ -58,9 +59,22 @@ exports.isUsernameAvailable = async function (db, username){
  * @return {Promise<*>}
  * */
 exports.isSalesman = async function (db, username){
-    const salesman = await orangeHRMService.getSalesmanByCode(username);
+    let response = {
+        valid: false,
+        ohrm: true
+    };
+    let salesman = await orangeHRMService.getSalesmanByCode(username);
 
-    return !!salesman;
+    if (!salesman) {
+        salesman = await odooService.getSalesman(parseInt(username));
+
+        if (salesman)
+            response.ohrm = false;
+    }
+
+    response.valid = !!salesman;
+
+    return response;
 }
 
 /**

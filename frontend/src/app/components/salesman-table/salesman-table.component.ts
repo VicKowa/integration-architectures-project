@@ -1,9 +1,15 @@
-import {AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {
+    AfterViewInit,
+    Component,
+    EventEmitter,
+    Input,
+    Output,
+    ViewChild
+} from '@angular/core';
 import {MatTable, MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
 import {SalesmanDTO} from '@app/dtos/SalesmanDTO';
-import {MatTab} from '@angular/material/tabs';
 
 @Component({
     selector: 'app-salesman-table',
@@ -12,7 +18,10 @@ import {MatTab} from '@angular/material/tabs';
 })
 export class SalesmanTableComponent implements AfterViewInit {
     @Input() salesmenDataSource: MatTableDataSource<SalesmanDTO> = null;
-    private selectedSalesman: SalesmanDTO | null = null;
+    @Input() globalSelectedSalesman: SalesmanDTO | null = null;
+
+    // Event, um einen Salesman an die Elternkomponente zu übergeben
+    @Output() salesmanSelected = new EventEmitter<SalesmanDTO>();
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
@@ -27,11 +36,11 @@ export class SalesmanTableComponent implements AfterViewInit {
     }
 
     selectSalesman(salesman: SalesmanDTO): void {
-        this.selectedSalesman = salesman;
+        this.salesmanSelected.emit(salesman);
     }
 
 
     getSelectedSalesman(): SalesmanDTO | null {
-        return this.selectedSalesman;
+        return this.globalSelectedSalesman;
     }
 }

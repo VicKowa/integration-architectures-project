@@ -13,6 +13,7 @@ export class SalesmanService {
 
     /**
      * Get all salesmen
+     *
      * @returns all salesmen
      * */
     getAllSalesmen(): Observable<SalesmanDTO[]> {
@@ -21,6 +22,7 @@ export class SalesmanService {
 
     /**
      * Get a specific salesman
+     *
      * @param sid - The salesman id
      * @returns The salesman
      * */

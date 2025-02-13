@@ -25,8 +25,6 @@ exports.login = function (req, res){
  * @param res Express response
  */
 exports.logout = function (req, res) {
-    console.log("Logout endpoint called.");
-
     // Temporarily remove this call to see if it causes the hang:
     authService.deAuthenticate(req.session);
 
@@ -39,7 +37,6 @@ exports.logout = function (req, res) {
     // console.log("Cookies cleared. Sending response now.");
 
     res.send('Logout successful');
-    console.log("Logout response sent.");
 };
 
 
@@ -76,14 +73,17 @@ exports.isValidUsername = function (req, res){
     userService.isUsernameAvailable(db, username).then(user=>{ //check if user exists
         // return false if a user with that username already exists
         if (user) {
-            res.send({valid: false});
+            res.send({
+                valid: false,
+                ohrm: false
+            });
             return;
         }
 
-        // check if the username is a sid from a salesman stored in OrangeHRM
-        userService.isSalesman(db, username).then(exists => {
-            res.send({valid: exists});
-        }).catch(err => {
+        // check if the username is a sid from a salesman stored in OrangeHRM or an id from a user stored in Odoo
+        userService.isSalesman(db, username).then(data => {
+            res.send(data);
+        }).catch(_ => {
             res.send({valid: false});
         });
     })

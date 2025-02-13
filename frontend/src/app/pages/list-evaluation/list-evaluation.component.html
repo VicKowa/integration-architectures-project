@@ -6,16 +6,32 @@
 <div class="content-wrapper">
     <div class="content-column">
         <h3>TODO</h3>
-        <app-salesman-table #salesmenToEvaluateTable [salesmenDataSource]="salesmenToEvaluate"></app-salesman-table>
+        <app-salesman-table
+            #salesmenToEvaluateTable
+            [salesmenDataSource]="salesmenToEvaluate"
+            [globalSelectedSalesman]="eventData.selectedSalesman"
+            (salesmanSelected)="onSalesmanSelected($event, true)">
+        </app-salesman-table>
     </div>
     <div class="content-column">
         <h3>Done</h3>
-        <app-salesman-table #evaluatedSalesmenTable [salesmenDataSource]="evaluatedSalesmen"></app-salesman-table>
+        <app-salesman-table
+            #evaluatedSalesmenTable
+            [salesmenDataSource]="evaluatedSalesmen"
+            [globalSelectedSalesman]="eventData.selectedSalesman"
+            (salesmanSelected)="onSalesmanSelected($event, false)">
+        </app-salesman-table>
     </div>
 </div>
-<button mat-raised-button color="primary" (click)="createEvaluation()" class="button" *ngIf="salesmenToEvaluateTable.getSelectedSalesman() !== null">
-    {{ userRole === 'ceo' ? 'Create Evaluation' : 'Verify Evaluation' }}
+<button mat-raised-button color="primary"
+        (click)="createEvaluation()"
+        class="button"
+        *ngIf="salesmenToEvaluateTable.getSelectedSalesman() !== null && eventData.toEvaluate">
+    {{ userRole === 'ceo' ? 'Evaluate' : 'Verify Evaluation' }}
 </button>
-<button mat-raised-button color="primary" (click)="viewEvaluation()" class="button" *ngIf="evaluatedSalesmenTable.getSelectedSalesman() !== null">
+<button mat-raised-button color="primary"
+        (click)="viewEvaluation()"
+        class="button"
+        *ngIf="evaluatedSalesmenTable.getSelectedSalesman() !== null && !eventData.toEvaluate">
     View Evaluation
 </button>

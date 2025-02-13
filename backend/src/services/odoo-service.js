@@ -19,7 +19,7 @@ exports.getAllSalesman = async () => {
     await odoo.connect();
     const salesmen =  await odoo.execute_kw('hr.employee', 'search_read', [
         [], // Filter
-        ['id', 'name'] // Nur diese Felder sollen zurückgegeben werden
+        ['id', 'name', 'job_title'] // Nur diese Felder sollen zurückgegeben werden
     ]);
 
     return salesmen.map(salesman => {
@@ -40,7 +40,7 @@ exports.getSalesman = async (id) => {
     await odoo.connect();
     const salesman = await odoo.execute_kw('hr.employee', 'search_read', [
         [['id', '=', id]], // Filter nach ID
-        ['id', 'name'] // Nur diese Felder sollen zurückgegeben werden
+        ['id', 'name', 'job_title'] // Nur diese Felder sollen zurückgegeben werden
     ]);
 
     return OdooSalesmanDTO.fromJSON(salesman[0]);
