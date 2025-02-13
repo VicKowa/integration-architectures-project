@@ -30,8 +30,8 @@ code{
 
 
 .mat-toolbar.mat-primary {
-    background: #16a085 !important; /* Change this to your desired color */
-    color: white !important; /* Ensure the text color is readable */
+    background: #16a085 !important;
+    color: white !important;
 }
 .mat-mdc
 

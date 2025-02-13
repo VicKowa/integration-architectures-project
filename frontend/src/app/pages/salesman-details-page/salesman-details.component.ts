@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {
     BarController,
     BarElement,
@@ -20,18 +20,26 @@ import {MatTabGroup} from '@angular/material/tabs';
 import OpenCRXOrderDTO from '@app/dtos/OpenCRX/OpenCRXOrderDTO';
 import {EvaluationService} from '@app/services/evaluation.service';
 import {ApprovalEnum, EvaluationDTO} from "@app/dtos/EvaluationDTO";
-import {Observable, of} from "rxjs";
-import {catchError, map} from "rxjs/operators";
+import {BehaviorSubject, Observable, of} from "rxjs";
+import {catchError, map, tap} from "rxjs/operators";
 
 Chart.register(BarController, BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
 
 @Component({
     selector: 'app-salesman-details',
     templateUrl: './salesman-details.component.html',
-    styleUrls: ['./salesman-details.component.css']
+    styleUrls: ['./salesman-details.component.css'],
+    styles: [`
+        .mat-mdc-table .mat-mdc-row.hr-approval .mat-mdc-cell {
+            background-color: rgba(255, 0, 0, 0.1) !important;
+        }
+    `]
 })
+
 export class SalesmanDetailsComponent implements OnInit {
     @ViewChild('tabGroup') tabGroup: MatTabGroup;
+
+    hrApprovalCache: Map<string, BehaviorSubject<boolean>> = new Map<string, BehaviorSubject<boolean>>();
 
     salesman: OrangeHRMSalesmanDTO | null = null;
     sales: OpenCRXSaleDTO[] = []; // Placeholder for Sales Orders
@@ -83,11 +91,11 @@ export class SalesmanDetailsComponent implements OnInit {
         private router: Router,
         private route: ActivatedRoute,
         private apiService: ApiService,
-        private evaluationService: EvaluationService
+        private evaluationService: EvaluationService,
     ) { }
 
     ngOnInit(): void {
-        const sid = this.route.snapshot.paramMap.get('sid');
+        const sid: string = this.route.snapshot.paramMap.get('sid');
         if (sid) {
             this.fetchSalesmanDetails(sid);
             this.fetchSalesOrders(sid);
@@ -180,19 +188,33 @@ export class SalesmanDetailsComponent implements OnInit {
 
     /**
      * Checks if the HR has approved the bonus of a selected row in the table
+     *
      * @param bonus The bonus to check
      * */
     isHrApproval(bonus: { year: string; amount: number }): Observable<boolean> {
-        if (!this.salesman || !this.salesman.code) {
+        if (!this.salesman || !this.salesman.code)
             return of(false);
-        }
-        return this.evaluationService.getEvaluation(this.salesman.code, bonus.year).pipe(
-            map((evaluation: EvaluationDTO) => evaluation.approvalStatus === ApprovalEnum.HR),
-            catchError(err => {
-                console.error(`Error fetching HR approval for year ${bonus.year}:`, err);
+
+        // key for the stored value in the cache
+        const key = `${this.salesman.code}-${bonus.year}`;
+
+        if (this.hrApprovalCache.has(key))
+            return this.hrApprovalCache.get(key).asObservable();
+
+        const value = new BehaviorSubject<boolean>(false);
+        this.hrApprovalCache.set(key, value);
+
+        this.evaluationService.getEvaluation(this.salesman.code, bonus.year).pipe(
+            map((evaluation: EvaluationDTO): boolean => evaluation.approvalStatus === ApprovalEnum.HR),
+            catchError((err: any): Observable<boolean> => {
+                console.error(`Error fetching HR approval status for ${this.salesman.code} in year ${bonus.year}:`, err);
                 return of(false);
             })
-        );
+        ).subscribe((approved: boolean): void => {
+            value.next(approved);
+        });
+
+        return value.asObservable();
     }
 
     /**
