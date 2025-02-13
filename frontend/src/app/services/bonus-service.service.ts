@@ -3,7 +3,6 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {Observable} from 'rxjs';
 import {SocialPerformanceRecordDTO} from '@app/dtos/SocialPerformanceRecordDTO';
-import {OrderEvaluationDTO} from '@app/dtos/OrderEvaluationDTO';
 import {EvaluationDTO} from '@app/dtos/EvaluationDTO';
 
 @Injectable({

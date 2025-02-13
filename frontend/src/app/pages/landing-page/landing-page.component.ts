@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {UserService} from "@app/services/user.service";
+import { UserService } from '@app/services/user.service';
+import { User } from '@app/models/User';
 
 
 @Component({
@@ -9,13 +10,13 @@ import {UserService} from "@app/services/user.service";
 })
 export class LandingPageComponent implements OnInit {
 
-    firstname: string = '';
-    lastname: string = '';
+    firstname = '';
+    lastname = '';
 
     constructor(private userService: UserService) { }
 
     ngOnInit(): void {
-        this.userService.getOwnUser().subscribe(user => {
+        this.userService.getOwnUser().subscribe((user: User): void => {
             this.firstname = user.firstname;
             this.lastname = user.lastname;
         });
