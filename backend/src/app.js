@@ -88,8 +88,3 @@ async function initDb(db){
 
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-app.use("/api-docs", swaggerUi.serve, (req, res, next) => {
-    const swaggerDocument = YAML.load(path.join(__dirname, "./swagger.yaml"));
-    swaggerUi.setup(swaggerDocument)(req, res, next);
-});

@@ -148,7 +148,7 @@ paths:
       summary: Get all salesmen
       description: Retrieve a list of all salesmen
       parameters:
-        - name: year
+        - name: sid
           in: query
           required: false
           schema:
@@ -204,7 +204,12 @@ paths:
           in: query
           required: false
           schema:
-                type: string
+            type: string
+        - name: year
+          in: query
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: List of sales retrieved successfully
@@ -359,6 +364,53 @@ paths:
                   $ref: '#/components/schemas/Evaluation'
         '401':
           description: Unauthorized
+    put:
+      tags:
+        - Evaluation
+      summary: Update evaluation
+      description: Update an existing evaluation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Evaluation'
+      security:
+        - bearerAuth: [ ]
+      responses:
+        '200':
+          description: Evaluation updated successfully
+        '401':
+          description: Unauthorized
+          post:
+            tags:
+              - Evaluation
+            summary: Create evaluation
+            description: Create a new evaluation
+            parameters:
+              - name: id
+                in: path
+                required: true
+                schema:
+                  type: string
+              - name: year
+                in: path
+                required: true
+                schema:
+                  type: integer
+            requestBody:
+              required: true
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/Evaluation'
+            security:
+              - bearerAuth: [ ]
+            responses:
+              '201':
+                description: Evaluation created successfully
+              '401':
+                description: Unauthorized
   /eval/{id}/{year}:
     get:
       tags:
@@ -385,53 +437,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Evaluation'
-        '401':
-          description: Unauthorized
-    post:
-      tags:
-        - Evaluation
-      summary: Create evaluation
-      description: Create a new evaluation
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: year
-          in: path
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Evaluation'
-      security:
-        - bearerAuth: []
-      responses:
-        '201':
-          description: Evaluation created successfully
-        '401':
-          description: Unauthorized
-    put:
-      tags:
-        - Evaluation
-      summary: Update evaluation
-      description: Update an existing evaluation
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-             $ref: '#/components/schemas/Evaluation'
-      security:
-        - bearerAuth: []
-      responses:
-        '200':
-          description: Evaluation updated successfully
         '401':
           description: Unauthorized
   /bonus/spr:
