@@ -105,7 +105,7 @@ paths:
       tags:
         - User
       summary: Check if username is valid
-      description: Check if the provided username is valid
+      description: Checks if the username is registerd in either OpenCRX or Odoo
       parameters:
         - name: username
           in: query
@@ -147,6 +147,12 @@ paths:
         - Salesman
       summary: Get all salesmen
       description: Retrieve a list of all salesmen
+      parameters:
+        - name: year
+          in: query
+          required: false
+          schema:
+            type: string
       security:
         - bearerAuth: []
       responses:
@@ -193,6 +199,12 @@ paths:
       description: Retrieve a list of all sales
       security:
         - bearerAuth: []
+      parameters:
+        - name: sid
+          in: query
+          required: false
+          schema:
+                type: string
       responses:
         '200':
           description: List of sales retrieved successfully
@@ -317,6 +329,23 @@ paths:
         - Evaluation
       summary: Get all evaluations
       description: Retrieve a list of all evaluations
+      parameters:
+        - name: sid
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: year
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: approvalStatus
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/ApprovalStatus'
+
       security:
         - bearerAuth: []
       responses:
@@ -678,12 +707,7 @@ components:
         totalBonus:
           type: number
         approvalStatus:
-          type: string
-          enum:
-            - NONE
-            - CEO
-            - HR
-            - SALESMAN
+          $ref: '#/components/schemas/ApprovalStatus'
         comment:
           type: string
       required:
@@ -720,3 +744,10 @@ components:
         - employee_id
         - bonus_reason_id
         - bonus_amount
+    ApprovalStatus:
+      type: string
+      enum:
+        - NONE
+        - CEO
+        - HR
+        - SALESMAN
