@@ -15,6 +15,14 @@ export class SalesmanRegisterComponent implements OnInit {
     loading: boolean = false;
     submitted: boolean = false;
 
+    salesmanData: {
+        valid: boolean;
+        ohrm: boolean
+    } = {
+        valid: false,
+        ohrm: false
+    };
+
     constructor(
         private formBuilder: FormBuilder,
         private authService: AuthService,
@@ -66,8 +74,10 @@ export class SalesmanRegisterComponent implements OnInit {
         this.loading = true;
 
         // Register user
-        this.authService.register(this.registerForm.value as UserDTO)
-            //
+        let user: UserDTO = this.registerForm.value as UserDTO;
+        user.role = this.salesmanData.ohrm ? 'salesman' : 'salesman_valucon';
+
+        this.authService.register(user)
             .pipe(first())
             // Handle response from Server
             .subscribe({
@@ -128,6 +138,9 @@ export class SalesmanRegisterComponent implements OnInit {
                     .subscribe({
                         // If the username is not taken, resolve with null
                         next: (response) => {
+                            // save the response
+                            this.salesmanData = response.body;
+
                             // If the response is not valid, resolve with an error object
                             if (!response.body.valid) {
                                 resolve({ usernameTaken: false });

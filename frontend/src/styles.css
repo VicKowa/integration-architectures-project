@@ -24,8 +24,8 @@ code{
 
 /* src/styles.css */
 .mat-raised-button.mat-primary {
-    background-color: #16a085 !important; /* Change this to your desired color */
-    color: white !important; /* Ensure the text color is readable */
+    background-color: #16a085 !important;
+    color: white !important;
 }
 
 
@@ -36,7 +36,7 @@ code{
 .mat-mdc
 
 .mat-flat-button.mat-primary {
-    background: #16a085 !important; /* Change this to your desired color */
+    background: #16a085 !important;
 }
 
 .mat-mdc-raised-button.mat-primary {

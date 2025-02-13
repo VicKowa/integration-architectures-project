@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ApiService} from "@app/services/api-service/api.service";
 import OdooSalesmanDTO from "@app/dtos/Odoo/OdooSalesmanDTO";
 import OdooBonusDTO from "@app/dtos/Odoo/OdooBonusDTO";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-salesman-valucon-list-page',
@@ -15,7 +16,10 @@ export class SalesmanValuconListPageComponent implements OnInit {
     }[] = [];
     displayedColumns: string[] = ['id', 'name', 'bonus'];
 
-    constructor(private apiService: ApiService) { }
+    constructor(
+        private apiService: ApiService,
+        private router: Router
+    ) { }
 
     ngOnInit() {
         this.fetchAllSalesman();
@@ -37,5 +41,9 @@ export class SalesmanValuconListPageComponent implements OnInit {
             this.data = [...this.data];
         });
         this.data = [...this.data];
+    }
+
+    redirectToSalesman(data: {salesman: OdooSalesmanDTO, bonuses: OdooBonusDTO[]}): void {
+        this.router.navigate([`/salesman/valucon/${data.salesman.id}`]);
     }
 }

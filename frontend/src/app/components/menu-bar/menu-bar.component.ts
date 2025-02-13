@@ -43,10 +43,6 @@ export class MenuBarComponent implements OnInit, OnDestroy {
                     { title: 'Valucon', routerLink: 'salesman/valucon/list' }
                 ],
                 admin: [
-                    {
-                        title: 'Dashboard',
-                        action: () => window.location.href = '/eval/list?year=2025'
-                    },
                     { title: 'SmartHoover', routerLink: 'salesman/list' },
                     { title: 'Valucon', routerLink: 'salesman/valucon/list' }
                 ],

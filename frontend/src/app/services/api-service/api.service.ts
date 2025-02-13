@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {OrangeHRMSalesmanDTO} from '@app/dtos/OrangeHRM/OrangeHRMSalesmanDTO';
-import { map } from 'rxjs/operators';
-import OpenCRXSaleDTO from '@app/dtos/OpenCRX/OpenCRXSaleDTO';
+import {filter, map, tap} from 'rxjs/operators';
+import OpenCRXSalesmanDTO from '@app/dtos/OpenCRX/OpenCRXSaleDTO';
 import {User} from '@app/models/User';
 import OdooBonusDTO from '@app/dtos/Odoo/OdooBonusDTO';
 import OdooSalesmanDTO from '@app/dtos/Odoo/OdooSalesmanDTO';
+import OpenCRXSaleDTO from "@app/dtos/OpenCRX/OpenCRXSaleDTO";
 
 @Injectable({
     providedIn: 'root'
@@ -24,9 +25,10 @@ export class ApiService {
     getSalesman(): Observable<OrangeHRMSalesmanDTO[]> {
         return this.http.get<Partial<OrangeHRMSalesmanDTO>[]>(`${this.URL}/salesmanohrm`, {withCredentials: true}).pipe(
             map((response: Partial<OrangeHRMSalesmanDTO>[]): OrangeHRMSalesmanDTO[] =>
-                response.map((data: Partial<OrangeHRMSalesmanDTO>): OrangeHRMSalesmanDTO =>
+                response
+                    .map((data: Partial<OrangeHRMSalesmanDTO>): OrangeHRMSalesmanDTO =>
                     OrangeHRMSalesmanDTO.fromJSON(data)
-                )
+                    )
             )
         );
     }
@@ -115,9 +117,13 @@ export class ApiService {
     getOdooAllSalesman(): Observable<OdooSalesmanDTO[]> {
         return this.http.get<Partial<OdooSalesmanDTO>[]>(`${this.URL}/odoo/salesman`, {withCredentials: true}).pipe(
             map((response: Partial<OdooSalesmanDTO>[]): OdooSalesmanDTO[] =>
-                response.map((data: Partial<OdooSalesmanDTO>): OdooSalesmanDTO =>
-                    OdooSalesmanDTO.fromJSON(data)
-                )
+                response
+                    .map((data: Partial<OdooSalesmanDTO>): OdooSalesmanDTO =>
+                        OdooSalesmanDTO.fromJSON(data)
+                    )
+                    .filter((salesman : OdooSalesmanDTO): boolean =>
+                        salesman.jobTitle === 'Senior Salesperson'
+                    )
             )
         );
     }

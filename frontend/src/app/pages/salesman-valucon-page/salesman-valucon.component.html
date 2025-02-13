@@ -13,16 +13,8 @@
             <th mat-header-cell *matHeaderCellDef> Bonus Amount </th>
             <td mat-cell *matCellDef="let bonus">{{ bonus.bonus_amount }}&nbsp;&dollar;</td>
         </ng-container>
-        <ng-container matColumnDef="bonusState">
-            <th mat-header-cell *matHeaderCellDef> Bonus State </th>
-            <td mat-cell *matCellDef="let bonus">
-                    <span [ngClass]="getBonusStateClass(bonus.state).styleClass">
-                        {{ getBonusStateClass(bonus.state).content }}
-                    </span>
-            </td>>
-        </ng-container>
-        <tr mat-header-row *matHeaderRowDef="['bonusReason', 'bonusAmount', 'bonusState']"></tr>
-        <tr mat-row *matRowDef="let row; columns:['bonusReason', 'bonusAmount', 'bonusState'];"></tr>
+        <tr mat-header-row *matHeaderRowDef="['bonusReason', 'bonusAmount']"></tr>
+        <tr mat-row *matRowDef="let row; columns:['bonusReason', 'bonusAmount'];"></tr>
     </table>
     <div>
 </div>
