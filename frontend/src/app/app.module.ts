@@ -15,7 +15,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MenuBarComponent } from './components/menu-bar/menu-bar.component';
-import { ExamplePageComponent } from './pages/example-page/example-page.component';
 import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
@@ -50,7 +49,6 @@ export function initializeApp(authService: AuthService) {
         LoginComponent,
         LandingPageComponent,
         MenuBarComponent,
-        ExamplePageComponent,
         NotFoundPageComponent,
         SalesmanListPageComponent,
         SalesmanDetailsComponent,

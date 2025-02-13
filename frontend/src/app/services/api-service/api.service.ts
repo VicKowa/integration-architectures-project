@@ -113,7 +113,7 @@ export class ApiService {
      * @returns all Odoo salesmen
      * */
     getOdooAllSalesman(): Observable<OdooSalesmanDTO[]> {
-        return this.http.get<Partial<OdooSalesmanDTO>[]>(`${this.URL}/odoo/salesman`).pipe(
+        return this.http.get<Partial<OdooSalesmanDTO>[]>(`${this.URL}/odoo/salesman`, {withCredentials: true}).pipe(
             map((response: Partial<OdooSalesmanDTO>[]): OdooSalesmanDTO[] =>
                 response.map((data: Partial<OdooSalesmanDTO>): OdooSalesmanDTO =>
                     OdooSalesmanDTO.fromJSON(data)

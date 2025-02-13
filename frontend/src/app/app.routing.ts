@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
-import { ExamplePageComponent } from './pages/example-page/example-page.component';
 import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.component';
 import { SalesmanListPageComponent } from '@app/pages/salesman-list-page/salesman-list-page.component';
 import { SalesmanDetailsComponent } from './pages/salesman-details-page/salesman-details.component';
@@ -16,7 +15,6 @@ import { authGuard } from './guards/auth.guard';
 const routes: Routes = [
     { path: 'login', component: LoginPageComponent },
     { path: 'register', component: SalesmanRegisterComponent },
-    { path: 'example', component: ExamplePageComponent, canActivate: [authGuard] },
     { path: 'eval/create/:sid/:year', component: CreateEvaluationComponent, canActivate: [authGuard] },
     { path: 'eval/view/:sid/:year', component: CreateEvaluationComponent, canActivate: [authGuard] },
     { path: 'eval/list', component: ListEvaluationComponent, canActivate: [authGuard] },

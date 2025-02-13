@@ -21,15 +21,12 @@ export class MenuBarComponent implements OnInit, OnDestroy {
         private getButtonMap(username: string): Record<string, { title: string; routerLink?: string; action?: () => void }[]> {
             return {
                 salesman_valucon: [
-                    { title: 'Welcome', routerLink: '/example' },
                     { title: 'My Profile', routerLink: `salesman/valucon/${username}` }
                 ],
                 salesman: [
-                    { title: 'Welcome', routerLink: '/example' },
                     { title: 'My Profile', routerLink: `salesman/${username}` }
                 ],
                 ceo: [
-                    { title: 'Welcome', routerLink: '/example' },
                     {
                         title: 'Dashboard',
                         action: () => window.location.href = '/eval/list?year=2025'
@@ -38,7 +35,6 @@ export class MenuBarComponent implements OnInit, OnDestroy {
                     { title: 'Valucon', routerLink: 'salesman/valucon/list' }
                 ],
                 hr: [
-                    { title: 'Welcome', routerLink: '/example' },
                     {
                         title: 'Dashboard',
                         action: () => window.location.href = '/eval/list?year=2025'
@@ -47,7 +43,6 @@ export class MenuBarComponent implements OnInit, OnDestroy {
                     { title: 'Valucon', routerLink: 'salesman/valucon/list' }
                 ],
                 admin: [
-                    { title: 'Welcome', routerLink: '/example' },
                     {
                         title: 'Dashboard',
                         action: () => window.location.href = '/eval/list?year=2025'
