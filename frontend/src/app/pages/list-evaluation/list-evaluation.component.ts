@@ -104,7 +104,7 @@ export class ListEvaluationComponent implements OnInit {
         //     -> filter evaluations with approval status HR or lower, so that HR can view them again
         //     -> get the sid of the evaluations
         const lowerEvaluations: Set<string> = new Set(allEvaluations
-            .filter((e: EvaluationDTO): boolean => e.approvalStatus <= ApprovalEnum.HR)
+            .filter((e: EvaluationDTO): boolean => e.approvalStatus >= ApprovalEnum.HR)
             .map((e: EvaluationDTO): string => e.sid));
 
         // sort salesmen into two groups
@@ -130,12 +130,7 @@ export class ListEvaluationComponent implements OnInit {
                 await this.evaluationService.createEvaluation(selectedSalesman.sid, this.year).toPromise();
 
             // redirect to the evaluation creation page
-            await this.router.navigate(['/eval/create'], {
-                queryParams: {
-                    year: this.year,
-                    sid: selectedSalesman.sid,
-                }
-            });
+            await this.router.navigate([`/eval/create/${selectedSalesman.sid}/${this.year}`]);
         } catch (error) {
             console.error('Error creating evaluation:', error);
         }
@@ -152,12 +147,7 @@ export class ListEvaluationComponent implements OnInit {
             return;
 
         // redirect to the evaluation view page
-        await this.router.navigate(['/eval/view'], {
-            queryParams: {
-                sid: salesman.sid,
-                year: this.year
-            }
-        });
+        await this.router.navigate([`/eval/view/${salesman.sid}/${this.year}`]);
     }
 
     /**
