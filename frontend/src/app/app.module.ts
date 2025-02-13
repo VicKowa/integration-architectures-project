@@ -7,7 +7,7 @@ import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { LoginComponent } from './components/login/login.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 import { FormsModule } from '@angular/forms';
-import {HttpClientModule, HttpResponse} from '@angular/common/http';
+import { HttpResponse, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -43,8 +43,7 @@ export const initializeApp = (authService: AuthService): (() => Promise<HttpResp
         loggedIn: boolean;
     }>> => authService.checkLogin().toPromise();
 
-@NgModule({
-    declarations: [
+@NgModule({ declarations: [
         AppComponent,
         LoginPageComponent,
         LoginComponent,
@@ -60,11 +59,9 @@ export const initializeApp = (authService: AuthService): (() => Promise<HttpResp
         SalesmanRegisterComponent,
         SalesmanValuconListPageComponent
     ],
-    imports: [
-        BrowserModule,
+    bootstrap: [AppComponent], imports: [BrowserModule,
         AppRouting,
         FormsModule,
-        HttpClientModule,
         BrowserAnimationsModule,
         MatInputModule,
         MatButtonModule,
@@ -81,16 +78,13 @@ export const initializeApp = (authService: AuthService): (() => Promise<HttpResp
         BaseChartDirective,
         CommonModule,
         NgOptimizedImage,
-        FormsModule
-    ],
-    providers: [
+        FormsModule], providers: [
         {
             provide: APP_INITIALIZER,
             useFactory: initializeApp,
             deps: [AuthService],
             multi: true
-        }
-    ],
-    bootstrap: [AppComponent]
-})
+        },
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule { }

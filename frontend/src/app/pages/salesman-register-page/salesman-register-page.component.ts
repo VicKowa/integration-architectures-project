@@ -4,7 +4,7 @@ import { AuthService } from '@app/services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import UserDTO from '@app/dtos/UserDTO';
-import {HttpResponse} from '@angular/common/http';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-registration-view',
