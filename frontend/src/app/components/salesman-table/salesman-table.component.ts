@@ -3,16 +3,13 @@ import {
     Component,
     EventEmitter,
     Input,
-    OnChanges,
-    OnInit, Output,
-    SimpleChanges,
+    Output,
     ViewChild
 } from '@angular/core';
 import {MatTable, MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
 import {SalesmanDTO} from '@app/dtos/SalesmanDTO';
-import {MatTab} from '@angular/material/tabs';
 
 @Component({
     selector: 'app-salesman-table',

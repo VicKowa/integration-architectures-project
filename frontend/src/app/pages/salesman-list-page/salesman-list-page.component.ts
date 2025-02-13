@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class SalesmanListPageComponent implements OnInit {
 
-    displayedColumns: string[] = ['sid', 'firstname', 'lastname', 'recordCount'];
+    displayedColumns: string[] = ['sid', 'name'];
     salesmen: OrangeHRMSalesmanDTO[] = [];
 
     constructor(private apiService: ApiService, private router: Router) { }
@@ -23,10 +23,6 @@ export class SalesmanListPageComponent implements OnInit {
         this.apiService.getSalesman().subscribe((data: OrangeHRMSalesmanDTO[]): void => {
             this.salesmen = data;
         });
-    }
-
-    getRecordCount(salesman: OrangeHRMSalesmanDTO): number {
-        return 0; // TODO: Implement record count
     }
 
     navigateToDetails(sid: string): void {

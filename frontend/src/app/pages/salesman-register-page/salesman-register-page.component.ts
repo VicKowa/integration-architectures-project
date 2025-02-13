@@ -4,6 +4,7 @@ import { AuthService } from '@app/services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import UserDTO from '@app/dtos/UserDTO';
+import {HttpResponse} from '@angular/common/http';
 
 @Component({
     selector: 'app-registration-view',
@@ -12,16 +13,16 @@ import UserDTO from '@app/dtos/UserDTO';
 })
 export class SalesmanRegisterComponent implements OnInit {
     registerForm: FormGroup;
-    loading: boolean = false;
-    submitted: boolean = false;
+    loading = false;
+    submitted = false;
 
     salesmanData: {
         valid: boolean;
-        ohrm: boolean
+        ohrm: boolean;
     } = {
-        valid: false,
-        ohrm: false
-    };
+            valid: false,
+            ohrm: false
+        };
 
     constructor(
         private formBuilder: FormBuilder,
@@ -34,30 +35,36 @@ export class SalesmanRegisterComponent implements OnInit {
         // Initialize form with validators
         this.registerForm = this.formBuilder.nonNullable.group({
             username: ['', {
-                validators: Validators.required,
-                asyncValidators: [this.validateUsername()],
+                validators: (control: AbstractControl<any, any>): ValidationErrors => Validators.required(control),
+                asyncValidators: [(control: AbstractControl<any, any>): ValidationErrors => this.validateUsername()(control)],
                 updateOn: 'blur'
             }],
-            firstname: ['', Validators.required],
-            lastname: ['', Validators.required],
-            email: ['', [Validators.required, Validators.email]],
-            password: ['', [Validators.required]],
-            confirmPassword: ['', Validators.required]
+            firstname: ['', (control: AbstractControl<any, any>): ValidationErrors => Validators.required(control)],
+            lastname: ['', (control: AbstractControl<any, any>): ValidationErrors => Validators.required(control)],
+            email: ['', [
+                (control: AbstractControl<any, any>): ValidationErrors => Validators.required(control),
+                (control: AbstractControl<any, any>): ValidationErrors => Validators.email(control)
+            ]],
+            password: ['', [(control: AbstractControl<any, any>): ValidationErrors => Validators.required(control)]],
+            confirmPassword: ['', (control: AbstractControl<any, any>): ValidationErrors => Validators.required(control)]
         }, {
-            validators: this.mustMatch('password', 'confirmPassword')
+            validators: (formGroup: AbstractControl<any, any>): ValidationErrors =>
+                this.mustMatch('password', 'confirmPassword')(formGroup)
         });
 
         // Check username availability on each input change
-        const usernameControl = this.registerForm.get('username');
+        const usernameControl: AbstractControl<any, any> = this.registerForm.get('username');
         if (usernameControl) {
-            usernameControl.valueChanges.subscribe(() => {
+            usernameControl.valueChanges.subscribe((): void => {
                 this.checkUsername();
             });
         }
     }
 
     // Convenience getter for easy access to form fields
-    get f() { return this.registerForm.controls; }
+    get f(): {
+        [key: string]: AbstractControl<any, any>;
+        } { return this.registerForm.controls; }
 
     /**
      * On form submission, check if form is valid and register user
@@ -74,7 +81,7 @@ export class SalesmanRegisterComponent implements OnInit {
         this.loading = true;
 
         // Register user
-        let user: UserDTO = this.registerForm.value as UserDTO;
+        const user: UserDTO = this.registerForm.value as UserDTO;
         user.role = this.salesmanData.ohrm ? 'salesman' : 'salesman_valucon';
 
         this.authService.register(user)
@@ -82,11 +89,11 @@ export class SalesmanRegisterComponent implements OnInit {
             // Handle response from Server
             .subscribe({
                 // If registration is successful, redirect to login page
-                next: () => {
-                    this.router.navigate(['../login'], { relativeTo: this.route });
+                next: (): void => {
+                    void this.router.navigate(['../login'], { relativeTo: this.route });
                 },
                 // If registration fails, log error
-                error: error => {
+                error: (error: Error): void => {
                     console.error('Registration failed', error);
                     this.loading = false;
                 }
@@ -99,14 +106,14 @@ export class SalesmanRegisterComponent implements OnInit {
      * @param controlName - name of the password field
      * @param matchingControlName - name of the confirmPassword field
      * */
-    mustMatch(controlName: string, matchingControlName: string) {
+    mustMatch(controlName: string, matchingControlName: string): (formGroup: AbstractControl) => ValidationErrors | null {
         return (formGroup: AbstractControl): ValidationErrors | null => {
             // Get the controls
             const control: AbstractControl = formGroup.get(controlName);
             const matchingControl: AbstractControl = formGroup.get(matchingControlName);
 
             // If either control is not found, return null
-            if (matchingControl?.errors && !matchingControl.errors['mustMatch']) {
+            if (matchingControl?.errors && !matchingControl.errors.mustMatch) {
                 return;
             }
 
@@ -124,9 +131,9 @@ export class SalesmanRegisterComponent implements OnInit {
      * */
     private validateUsername(): ValidatorFn {
         // Return a function that takes a control and returns a Promise
-        return (control: AbstractControl): Promise<ValidationErrors | null> => {
+        return (control: AbstractControl): Promise<ValidationErrors | null> =>
             // Return a Promise that resolves with a ValidationErrors object
-            return new Promise((resolve) => {
+            new Promise((resolve: (value: (ValidationErrors | PromiseLike<ValidationErrors>)) => void): void => {
                 // If the control is empty, return null
                 if (!control.value) {
                     resolve(null);
@@ -134,10 +141,14 @@ export class SalesmanRegisterComponent implements OnInit {
                 }
 
                 // Check if the username is already taken
-                this.authService.isValidUsername(control.value)
+                const username: string = typeof control.value === 'string' ? control.value : '';
+                this.authService.isValidUsername(username)
                     .subscribe({
                         // If the username is not taken, resolve with null
-                        next: (response) => {
+                        next: (response: HttpResponse<{
+                            valid: boolean;
+                            ohrm: boolean;
+                        }>): void => {
                             // save the response
                             this.salesmanData = response.body;
 
@@ -151,13 +162,17 @@ export class SalesmanRegisterComponent implements OnInit {
                             }
                         },
                         // If an error occurs, log the error and resolve with an error object
-                        error: (error) => {
-                            console.error('Error checking username: ', error);
+                        error: (error: unknown): void => {
+                            if (error instanceof Error) {
+                                console.error('Error checking username: ', error.message);
+                            } else {
+                                console.error('Error checking username: ', error);
+                            }
+
                             resolve({ usernameTaken: true });
                         }
                     });
             });
-        }
     }
 
     /**
@@ -165,7 +180,7 @@ export class SalesmanRegisterComponent implements OnInit {
      * */
     private checkUsername(): void {
         // Get the username control and validate it
-        const control = this.registerForm.get('username');
+        const control: AbstractControl<any, any> = this.registerForm.get('username');
         if (control) {
             this.validateUsername()(control);
         }
@@ -175,6 +190,6 @@ export class SalesmanRegisterComponent implements OnInit {
      * Redirect to login page
      * */
     login(): void {
-        this.router.navigate(['../login'], {relativeTo: this.route});
+        void this.router.navigate(['../login'], { relativeTo: this.route });
     }
 }

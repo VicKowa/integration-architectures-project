@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        this.authService.isLoggedIn$.subscribe((value: boolean) => {
+        this.authService.isLoggedIn$.subscribe((value: boolean): void => {
             console.log('Aktueller isLoggedIn-Wert in Menubar:', value);
             this.cd.markForCheck();
         });

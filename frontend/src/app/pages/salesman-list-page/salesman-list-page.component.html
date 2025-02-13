@@ -8,24 +8,10 @@
         </td>
     </ng-container>
 
-    <ng-container matColumnDef="firstname">
-        <th mat-header-cell *matHeaderCellDef>First Name</th>
+    <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
         <td mat-cell *matCellDef="let salesman" (click)="navigateToDetails(salesman.code)">
-            {{ salesman.firstName }}
-        </td>
-    </ng-container>
-
-    <ng-container matColumnDef="lastname">
-        <th mat-header-cell *matHeaderCellDef>Last Name</th>
-        <td mat-cell *matCellDef="let salesman" (click)="navigateToDetails(salesman.code)">
-            {{ salesman.lastName }}
-        </td>
-    </ng-container>
-
-    <ng-container matColumnDef="recordCount">
-        <th mat-header-cell *matHeaderCellDef>Record Count</th>
-        <td mat-cell *matCellDef="let salesman" (click)="navigateToDetails(salesman.code)">
-            {{ getRecordCount(salesman) }}
+            {{ salesman.firstName }} {{ salesman.lastName }}
         </td>
     </ng-container>
 

@@ -4,7 +4,7 @@ import {HttpClient, HttpResponse} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
-import UserDTO from "@app/dtos/UserDTO";
+import UserDTO from '@app/dtos/UserDTO';
 
 /**
  * Services specify logic, which is instantiated singularly -> it is shared between components
@@ -14,7 +14,6 @@ import UserDTO from "@app/dtos/UserDTO";
     providedIn: 'root'
 })
 export class AuthService {
-
     // Use null to indicate "unknown" state
     private loggedInSubject: BehaviorSubject<boolean | null> = new BehaviorSubject<boolean | null>(null);
     isLoggedIn$: Observable<boolean | null> = this.loggedInSubject.asObservable();
@@ -33,7 +32,7 @@ export class AuthService {
             withCredentials: true,
             observe: 'response'
         }).pipe(
-            tap((response: HttpResponse<{ loggedIn: boolean }>) => {
+            tap((response: HttpResponse<{ loggedIn: boolean }>): void => {
                 this.setLoginState(response.body.loggedIn);
             })
         );
@@ -45,7 +44,7 @@ export class AuthService {
             observe: 'response',
             responseType: 'text'
         }).pipe(
-            tap((response: HttpResponse<any>) => {
+            tap((response: HttpResponse<any>): void => {
                 if (response.status === 200) {
                     this.setLoginState(true);
                 }
@@ -93,12 +92,12 @@ export class AuthService {
     }
 
     isValidUsername(username: string): Observable<HttpResponse<{
-        valid: boolean,
-        ohrm: boolean
+        valid: boolean;
+        ohrm: boolean;
     }>> {
         return this.http.get<{
-            valid: boolean,
-            ohrm: boolean
+            valid: boolean;
+            ohrm: boolean;
         }>(environment.apiEndpoint + `/api/checkUsername?username=${username}`, {
             withCredentials: true,
             observe: 'response'

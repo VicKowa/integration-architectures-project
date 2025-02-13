@@ -19,9 +19,9 @@ import OpenCRXSaleDTO from '@app/dtos/OpenCRX/OpenCRXSaleDTO';
 import {MatTabGroup} from '@angular/material/tabs';
 import OpenCRXOrderDTO from '@app/dtos/OpenCRX/OpenCRXOrderDTO';
 import {EvaluationService} from '@app/services/evaluation.service';
-import {ApprovalEnum, EvaluationDTO} from "@app/dtos/EvaluationDTO";
-import {BehaviorSubject, Observable, of} from "rxjs";
-import {catchError, map, tap} from "rxjs/operators";
+import {ApprovalEnum, EvaluationDTO} from '@app/dtos/EvaluationDTO';
+import {BehaviorSubject, Observable, of} from 'rxjs';
+import {catchError, map} from 'rxjs/operators';
 
 Chart.register(BarController, BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
 
@@ -120,7 +120,7 @@ export class SalesmanDetailsComponent implements OnInit {
      * @param sid The ID of the salesman
      * @returns void
      * */
-     fetchSalesOrders(sid: string): void {
+    fetchSalesOrders(sid: string): void {
         this.apiService.getSalesOrders(sid).subscribe((sales: OpenCRXSaleDTO[]): void => {
             // get the orders from the sales object
             for (const sale of sales) {
@@ -161,7 +161,7 @@ export class SalesmanDetailsComponent implements OnInit {
                     amount: e.totalBonus
                 }));
 
-            console.log("Filtered bonuses:", this.bonuses);
+            console.log('Filtered bonuses:', this.bonuses);
             this.updateChartData();
         });
     }
@@ -169,6 +169,7 @@ export class SalesmanDetailsComponent implements OnInit {
 
     /**
      * Redirects to the Bonus View Page (either editable or readonly depending on the approval status)
+     *
      * @param bonus The bonus to view
      * */
     viewBonus(bonus: {
@@ -178,11 +179,13 @@ export class SalesmanDetailsComponent implements OnInit {
         // redirecting depending on the approval status
         this.evaluationService.getEvaluation(this.salesman.code, bonus.year).subscribe((evaluation: EvaluationDTO): void => {
             // redirect to the create page if the HR has approved the evaluation
-            if (evaluation.approvalStatus === ApprovalEnum.HR)
-                this.router.navigate([`/eval/create/${this.salesman.code}/${bonus.year}`]);
+            if (evaluation.approvalStatus === ApprovalEnum.HR) {
+                void this.router.navigate([`/eval/create/${this.salesman.code}/${bonus.year}`]);
+            }
             // redirect to the view page if the HR has not approved the evaluation
-            else
-                this.router.navigate([`/eval/view/${this.salesman.code}/${bonus.year}`]);
+            else {
+                void this.router.navigate([`/eval/view/${this.salesman.code}/${bonus.year}`]);
+            }
         });
     }
 
@@ -192,14 +195,16 @@ export class SalesmanDetailsComponent implements OnInit {
      * @param bonus The bonus to check
      * */
     isHrApproval(bonus: { year: string; amount: number }): Observable<boolean> {
-        if (!this.salesman || !this.salesman.code)
+        if (!this.salesman || !this.salesman.code) {
             return of(false);
+        }
 
         // key for the stored value in the cache
         const key = `${this.salesman.code}-${bonus.year}`;
 
-        if (this.hrApprovalCache.has(key))
+        if (this.hrApprovalCache.has(key)) {
             return this.hrApprovalCache.get(key).asObservable();
+        }
 
         const value = new BehaviorSubject<boolean>(false);
         this.hrApprovalCache.set(key, value);
