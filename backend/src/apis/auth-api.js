@@ -63,7 +63,7 @@ exports.register = function (req, res){
     const user = req.body;
 
     userService.add(db, UserDTO.fromJSON(user)).then(_=>{ //add user via user-service
-        res.send('registration successful');
+        res.status(201).send('registration successful');
     }).catch(_=>{
         res.status(400).send('registration failed');
     })

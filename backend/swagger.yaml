@@ -4,7 +4,7 @@ info:
   version: 1.0.0
   description: Documentation of the REST API
 servers:
-  - url: http://localhost:4200/api
+  - url: http://localhost:8080/api
     description: Local development server
 tags:
   - name: User
@@ -29,15 +29,37 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                username:
-                  type: string
-                password:
-                  type: string
+              $ref: '#/components/schemas/Credentials'
       responses:
         '200':
           description: Login successful
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Login successful
+        '401':
+          description: Unauthorized
+    get:
+      tags:
+        - User
+      summary: Check if user is logged in
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Credentials'
+      responses:
+        '200':
+          description: User is logged in
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  loggedIn:
+                    type: boolean
         '401':
           description: Unauthorized
     delete:
@@ -45,9 +67,20 @@ paths:
         - User
       summary: User logout
       description: Logout the current user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Credentials'
       responses:
         '200':
           description: Logout successful
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Logout successful
         '401':
           description: Unauthorized
   /register:
@@ -61,12 +94,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                username:
-                  type: string
-                password:
-                  type: string
+              $ref: '#/components/schemas/UserRegister'
       responses:
         '201':
           description: User registered successfully
@@ -87,6 +115,13 @@ paths:
       responses:
         '200':
           description: Username is valid
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  valid:
+                    type: boolean
         '400':
           description: Bad request
   /user:
@@ -103,12 +138,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  username:
-                    type: string
-                  role:
-                    type: string
+                $ref: '#/components/schemas/User'
         '401':
           description: Unauthorized
   /salesman:
@@ -190,7 +220,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Salesman'
+                  $ref: '#/components/schemas/SalesmanOHRM'
         '401':
           description: Unauthorized
   /salesmanohrm/{id}:
@@ -213,7 +243,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Salesman'
+                $ref: '#/components/schemas/SalesmanOHRM'
         '401':
           description: Unauthorized
   /odoo/salesman:
@@ -232,7 +262,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Salesman'
+                  $ref: '#/components/schemas/SalesmanOdoo'
         '401':
           description: Unauthorized
   /odoo/salesman/{id}:
@@ -255,7 +285,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Salesman'
+                $ref: '#/components/schemas/SalesmanOdoo'
         '401':
           description: Unauthorized
   /odoo/bonus/{id}:
@@ -278,7 +308,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Bonus'
+                $ref: '#/components/schemas/OdooBonus'
         '401':
           description: Unauthorized
   /eval:
@@ -349,10 +379,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                score:
-                  type: number
+              $ref: '#/components/schemas/Evaluation'
       security:
         - bearerAuth: []
       responses:
@@ -370,14 +397,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                id:
-                  type: string
-                year:
-                  type: integer
-                score:
-                  type: number
+             $ref: '#/components/schemas/Evaluation'
       security:
         - bearerAuth: []
       responses:
@@ -396,17 +416,16 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                id:
-                  type: string
-                amount:
-                  type: number
+                $ref: '#/components/schemas/Evaluation'
       security:
         - bearerAuth: []
       responses:
         '200':
           description: SPR bonus recalculated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SocialPerformanceRecord'
         '401':
           description: Unauthorized
 components:
@@ -414,34 +433,52 @@ components:
     Salesman:
       type: object
       properties:
-        id:
+        firstname:
           type: string
-        name:
+        lastname:
           type: string
-    Sale:
+        sid:
+          type: string
+        jobTitle:
+          type: string
+      required:
+        - firstname
+        - lastname
+        - sid
+        - jobTitle
+    SalesmanOHRM:
+      type: object
+      properties:
+        firstname:
+          type: string
+        lastname:
+          type: string
+        middleName:
+          type: string
+        code:
+          type: string
+        jobTitle:
+          type: string
+        employeeId:
+          type: string
+      required:
+        - firstname
+        - lastname
+        - sid
+        - jobTitle
+    SalesmanOdoo:
       type: object
       properties:
         id:
           type: string
-        product:
+        name:
           type: string
-        quantity:
-          type: integer
     Bonus:
       type: object
       properties:
         id:
           type: string
         amount:
-          type: number
-    Evaluation:
-      type: object
-      properties:
-        id:
-          type: string
-        year:
-          type: integer
-        score:
           type: number
     Credentials:
       type: object
@@ -450,3 +487,236 @@ components:
           type: string
         password:
           type: string
+    UserRegister:
+      type: object
+      properties:
+        username:
+          type: string
+        firstname:
+          type: string
+        lastname:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        role:
+          type: string
+      required:
+        - username
+        - firstname
+        - lastname
+        - email
+        - password
+        - role
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+        username:
+          type: string
+        firstname:
+          type: string
+        lastname:
+          type: string
+        email:
+          type: string
+        role:
+          type: string
+      required:
+        - _id
+        - username
+        - lastname
+        - role
+    Sale:
+      type: object
+      properties:
+        name:
+          type: string
+        activeOn:
+          type: string
+          format: date-time
+        contractNumber:
+          type: string
+        priority:
+          type: integer
+        totalAmountIncludingTax:
+          type: string
+        customer:
+          type: object
+          properties:
+            name:
+              type: string
+            accountRating:
+              type: integer
+        orders:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderCRX'
+      required:
+        - name
+        - activeOn
+        - contractNumber
+        - priority
+        - totalAmountIncludingTax
+        - customer
+        - orders
+    OrderCRX:
+      type: object
+      properties:
+        crx_product:
+          type: object
+          properties:
+            name:
+              type: string
+            productNumber:
+              type: integer
+        amount:
+          type: string
+        quantity:
+          type: string
+        pricePerUnit:
+          type: string
+        amountWithTax:
+          type: string
+      required:
+        - crx_product
+        - amount
+        - quantity
+        - pricePerUnit
+        - amountWithTax
+    Record:
+      type: object
+      properties:
+        targetValue:
+          type: number
+        actualValue:
+          type: number
+        bonus:
+          type: number
+        comment:
+          type: string
+      required:
+        - targetValue
+        - actualValue
+        - bonus
+        - comment
+    SpecifiedRecords:
+      type: object
+      properties:
+        leadershipCompetence:
+          $ref: '#/components/schemas/Record'
+        opennessToEmployee:
+          $ref: '#/components/schemas/Record'
+        socialBehaviorToEmployee:
+          $ref: '#/components/schemas/Record'
+        attitudeToClients:
+          $ref: '#/components/schemas/Record'
+        communicationSkills:
+          $ref: '#/components/schemas/Record'
+        integrityToCompany:
+          $ref: '#/components/schemas/Record'
+    SocialPerformanceRecord:
+      type: object
+      properties:
+        specifiedRecords:
+          $ref: '#/components/schemas/SpecifiedRecords'
+        totalBonus:
+          type: number
+      required:
+        - specifiedRecords
+        - totalBonus
+    Order:
+      type: object
+      properties:
+        productNumber:
+          type: string
+        productName:
+          type: string
+        clientRanking:
+          type: string
+        items:
+          type: number
+        bonus:
+          type: number
+        comment:
+          type: string
+      required:
+        - productNumber
+        - productName
+        - clientRanking
+        - items
+        - bonus
+        - comment
+    OrderEvaluation:
+      type: object
+      properties:
+        totalBonus:
+          type: number
+        orders:
+          type: array
+          items:
+            $ref: '#/components/schemas/Order'
+      required:
+        - totalBonus
+        - orders
+    Evaluation:
+      type: object
+      properties:
+        sid:
+          type: string
+          nullable: true
+        year:
+          type: string
+        department:
+          type: string
+        orderEvaluation:
+          $ref: '#/components/schemas/OrderEvaluation'
+        socialPerformanceEvaluation:
+          $ref: '#/components/schemas/SocialPerformanceRecord'
+        totalBonus:
+          type: number
+        approvalStatus:
+          type: string
+          enum:
+            - NONE
+            - CEO
+            - HR
+            - SALESMAN
+        comment:
+          type: string
+      required:
+        - sid
+        - year
+        - department
+        - orderEvaluation
+        - socialPerformanceEvaluation
+        - totalBonus
+        - approvalStatus
+        - comment
+    OdooBonus:
+      type: object
+      properties:
+        id:
+          type: integer
+        state:
+          type: string
+        employee_id:
+          type: array
+          items:
+            - type: integer
+            - type: string
+        bonus_reason_id:
+          type: array
+          items:
+            - type: integer
+            - type: string
+        bonus_amount:
+          type: number
+      required:
+        - id
+        - state
+        - employee_id
+        - bonus_reason_id
+        - bonus_amount
