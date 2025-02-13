@@ -49,7 +49,11 @@ exports.getAllSales = async function (){
  */
 exports.getSales = async function (sid, year) {
     // fetch a OpenCRXSalesmanDTO with the given governmentId if sid is given
-    const salesmanCRX = await this.getSalesman(sid);
+    try {
+        const salesmanCRX = await this.getSalesman(sid);    
+    } catch (error) {
+        throw new Error('Error fetching salesman from OpenCRX');
+    }
 
     // fetch all SalesOrders from OpenCRX
     const {data} = await axios.get(`${envOpenCRX.salesURL}/salesOrder`, {headers: envOpenCRX.headers}).catch(
