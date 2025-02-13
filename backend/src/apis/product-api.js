@@ -18,11 +18,3 @@ exports.getAllSales = async function (req, res){
         });
     }
 }
-
-exports.getAllSalesmen = async function (req, res){
-    openCRXService.getAllSalesmen().then(salesmen => {
-        res.status(200).send(salesmen);
-    }).catch(error => {
-        res.status(404).send({error: error.message});
-    });
-}

@@ -63,14 +63,6 @@ export class ApiService {
 
 
     /**
-     * returns all roles
-     * @returns all roles in an array of strings
-     * */
-    getRoles(): Observable<string[]> {
-        return this.http.get<string[]>(`${this.URL}/roles`);
-    }
-
-    /**
      * returns the current role
      * @returns current role
      * */

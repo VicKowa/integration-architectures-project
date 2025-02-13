@@ -50,6 +50,45 @@ paths:
           description: Logout successful
         '401':
           description: Unauthorized
+  /register:
+    post:
+      tags:
+        - User
+      summary: Register a new user
+      description: Register a new user with username and password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '201':
+          description: User registered successfully
+        '400':
+          description: Bad request
+  /checkUsername:
+    get:
+      tags:
+        - User
+      summary: Check if username is valid
+      description: Check if the provided username is valid
+      parameters:
+        - name: username
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Username is valid
+        '400':
+          description: Bad request
   /user:
     get:
       tags:
@@ -57,7 +96,7 @@ paths:
       summary: Get user information
       description: Retrieve information about the authenticated user
       security:
-        - bearerAuth: [ ]
+        - bearerAuth: []
       responses:
         '200':
           description: User information retrieved successfully
@@ -79,7 +118,7 @@ paths:
       summary: Get all salesmen
       description: Retrieve a list of all salesmen
       security:
-        - bearerAuth: [ ]
+        - bearerAuth: []
       responses:
         '200':
           description: List of salesmen retrieved successfully
@@ -91,42 +130,6 @@ paths:
                   $ref: '#/components/schemas/Salesman'
         '401':
           description: Unauthorized
-    post:
-      tags:
-        - Salesman
-      summary: Create a new salesman
-      description: Create a new salesman with the provided data
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Salesman'
-      responses:
-        '201':
-          description: Salesman created successfully
-        '400':
-          description: Bad request
-        '401':
-          description: Unauthorized
-    put:
-      tags:
-        - Salesman
-      summary: Update a salesman
-      description: Update an existing salesman with the provided data
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Salesman'
-      responses:
-        '200':
-          description: Salesman updated successfully
-        '400':
-          description: Bad request
-        '401':
-          description: Unauthorized
   /salesman/{id}:
     get:
       tags:
@@ -134,7 +137,7 @@ paths:
       summary: Get a salesman by ID
       description: Retrieve a salesman by their ID
       security:
-        - bearerAuth: [ ]
+        - bearerAuth: []
       parameters:
         - name: id
           in: path
@@ -152,143 +155,14 @@ paths:
           description: Salesman not found
         '401':
           description: Unauthorized
-    delete:
-      tags:
-        - Salesman
-      summary: Delete a salesman by ID
-      description: Delete a salesman by their ID
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Salesman deleted successfully
-        '404':
-          description: Salesman not found
-        '401':
-          description: Unauthorized
-  /salesman/{id}/spr/{year}:
-    get:
-      tags:
-        - Salesman
-      summary: Get social performance record for a salesman
-      description: Retrieve the social performance record for a salesman by year
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: year
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: Social performance record retrieved successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SocialPerformanceRecord'
-        '404':
-          description: Social performance record not found
-        '401':
-          description: Unauthorized
-    post:
-      tags:
-        - Salesman
-      summary: Create social performance record for a salesman
-      description: Create a new social performance record for a salesman
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SocialPerformanceRecord'
-      responses:
-        '201':
-          description: Social performance record created successfully
-        '400':
-          description: Bad request
-        '401':
-          description: Unauthorized
-    put:
-      tags:
-        - Salesman
-      summary: Update social performance record for a salesman
-      description: Update an existing social performance record for a salesman
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SocialPerformanceRecord'
-      responses:
-        '200':
-          description: Social performance record updated successfully
-        '400':
-          description: Bad request
-        '401':
-          description: Unauthorized
-    delete:
-      tags:
-        - Salesman
-      summary: Delete social performance record for a salesman
-      description: Delete a social performance record for a salesman by year
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: year
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: Social performance record deleted successfully
-        '404':
-          description: Social performance record not found
-        '401':
-          description: Unauthorized
   /products/sales:
     get:
       tags:
         - Products
-      parameters:
-        - name: sid
-          in: query
-          description: Salesman ID to filter the sales.
-          required: false
-          schema:
-            type: string
-        - name: year
-          in: query
-          description: Year to filter the sales by.
-          required: false
-          schema:
-            type: integer
-            format: string
       summary: Get all sales
       description: Retrieve a list of all sales
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: List of sales retrieved successfully
@@ -298,116 +172,142 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Sale'
-        '404':
-          description: No sales found
-  /products/sales/{oid}:
-    get:
-      tags:
-        - Products
-      summary: Get products from a specific sale
-      description: Retrieve products from a specific sale by order ID
-      parameters:
-        - name: oid
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Products retrieved successfully
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Product'
-        '404':
-          description: No products found
-  /products/{pid}:
-    get:
-      tags:
-        - Products
-      summary: Get product by ID
-      description: Retrieve a product by its ID
-      parameters:
-        - name: pid
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Product retrieved successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Product'
-        '404':
-          description: Product not found
+        '401':
+          description: Unauthorized
   /salesmanohrm:
     get:
       tags:
         - OrangeHRM
-      summary: Get all salesmen from OHRM
+      summary: Get all salesmen from OrangeHRM
       description: Retrieve a list of all salesmen from OrangeHRM
+      security:
+        - bearerAuth: []
       responses:
         '200':
-          description: Salesmen retrieved successfully
+          description: List of salesmen from OrangeHRM retrieved successfully
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/Salesman'
-        '404':
-          description: No salesmen found
-    put:
-      tags:
-        - OrangeHRM
-      summary: Update salesman data in OHRM
-      description: Update salesman data in OrangeHRM
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Salesman'
-      responses:
-        '200':
-          description: Salesman data updated successfully
-        '400':
-          description: Bad request
-        '404':
-          description: Salesman not found
+        '401':
+          description: Unauthorized
   /salesmanohrm/{id}:
     get:
       tags:
         - OrangeHRM
-      summary: Get salesman from OHRM by ID
-      description: Retrieve a salesman from OrangeHRM by their ID
+      summary: Get salesman from OrangeHRM by ID
+      description: Retrieve information about a specific salesman from OrangeHRM
       parameters:
         - name: id
           in: path
           required: true
           schema:
             type: string
+      security:
+        - bearerAuth: []
       responses:
         '200':
-          description: Salesman data retrieved successfully
+          description: Salesman information from OrangeHRM retrieved successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Salesman'
-        '404':
-          description: Salesman not found
-  /bonus/spr/{sid}/{year}:
+        '401':
+          description: Unauthorized
+  /odoo/salesman:
     get:
       tags:
-        - Bonus
-      summary: Get social performance bonus for a salesman
-      description: Retrieve the social performance bonus for a salesman by year
+        - Odoo
+      summary: Get all salesmen from Odoo
+      description: Retrieve a list of all salesmen from Odoo
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of salesmen from Odoo retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Salesman'
+        '401':
+          description: Unauthorized
+  /odoo/salesman/{id}:
+    get:
+      tags:
+        - Odoo
+      summary: Get salesman from Odoo by ID
+      description: Retrieve information about a specific salesman from Odoo
       parameters:
-        - name: sid
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Salesman information from Odoo retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Salesman'
+        '401':
+          description: Unauthorized
+  /odoo/bonus/{id}:
+    get:
+      tags:
+        - Odoo
+      summary: Get bonus from Odoo by ID
+      description: Retrieve bonus information from Odoo by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Bonus information from Odoo retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bonus'
+        '401':
+          description: Unauthorized
+  /eval:
+    get:
+      tags:
+        - Evaluation
+      summary: Get all evaluations
+      description: Retrieve a list of all evaluations
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of evaluations retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Evaluation'
+        '401':
+          description: Unauthorized
+  /eval/{id}/{year}:
+    get:
+      tags:
+        - Evaluation
+      summary: Get evaluation by ID and year
+      description: Retrieve information about a specific evaluation
+      parameters:
+        - name: id
           in: path
           required: true
           schema:
@@ -417,19 +317,24 @@ paths:
           required: true
           schema:
             type: integer
+      security:
+        - bearerAuth: []
       responses:
         '200':
-          description: Social performance bonus retrieved successfully
-        '404':
-          description: Social performance bonus not found
-  /bonus/oe/{sid}/{year}:
-    get:
+          description: Evaluation information retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Evaluation'
+        '401':
+          description: Unauthorized
+    post:
       tags:
-        - Bonus
-      summary: Get order evaluation bonus for a salesman
-      description: Retrieve the order evaluation bonus for a salesman by year
+        - Evaluation
+      summary: Create evaluation
+      description: Create a new evaluation
       parameters:
-        - name: sid
+        - name: id
           in: path
           required: true
           schema:
@@ -439,112 +344,109 @@ paths:
           required: true
           schema:
             type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                score:
+                  type: number
+      security:
+        - bearerAuth: []
+      responses:
+        '201':
+          description: Evaluation created successfully
+        '401':
+          description: Unauthorized
+    put:
+      tags:
+        - Evaluation
+      summary: Update evaluation
+      description: Update an existing evaluation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                year:
+                  type: integer
+                score:
+                  type: number
+      security:
+        - bearerAuth: []
       responses:
         '200':
-          description: Order evaluation bonus retrieved successfully
-        '404':
-          description: Order evaluation bonus not found
-  /bonus/total/{sid}/{year}:
-    get:
+          description: Evaluation updated successfully
+        '401':
+          description: Unauthorized
+  /bonus/spr:
+    post:
       tags:
         - Bonus
-      summary: Get total bonus for a salesman
-      description: Retrieve the total bonus for a salesman by year
-      parameters:
-        - name: sid
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: year
-          in: path
-          required: true
-          schema:
-            type: integer
+      summary: Recalculate SPR bonus
+      description: Recalculate the SPR bonus
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                amount:
+                  type: number
+      security:
+        - bearerAuth: []
       responses:
         '200':
-          description: Total bonus retrieved successfully
-        '404':
-          description: Total bonus not found
+          description: SPR bonus recalculated successfully
+        '401':
+          description: Unauthorized
 components:
   schemas:
     Salesman:
       type: object
       properties:
-        firstname:
-          type: string
-        lastname:
-          type: string
-        sid:
-          type: string
-        socialPerformanceRecords:
-          type: array
-          items:
-            $ref: '#/components/schemas/SocialPerformanceRecord'
-    SocialPerformanceRecord:
-        type: object
-        properties:
-          year:
-            type: integer
-          totalBonus:
-            type: number
-          department:
-            type: string
-          leadershipCompetence:
-            $ref: '#/components/schemas/SpecifiedRecords'
-          opennessToEmployee:
-            $ref: '#/components/schemas/SpecifiedRecords'
-          socialBehaviorToEmployee:
-            $ref: '#/components/schemas/SpecifiedRecords'
-          attitudeToClients:
-            $ref: '#/components/schemas/SpecifiedRecords'
-          communicationSkills:
-            $ref: '#/components/schemas/SpecifiedRecords'
-          integrityToCompany:
-            $ref: '#/components/schemas/SpecifiedRecords'
-    SpecifiedRecords:
-      type: object
-      additionalProperties:
-        type: object
-        properties:
-          targetValue:
-            type: number
-          actualValue:
-            type: number
-          bonus:
-            type: number
-    Product:
-      type: object
-      properties:
-        pid:
-          type: string
-        productNr:
+        id:
           type: string
         name:
           type: string
-        pricePerUnit:
-          type: number
-        quantity:
-          type: integer
-        amountWithTax:
-          type: number
     Sale:
       type: object
       properties:
-        oid:
+        id:
           type: string
-        priority:
+        product:
+          type: string
+        quantity:
           type: integer
-        name:
+    Bonus:
+      type: object
+      properties:
+        id:
           type: string
-        order:
+        amount:
+          type: number
+    Evaluation:
+      type: object
+      properties:
+        id:
           type: string
-        customer:
+        year:
+          type: integer
+        score:
+          type: number
+    Credentials:
+      type: object
+      properties:
+        username:
           type: string
-        activeOn:
+        password:
           type: string
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
