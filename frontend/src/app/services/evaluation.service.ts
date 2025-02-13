@@ -59,21 +59,6 @@ export class EvaluationService {
     }
 
     /**
-     * Get all evaluations of a specific salesman
-     *
-     * @param sid - The salesman id
-     * @returns All evaluations of the salesman
-     * */
-    getAllEvaluationsFromSalesman(sid: string): Observable<EvaluationDTO[]>{
-        return this.http.get<EvaluationDTO[]>(environment.apiEndpoint + '/api/eval',
-            {
-                params: new HttpParams()
-                    .set('sid', sid.toString()),
-                withCredentials: true
-            });
-    }
-
-    /**
      * Update an evaluation
      *
      * @param evaluation
