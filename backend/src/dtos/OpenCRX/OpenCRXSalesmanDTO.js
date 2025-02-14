@@ -6,7 +6,7 @@ class OpenCRXSalesmanDTO {
      */
     constructor(href, governmentId) {
         this.href = href;
-        this.govermentId = governmentId;
+        this.governmentId = governmentId;
     }
 
     /**

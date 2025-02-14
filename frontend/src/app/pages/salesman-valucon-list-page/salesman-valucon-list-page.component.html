@@ -1,30 +1,25 @@
+<h1>Valucon Senior Salesperson</h1>
 <table mat-table class="mat-elevation-z8 cdk-table" [dataSource]="data">
 
     <!-- SID Column -->
     <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef>SID</th>
-        <td mat-cell *matCellDef="let special">{{ special.salesman.id }}</td>
+        <td mat-cell *matCellDef="let special">
+            {{ special.salesman.id }}
+        </td>
     </ng-container>
 
     <!-- First Name Column -->
     <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef>First Name</th>
-        <td mat-cell *matCellDef="let special">{{ special.salesman.name }}</td>
-    </ng-container>
-
-    <!-- Bonus Column -->
-    <ng-container matColumnDef="bonus">
-        <th mat-header-cell *matHeaderCellDef>Bonus</th>
+        <th mat-header-cell *matHeaderCellDef>Name</th>
         <td mat-cell *matCellDef="let special">
-            <div *ngIf="special.bonuses.length > 0">
-                <mat-chip *ngFor="let bonus of special.bonuses" color="primary">
-                    {{ bonus.bonus_amount }}
-                </mat-chip>
-            </div>
-            <div *ngIf="special.bonuses.length === 0">No bonuses</div>
+            {{ special.salesman.name }}
         </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" style="cursor: pointer;"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+        style="cursor: pointer;"
+        (click)="redirectToSalesman(row)">
+    </tr>
 </table>

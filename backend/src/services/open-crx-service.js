@@ -1,8 +1,6 @@
 const axios = require('axios');
-
 const Environment = require('../../environments/environment');
 const envOpenCRX = Environment.default.openCRX;
-
 const OpenCRXSalesmanDTO = require('../dtos/OpenCRX/OpenCRXSalesmanDTO');
 const OpenCRXCustomerDTO = require('../dtos/OpenCRX/OpenCRXCustomerDTO');
 const OpenCRXOrderDTO = require('../dtos/OpenCRX/OpenCRXOrderDTO');
@@ -49,8 +47,10 @@ exports.getAllSales = async function (){
  */
 exports.getSales = async function (sid, year) {
     // fetch a OpenCRXSalesmanDTO with the given governmentId if sid is given
+    let salesmanCRX = null;
+
     try {
-        const salesmanCRX = await this.getSalesman(sid);    
+        salesmanCRX = await this.getSalesman(sid);
     } catch (error) {
         throw new Error('Error fetching salesman from OpenCRX');
     }

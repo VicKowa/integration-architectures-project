@@ -2,6 +2,7 @@ const axios = require('axios');
 const OrangeHRMSalesmanDTO = require('../dtos/OrangeHRM/OrangeHRMSalesmanDTO');
 const SalesmanService = require('./salesman-service');
 const Salesman = require("../models/Salesman");
+const openCRXService = require('./open-crx-service');
 
 const auth_url = 'https://sepp-hrm.inf.h-brs.de/symfony/web/index.php/oauth/issueToken';
 let access_token = null;
@@ -99,6 +100,18 @@ exports.getSalesmen = async function () {
 
     salesmen = salesmen.filter(salesman => salesman.jobTitle === 'Senior Salesman');
 
+    // get all open crx salesmen
+    const openCRXSalesmen = await openCRXService.getAllSalesmen();
+
+    // create list of all governmentIds
+    const governmentIds = [];
+    openCRXSalesmen.forEach(salesman => {
+        governmentIds.push(`${salesman.governmentId}`);
+    });
+
+    // filter out salesmen that are not in openCRX
+    salesmen = salesmen.filter(salesman => governmentIds.includes(salesman.code));
+
     return salesmen;
 }
 
@@ -168,15 +181,15 @@ exports.createBonusSalary = async function (sid, bonus) {
 
     // create bonus salary
     const response = await axios.post(
-        `https://sepp-hrm.inf.h-brs.de/symfony/web/index.php/api/v1/employee/${sid}/bonussalary`,
+        `https://sepp-hrm.inf.h-brs.de/symfony/web/index.php/api/v1/employee/${salesmanDTO.employeeId}/bonussalary`,
         {
-            id: parseInt(salesmanDTO.employeeId),
             year: parseInt(bonus.year),
             value: parseInt(bonus.value)
         },
         {
             headers: {
-                Authorization: `Bearer ${access_token}`
+                Authorization: `Bearer ${access_token}`,
+                "Content-Type": "application/x-www-form-urlencoded"
             }
         });
 

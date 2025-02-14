@@ -1,21 +1,14 @@
 const Evaluation = require('../models/Evaluation.js');
-
-const OrderEvaluation = require('../models/OrderEvaluation.js');
 const OrderEvaluationDTO = require('../dtos/OrderEvaluationDTO.js');
-
-const SocialPerformanceRecord = require('../models/SocialPerformanceRecord.js');
 const SocialPerformanceRecordDTO= require('../dtos/SocialPerformanceRecordDTO.js');
-
 const OpenCRXService = require('./open-crx-service.js');
-const {query} = require("express");
 const EvaluationDTO = require("../dtos/EvaluationDTO");
-
 const DEPARTMENT = "Sales";
 const environment = require('../../environments/environment.js');
-
 const OrangeHRMService = require('./orange-hrm-service.js');
-
 const { calculateAllBonuses } = require('./bonus-service.js');
+const OrangeHRMBonusSalaryDTO = require("../dtos/OrangeHRM/OrangeHRMBonusSalaryDTO");
+const ApprovalEnum = environment.default.approvalEnum;
 
 /**
  * creates a new evaluation report in the database
@@ -33,15 +26,17 @@ exports.createEvaluation = async function (db, sid, year){
         throw new Error('Evaluation already exists!');
     }
 
-    // get sales order from openCRX for this year and sid
-    const salesOrder = await OpenCRXService.getSales(sid, year);
-
-    // create new SocialPerformanceRecord
-    // currently with random values TODO: implement actual values
     const spr = SocialPerformanceRecordDTO.createRecordWithRandomActualValues(sid, year);
 
     // create Evaluation
-    const orderEvaluation = EvaluationDTO.fromOpenCRXSaleDTO(salesOrder);
+    let orderEvaluation = new OrderEvaluationDTO(0, []);
+
+    try {
+        const salesOrder = await OpenCRXService.getSales(sid, year);
+        orderEvaluation = EvaluationDTO.fromOpenCRXSaleDTO(salesOrder);
+    } catch (_) {
+        // do nothing
+    }
 
     const evaluationDTO = new EvaluationDTO(sid, year, DEPARTMENT, orderEvaluation, spr, environment.default.approvalEnum.NONE, '');
 
@@ -64,6 +59,10 @@ exports.getAllEvaluations = async function (db, query){
         if (!allowedFilters.includes(f)) {
             delete query[f];
         }
+
+        if(f === "approvalStatus"){
+            query["approvalStatus"] = parseInt(query["approvalStatus"]);
+        }
     });
 
     return db.collection('eval').find(query).toArray();
@@ -78,7 +77,7 @@ exports.getAllEvaluations = async function (db, query){
  * @returns {Promise<Evaluation>}
  */
 exports.getEvaluation = async function (db, sid, year){
-    return db.collection('eval').findOne({sid: sid, year: year});
+    return db.collection('eval').findOne({sid: sid, year: year}) || null;
 }
 
 /**
@@ -88,12 +87,24 @@ exports.getEvaluation = async function (db, sid, year){
  * @returns {Promise<any>}
  */
 exports.updateEvaluation = async function (db, evaluation){
-
     // check if evaluation exists
-    if (!evaluation || !evaluation.sid) {
+    if (!evaluation || !evaluation.sid)
         throw new Error('Evaluation not found!');
-    }
 
+
+    // recalculates bonuses
+    calculateAllBonuses(evaluation);
+
+    // if salesman approves the evaluation, the bonus can be stored in orangehrm
+    if(evaluation.approvalStatus === ApprovalEnum.SALESMAN) {
+        try {
+            await OrangeHRMService.createBonusSalary(
+                evaluation.sid,
+                new OrangeHRMBonusSalaryDTO(evaluation.year, evaluation.totalBonus));
+        } catch (e) {
+            console.log(e);
+        }
+    }
 
     // remove _id from object
     const {_id, ...evalData} = evaluation;

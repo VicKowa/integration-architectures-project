@@ -20,15 +20,26 @@ exports.login = function (req, res){
 }
 
 /**
- * endpoint, which handles logout
- * @param req express request
- * @param res express response
- * @return {Promise<void>}
+ * Endpoint that handles logout.
+ * @param req Express request
+ * @param res Express response
  */
-exports.logout = function (req, res){
-    authService.deAuthenticate(req.session); //destroy session
-    res.send('logout successful');
-}
+exports.logout = function (req, res) {
+    // Temporarily remove this call to see if it causes the hang:
+    authService.deAuthenticate(req.session);
+
+    // req.session = null;
+    // console.log("Session cleared (set to null).");
+    //
+    // // Clear cookies (optional, depending on your configuration)
+    // res.clearCookie('session');
+    // res.clearCookie('session.sig');
+    // console.log("Cookies cleared. Sending response now.");
+
+    res.send('Logout successful');
+};
+
+
 
 /**
  * endpoint, which returns whether a user is authenticated
@@ -62,7 +73,10 @@ exports.isValidUsername = function (req, res){
     userService.isUsernameAvailable(db, username).then(user=>{ //check if user exists
         // return false if a user with that username already exists
         if (user) {
-            res.send({valid: false});
+            res.send({
+                valid: false,
+                ohrm: false
+            });
             return;
         }
 

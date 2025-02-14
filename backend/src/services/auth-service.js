@@ -7,6 +7,7 @@ exports.authenticate = function (session, user){
     session.authenticated = true;
     delete user.password;
     session.user = user;
+    console.log("Session authenticated: ", session);
 }
 
 /**
@@ -15,7 +16,7 @@ exports.authenticate = function (session, user){
  * @return {boolean} true if user is authenticated
  */
 exports.isAuthenticated = function (session){
-    return session.authenticated ? true : false;
+    return !!session.authenticated;
 }
 
 /**

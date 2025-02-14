@@ -1,15 +1,13 @@
 const OrderEvaluationDTO = require('./OrderEvaluationDTO');
-const SocialPerformanceRecordDTO = require('./SocialPerformanceRecordDTO');
 
 class EvaluationDTO {
-
     /**
      * Create a new EvaluationDTO
      *
      * @param {string} sid
      * @param {string} year
      * @param {string} department
-     * @param {OrderEvaluationDTO}orderEvaluation
+     * @param {OrderEvaluationDTO} orderEvaluation
      * @param {SocialPerformanceRecordDTO} socialPerformanceEvaluation
      * @param approvalStatus
      * @param comment
@@ -81,7 +79,7 @@ class EvaluationDTO {
                 productNumber: order.crx_product?.productNumber || '',
                 productName: order.crx_product?.name || '',
                 clientRanking: sale.priority || '',
-                items: order.quantity || 0,
+                items: EvaluationDTO.formatItems(order.quantity) || '0',
                 bonus: 0, // Assuming bonus needs to be calculated later
                 comment: '',
             }))
@@ -90,17 +88,26 @@ class EvaluationDTO {
         const totalBonus = allOrders.reduce((acc, order) => acc + order.bonus, 0);
         return new OrderEvaluationDTO(totalBonus, allOrders);
     }
+
+    /**
+     * Format the items to remove trailing zeros
+     * @param {number} quantity
+     * @returns {string} formatted quantity
+     */
+    static formatItems(quantity) {
+        return parseFloat(quantity).toString();
+    }
 }
 
 /**
  * Enum for approval status
- * @type {{SALESMAN: string, HR: string, NONE: string, CEO: string}}
+ * @type {{NONE: number, CEO: number, HR: number, SALESMAN: number}}
  */
 const approvalEnum = {
-    NONE: 'NONE',
-    CEO: 'CEO',
-    HR: 'HR',
-    SALESMAN: 'SALESMAN',
+    NONE: 0,
+    CEO: 1,
+    HR: 2,
+    SALESMAN: 3,
 };
 
 module.exports = EvaluationDTO;

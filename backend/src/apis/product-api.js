@@ -1,7 +1,7 @@
 const openCRXService = require('../services/open-crx-service');
 
 exports.getAllSales = async function (req, res){
-    const sid= req.query.salesman;
+    const sid = req.query.salesman;
     const year = req.query.year;
 
     if (sid) {
@@ -17,12 +17,4 @@ exports.getAllSales = async function (req, res){
             res.status(404).send({error: error.message});
         });
     }
-}
-
-exports.getAllSalesmen = async function (req, res){
-    return openCRXService.getAllSalesmen().then(salesmen => {
-        res.status(200).send(salesmen);
-    }).catch(error => {
-        res.status(404).send({error: error.message});
-    });
 }

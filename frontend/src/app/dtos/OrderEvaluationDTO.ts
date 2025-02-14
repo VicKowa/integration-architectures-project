@@ -22,17 +22,6 @@ export class OrderEvaluationDTO {
         this.orders = this.ensureOrders(orders);
     }
 
-    static createOrder(productNumber: string, productName: string, clientRanking: string, items: number, bonus: number, comment: string): Order {
-        return {
-            productNumber: productNumber,
-            productName: productName,
-            clientRanking: clientRanking,
-            items: items,
-            bonus: bonus,
-            comment: comment
-        };
-    }
-
     /**
      * Calculate the total bonus
      */

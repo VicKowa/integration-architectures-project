@@ -25,7 +25,7 @@
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="['sid', 'firstname', 'lastname' ,'jobTitle']"></tr>
     <tr mat-row *matRowDef="let salesman; columns: ['sid', 'firstname', 'lastname' ,'jobTitle'];"
-        (click)="selectSalesman(salesman)" [ngClass]="{ 'selected': getSelectedSalesman() === salesman }"></tr>
+        (click)="selectSalesman(salesman)" [ngClass]="{ 'selected': globalSelectedSalesman === salesman }"></tr>
 </table>
 <mat-paginator #paginator
                [pageSize]="10"

@@ -32,3 +32,15 @@ h3 {
     color: black;
     font-weight: bold;
 }
+
+label {
+    margin-right: 10px; /* Add space between label and dropdown */
+}
+
+#year-select {
+    margin-bottom: 20px; /* Add space below the dropdown */
+}
+
+.button {
+    margin-right: 1rem;
+}

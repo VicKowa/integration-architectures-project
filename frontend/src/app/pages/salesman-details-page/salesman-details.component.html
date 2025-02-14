@@ -80,7 +80,10 @@
                 </td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="['year', 'amount']"></tr>
-            <tr mat-row *matRowDef="let row; columns: ['year', 'amount'];"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['year', 'amount'];"
+                [ngClass]="{'hr-approval': (isHrApproval(row) | async)}"
+                (click)="viewBonus(row)">
+            </tr>
         </table>
 
         <!-- Chart Section -->

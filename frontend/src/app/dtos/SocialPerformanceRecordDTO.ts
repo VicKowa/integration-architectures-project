@@ -1,4 +1,4 @@
-interface Record {
+export interface Record {
     targetValue: number;
     actualValue: number;
     bonus: number;
@@ -24,7 +24,6 @@ export class SocialPerformanceRecordDTO {
      * @param specifiedRecords - The specified records
      */
     constructor(specifiedRecords?: { specifiedRecords?: SpecifiedRecords }) {
-        console.log('specifiedRecords', specifiedRecords);
         this.specifiedRecords = this.ensureAllTypes(specifiedRecords);
     }
 

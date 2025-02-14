@@ -3,10 +3,12 @@ class OdooSalesmanDTO {
      * Create a OdooSalesmanDTO.
      * @param {string} id
      * @param {string} name
+     * @param {string} jobTitle
      */
-    constructor(id, name) {
+    constructor(id, name, jobTitle) {
         this.id = id;
         this.name = name;
+        this.jobTitle = jobTitle;
     }
 
     /**
@@ -17,7 +19,8 @@ class OdooSalesmanDTO {
     static fromJSON(salesman = {}) {
         return new OdooSalesmanDTO(
             salesman['id'] || '',
-            salesman['name'] || ''
+            salesman['name'] || '',
+            salesman['job_title'] || ''
         );
     }
 }

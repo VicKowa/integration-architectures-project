@@ -1,4 +1,3 @@
-
 class OrderEvaluationDTO {
     /**
      * Create a new OrderEvaluation
@@ -19,6 +18,10 @@ class OrderEvaluationDTO {
      */
     calculateTotalBonus() {
         return this.orders.reduce((acc, order) => acc + order.bonus, 0);
+    }
+
+    static calculateTotalBonus(orderEvaluation) {
+        return orderEvaluation.orders.reduce((acc, order) => acc + order.bonus, 0);
     }
 
     /**

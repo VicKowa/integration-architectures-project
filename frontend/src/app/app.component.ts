@@ -1,20 +1,22 @@
-import {Component, NgModule, OnInit} from '@angular/core';
-import {AuthService} from './services/auth.service';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AuthService } from './services/auth.service';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css']
+    styleUrls: ['./app.component.css'],
+    standalone: false
 })
-export class AppComponent implements OnInit{
-
-    isLoggedIn: boolean;
-
-    constructor(private authService: AuthService) {
-    }
+export class AppComponent implements OnInit {
+    constructor(
+        public authService: AuthService,
+        private cd: ChangeDetectorRef
+    ) { }
 
     ngOnInit(): void {
-        this.authService.subscribeLoginChange((newState: boolean): void => {this.isLoggedIn = newState; });
-        this.authService.isLoggedIn().subscribe();
+        this.authService.isLoggedIn$.subscribe((value: boolean): void => {
+            console.log('Aktueller isLoggedIn-Wert in Menubar:', value);
+            this.cd.markForCheck();
+        });
     }
 }

@@ -1,21 +1,19 @@
-const salesmanService = require('./salesman-service');
-const openCrxService = require('./open-crx-service');
+const { calculateTotalBonus } = require("../dtos/OrderEvaluationDTO");
+
 /**
- * calculates the total bonus of social performance records for a specific evaluation of a salesman
+ * recalculates the total bonus of social performance records for a specific evaluation of a salesman
  * @param db
- * @param sid : string
- * @param year : string
- * @returns {Promise<any>}
+ * @param evaluation : EvaluationDTO
+ * @returns {Promise<SocialPerformanceRecordDTO>}
  */
-exports.getSPRBonus = async function(db, sid, year) {
-    const socialPerformanceRecord = await salesmanService.getSocialPerformanceRecord(db, sid, year);
+exports.recalculateSPRBonus = async function(db, evaluation) {
+    if(!evaluation)
+        throw new Error("Evaluation not found");
 
-    if(!socialPerformanceRecord)
-        throw new Error("SocialPerformanceRecord not found");
+    if(!evaluation.socialPerformanceEvaluation)
+        throw new Error("SocialPerformanceEvaluation not found");
 
-    calculateSocialPerformanceRecordBonus(socialPerformanceRecord);
-
-    return socialPerformanceRecord.totalBonus;
+    return calculateSocialPerformanceRecordBonus(evaluation.socialPerformanceEvaluation);
 }
 
 /**
@@ -32,10 +30,11 @@ function calculateSocialPerformanceRecordBonus(spr) {
     for (const record of Object.values(spr.specifiedRecords)) {
         const targetValue = parseInt(record.targetValue);
         const actualValue = parseInt(record.actualValue);
+
         let bonus = 0;
 
         if (actualValue >= targetValue)
-            bonus += Math.max(actualValue - targetValue, 1) * 50;
+            bonus += ((actualValue - targetValue) + 1) * 50;
         else
             bonus += 20;
 
@@ -47,31 +46,6 @@ function calculateSocialPerformanceRecordBonus(spr) {
     }, 0);
 
     return spr;
-}
-
-/**
- * gets the total bonus of order evaluations for a specific evaluation of a salesman
- * @param sid : string
- * @param year : string
- * @returns {Promise<any>}
- */
-exports.getOEBonus = async function(sid, year) {
-    const sales = await openCrxService.getSales(sid, year);
-
-    return sales.reduce((totalBonus, sale) => {
-        return totalBonus +  bonusFactorMap.find(bonusFactor => bonusFactor.productName === sale.order[0].name).bonusPerSale;
-    }, 0);
-}
-
-/**
- * gets the total bonus for a specific evaluation of a salesman
- * @param db
- * @param sid : string
- * @param year : string
- * @returns {Promise<any>}
- */
-exports.getTotalBonus = async function(db, sid, year){
-    return await this.getSPRBonus(db, sid, year) + await this.getOEBonus( sid, year);
 }
 
 // Rule:
@@ -164,7 +138,8 @@ const calculateOrderEvaluationBonus = (orderEvaluation) => {
     orderEvaluation.orders.forEach(order => {
         order.bonus = getOrderEvaluationBonus(order.clientRanking, order.items);
     });
-    return orderEvaluation.calculateTotalBonus();
+
+    return calculateTotalBonus(orderEvaluation);
 }
 
 /**

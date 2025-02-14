@@ -80,7 +80,6 @@ async function initDb(db){
         await userService.add(db, new User('admin', '', 'admin', '', adminPassword, ROLES.ADMIN));
         await userService.add(db, new User('ceo', '', 'ceo', '', adminPassword, ROLES.CEO));
         await userService.add(db, new User('hr', '', 'hr', '', adminPassword, ROLES.HR));
-
     }
 }
 
@@ -88,8 +87,3 @@ async function initDb(db){
 
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-app.use("/api-docs", swaggerUi.serve, (req, res, next) => {
-    const swaggerDocument = YAML.load(path.join(__dirname, "./swagger.yaml"));
-    swaggerUi.setup(swaggerDocument)(req, res, next);
-});
