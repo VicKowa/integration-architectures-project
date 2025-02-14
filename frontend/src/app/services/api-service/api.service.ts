@@ -22,7 +22,7 @@ export class ApiService {
      * @returns all salesmen
      * */
     getSalesman(): Observable<OrangeHRMSalesmanDTO[]> {
-        return this.http.get<Partial<OrangeHRMSalesmanDTO>[]>(`${environment.apiEndpoint}/salesmanohrm`, {withCredentials: true}).pipe(
+        return this.http.get<Partial<OrangeHRMSalesmanDTO>[]>(`${environment.apiEndpoint}/api/salesmanohrm`, {withCredentials: true}).pipe(
             map((response: Partial<OrangeHRMSalesmanDTO>[]): OrangeHRMSalesmanDTO[] =>
                 response
                     .map((data: Partial<OrangeHRMSalesmanDTO>): OrangeHRMSalesmanDTO =>
@@ -39,7 +39,7 @@ export class ApiService {
      * @returns The salesman
      * */
     getSalesmanById(sid: string): Observable<OrangeHRMSalesmanDTO> {
-        return this.http.get<Partial<OrangeHRMSalesmanDTO>>(`${environment.apiEndpoint}/salesmanohrm/${sid}`, {withCredentials: true}).pipe(
+        return this.http.get<Partial<OrangeHRMSalesmanDTO>>(`${environment.apiEndpoint}/api/salesmanohrm/${sid}`, {withCredentials: true}).pipe(
             map((data: Partial<OrangeHRMSalesmanDTO>): OrangeHRMSalesmanDTO =>
                 OrangeHRMSalesmanDTO.fromJSON(data)
             )
@@ -53,7 +53,7 @@ export class ApiService {
      * @returns all sales orders from a salesman
      * */
     getSalesOrders(sid: string): Observable<OpenCRXSaleDTO[]> {
-        return this.http.get<Partial<OpenCRXSaleDTO>[]>(`${environment.apiEndpoint}/products/sales?salesman=${sid}`, {
+        return this.http.get<Partial<OpenCRXSaleDTO>[]>(`${environment.apiEndpoint}/api/products/sales?salesman=${sid}`, {
             withCredentials: true
         }).pipe(
             map((response: Partial<OpenCRXSaleDTO>[]): OpenCRXSaleDTO[] =>
@@ -71,7 +71,7 @@ export class ApiService {
      * @returns current role
      * */
     getCurrentRole(): Observable<string> {
-        return this.http.get<User>(`${environment.apiEndpoint}/user`, {withCredentials: true}).pipe(
+        return this.http.get<User>(`${environment.apiEndpoint}/api/user`, {withCredentials: true}).pipe(
             map((user: User): string => user.role)
         );
     }
@@ -83,7 +83,7 @@ export class ApiService {
      * @returns The bonuses of the salesman (Odoo)
      * */
     getOdooBonuses(id: string): Observable<OdooBonusDTO[]> {
-        return this.http.get<Partial<OdooBonusDTO[]>>(`${environment.apiEndpoint}/odoo/bonus/${id}`, { withCredentials: true }).pipe(
+        return this.http.get<Partial<OdooBonusDTO[]>>(`${environment.apiEndpoint}/api/odoo/bonus/${id}`, { withCredentials: true }).pipe(
             map((response: Partial<OdooBonusDTO[]>): OdooBonusDTO[] =>
                 response.map((data: Partial<OdooBonusDTO>): OdooBonusDTO =>
                     OdooBonusDTO.fromJSON(data)
@@ -99,7 +99,7 @@ export class ApiService {
      * @returns The salesman
      * */
     getOdooSalesman(id: string): Observable<OdooSalesmanDTO> {
-        return this.http.get<Partial<OdooSalesmanDTO>>(`${environment.apiEndpoint}/odoo/salesman/${id}`, { withCredentials: true }).pipe(
+        return this.http.get<Partial<OdooSalesmanDTO>>(`${environment.apiEndpoint}/api/odoo/salesman/${id}`, { withCredentials: true }).pipe(
             map((data: Partial<OdooSalesmanDTO>): OdooSalesmanDTO =>
                 OdooSalesmanDTO.fromJSON(data)
             )
@@ -112,7 +112,7 @@ export class ApiService {
      * @returns all Odoo salesmen
      * */
     getOdooAllSalesman(): Observable<OdooSalesmanDTO[]> {
-        return this.http.get<Partial<OdooSalesmanDTO>[]>(`${environment.apiEndpoint}/odoo/salesman`, {withCredentials: true}).pipe(
+        return this.http.get<Partial<OdooSalesmanDTO>[]>(`${environment.apiEndpoint}/api/odoo/salesman`, {withCredentials: true}).pipe(
             map((response: Partial<OdooSalesmanDTO>[]): OdooSalesmanDTO[] =>
                 response
                     .map((data: Partial<OdooSalesmanDTO>): OdooSalesmanDTO =>
