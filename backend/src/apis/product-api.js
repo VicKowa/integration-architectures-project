@@ -5,13 +5,13 @@ exports.getAllSales = async function (req, res){
     const year = req.query.year;
 
     if (sid) {
-        openCRXService.getSales(sid, year).then(sales => {
+        return openCRXService.getSales(sid, year).then(sales => {
             res.status(200).send(sales);
         }).catch(error => {
             res.status(404).send({error: error.message});
         });
     } else {
-        openCRXService.getAllSales().then(sales => {
+        return openCRXService.getAllSales().then(sales => {
             res.status(200).send(sales);
         }).catch(error => {
             res.status(404).send({error: error.message});

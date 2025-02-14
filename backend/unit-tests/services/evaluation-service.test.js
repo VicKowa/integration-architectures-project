@@ -5,7 +5,6 @@ const evaluationService = require('../../src/services/evaluation-service');
 const OpenCRXService = require('../../src/services/open-crx-service');
 const SocialPerformanceRecordDTO = require('../../src/dtos/SocialPerformanceRecordDTO.js');
 const Evaluation = require('../../src/models/Evaluation.js');
-const EvaluationDTO = require('../../src/dtos/EvaluationDTO');
 const bonusService = require('../../src/services/bonus-service');
 const environment = require('../../environments/environment.js');
 
@@ -83,8 +82,8 @@ describe('evaluation-service unit-tests', function () {
 
     describe('getAllEvaluations', function () {
         it('should filter query and return evaluations array', async function () {
-            const query = { sid: '90123', invalidKey: 'value', year: '2023', approvalStatus: 'NONE' };
-            const expectedQuery = { sid: '90123', year: '2023', approvalStatus: 'NONE' };
+            const query = { sid: '90123', invalidKey: 'value', year: '2023', approvalStatus: 0 };
+            const expectedQuery = { sid: '90123', year: '2023', approvalStatus: 0 };
             const fakeEvaluations = [{ sid: '90123', year: '2023' }];
 
             fakeCollection.find.returns({ toArray: sinon.stub().resolves(fakeEvaluations) });
@@ -120,7 +119,34 @@ describe('evaluation-service unit-tests', function () {
         });
 
         it('should update evaluation without _id property', async function () {
-            const evalData = { _id: 'id123', sid: '90123', year: '2023', comment: 'old comment' };
+            const orders = [
+                { clientRanking: 1, bonus: 20 },
+                { clientRanking: 1, bonus: 20 },
+                { clientRanking: 1, bonus: 20 },
+                { clientRanking: 1, bonus: 20 },
+                { clientRanking: 1, bonus: 20 }
+            ];
+            const orderEvalData = { totalBonus: 100, orders };
+
+            const specifiedRecordsData = {
+                'leadershipCompetence': { targetValue: 0, actualValue: 0, bonus: 0 },
+                'opennessToEmployee': { targetValue: 0, actualValue: 0, bonus: 0 },
+                'socialBehaviorToEmployee': { targetValue: 0, actualValue: 0, bonus: 0 },
+                'attitudeToClients': { targetValue: 0, actualValue: 0, bonus: 0 },
+                'communicationSkills': { targetValue: 0, actualValue: 0, bonus: 0 },
+                'integrityToCompany': { targetValue: 0, actualValue: 0, bonus: 0 }
+            }
+            const sprData = { totalBonus: 20, specifiedRecords:  specifiedRecordsData };
+
+            const evalData = {
+                _id: 'id123',
+                sid: '90123',
+                year: '2023',
+                comment: 'old comment',
+                totalBonus: 120,
+                orderEvaluation: orderEvalData,
+                socialPerformanceEvaluation: sprData
+            };
             fakeCollection.updateOne.resolves({ modifiedCount: 1 });
 
             const result = await evaluationService.updateEvaluation(fakeDb, evalData);
