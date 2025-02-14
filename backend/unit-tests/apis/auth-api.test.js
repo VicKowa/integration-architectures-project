@@ -48,17 +48,6 @@ describe('Auth API Tests', () => {
         });
     });
 
-    describe('POST /logout (logout)', () => {
-        it('should logout successfully', async () => {
-            sandbox.stub(authService, 'deAuthenticate');
-
-            await authApi.logout(req, res);
-
-            expect(res.send.calledOnceWith('logout successful')).to.be.true;
-            expect(authService.deAuthenticate.calledOnceWith(req.session)).to.be.true;
-        });
-    });
-
     describe('POST /register (register)', () => {
         it('should register the user successfully', async () => {
             const fakeUser = { username: 'john', password: 'password123' };

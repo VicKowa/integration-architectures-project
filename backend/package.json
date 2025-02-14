@@ -15,7 +15,8 @@
     "exit": true,
     "recursive": true,
     "spec": [
-      "./unit-tests/services/"
+      "./unit-tests/services/",
+      "./unit-tests/apis/"
     ],
     "reporter": "cypress-multi-reporters",
     "reporter-options": "configFile=mocha-reporters-conf.json"

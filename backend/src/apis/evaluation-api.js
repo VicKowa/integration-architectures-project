@@ -32,7 +32,7 @@ exports.getAllEvaluations = function (req, res){
         evaluations = evaluations.map(({_id, ...rest}) => rest);
         res.status(200).send(evaluations);
     }).catch(_ => {
-        res.status(404).send(`No Evaluations with ${sid} found!`);
+        res.status(404).send(`No Evaluations found!`);
     });
 }
 
