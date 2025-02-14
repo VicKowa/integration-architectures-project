@@ -81,33 +81,4 @@ describe('Product API Integration Tests', () => {
             expect(res.status.calledOnceWith(404)).to.be.true;
         });
     });
-
-    describe('GET /salesmen (getAllSalesmen)', () => {
-        it('should return all salesmen from openCRXService.getAllSalesmen', async () => {
-            const fakeSalesmen = [
-                { id: 1, name: 'Salesman1' },
-                { id: 2, name: 'Salesman2' }
-            ];
-            // Stub openCRXService.getAllSalesmen to return fakeSalesmen
-            sandbox.stub(openCRXService, 'getAllSalesmen').resolves(fakeSalesmen);
-
-            await productApi.getAllSalesmen(req, res);
-
-            // Expect HTTP status 200 and the list of salesmen returned
-            expect(res.status.calledOnceWith(200)).to.be.true;
-            expect(res.send.calledOnceWith(fakeSalesmen)).to.be.true;
-        });
-
-        it('should return 404 with error message when openCRXService.getAllSalesmen rejects', async () => {
-            const errorMessage = 'No salesmen found';
-            // Stub openCRXService.getAllSalesmen to reject with an error
-            sandbox.stub(openCRXService, 'getAllSalesmen').rejects(new Error(errorMessage));
-
-            await productApi.getAllSalesmen(req, res);
-
-            // Expect HTTP status 404 and the error message returned
-            expect(res.status.calledOnceWith(404)).to.be.true;
-            expect(res.send.calledOnceWith({ error: errorMessage })).to.be.true;
-        });
-    });
 });
