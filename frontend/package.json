@@ -12,6 +12,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular-devkit/build-angular": "^19.1.7",
     "@angular-eslint/schematics": "^19.1.0",
     "@angular/animations": "^19.1.6",
     "@angular/cdk": "^19.1.4",
