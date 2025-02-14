@@ -9,7 +9,7 @@ const Salesman = require('../models/Salesman.js');
 exports.getAllSalesman = function (req, res){
     const db = req.app.get('db');
 
-    salesmanService.getAllSalesman(db).then(salesman => {
+    return salesmanService.getAllSalesman(db).then(salesman => {
         // remove _id from salesman
         salesman = salesman.map(({_id, ...rest}) => rest);
 
@@ -28,7 +28,7 @@ exports.getSalesman = function (req, res){
     const db = req.app.get('db');
     let sid = req.params.id;
 
-    salesmanService.getSalesman(db, sid).then(salesman => {
+    return salesmanService.getSalesman(db, sid).then(salesman => {
         // remove _id from salesman
         const {_id, ...salesmanData} = salesman;
 
@@ -47,7 +47,7 @@ exports.createSalesman = function (req, res) {
     const db = req.app.get('db');
     const salesman = Salesman.fromJSON(req.body);
 
-    salesmanService.getSalesman(db, salesman.sid).then(exSalesman => {
+    return salesmanService.getSalesman(db, salesman.sid).then(exSalesman => {
         // check if salesman with sid already exists
         if(exSalesman)
             throw new Error(`Salesman with sid ${salesman.sid} already exists!`);
@@ -71,7 +71,7 @@ exports.deleteSalesman = function (req, res) {
     const db = req.app.get('db');
     let sid = req.params.id;
 
-    salesmanService.deleteSalesman(db, sid).then(_ => {
+    return salesmanService.deleteSalesman(db, sid).then(_ => {
         res.status(200).send('Salesman deleted!');
     }).catch(_ => {
         res.status(500).send('Salesman could not be deleted!');
@@ -88,7 +88,7 @@ exports.updateSalesman = function (req, res) {
 
     const salesman = Salesman.fromJSON(req.body);
 
-    salesmanService.updateSalesman(db, salesman).then(_ => {
+    return salesmanService.updateSalesman(db, salesman).then(_ => {
         res.status(200).send('Salesman updated!');
     }).catch(_ => {
         res.status(500).send('Salesman could not be updated!');

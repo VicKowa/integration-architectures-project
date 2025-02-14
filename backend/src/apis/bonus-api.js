@@ -10,7 +10,7 @@ exports.getSPRBonus = function (req, res){
     let sid = req.params.id;
     let year = req.params.year;
 
-    bonusService.getSPRBonus(db, sid, year).then(bonus => {
+    return bonusService.getSPRBonus(db, sid, year).then(bonus => {
         res.status(200).send({bonus: bonus});
     }).catch(_ => {
         res.status(404).send(`No bonus for ${sid} and ${year} found!`);
@@ -26,7 +26,7 @@ exports.getOEBonus = function (req, res){
     let sid = req.params.id;
     let year = req.params.year;
 
-    bonusService.getOEBonus(sid, year).then(bonus => {
+    return bonusService.getOEBonus(sid, year).then(bonus => {
         res.status(200).send({bonus: bonus});
     }).catch(_ => {
         res.status(404).send(`No bonus for ${sid} found!`);
@@ -44,7 +44,7 @@ exports.getTotalBonus = function (req, res){
     let sid = req.params.id;
     let year = req.params.year;
 
-    bonusService.getTotalBonus(db, sid, year).then(bonus => {
+    return bonusService.getTotalBonus(db, sid, year).then(bonus => {
         res.status(200).send({bonus: bonus});
     }).catch(_ => {
         res.status(404).send(`No bonus for ${sid} and ${year} found!`);

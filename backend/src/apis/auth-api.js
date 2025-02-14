@@ -11,7 +11,7 @@ const UserDTO = require("../dtos/UserDTO");
 exports.login = function (req, res){
     const db = req.app.get('db');//get database from express
 
-    userService.verify(db, req.body).then(user=> { //verify credentials via user-service
+    return userService.verify(db, req.body).then(user=> { //verify credentials via user-service
         authService.authenticate(req.session, user); //mark session as authenticated
         res.send('login successful');
     }).catch(_=>{
@@ -48,7 +48,7 @@ exports.register = function (req, res){
     const db = req.app.get('db'); //get database from express
     const user = req.body;
 
-    userService.add(db, UserDTO.fromJSON(user)).then(_=>{ //add user via user-service
+    return userService.add(db, UserDTO.fromJSON(user)).then(_=>{ //add user via user-service
         res.send('registration successful');
     }).catch(_=>{
         res.status(400).send('registration failed');
@@ -67,7 +67,7 @@ exports.isValidUsername = function (req, res){
         }
 
         // check if the username is a sid from a salesman stored in OrangeHRM
-        userService.isSalesman(db, username).then(exists => {
+        return userService.isSalesman(db, username).then(exists => {
             res.send({valid: exists});
         }).catch(err => {
             res.send({valid: false});
