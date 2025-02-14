@@ -5,12 +5,12 @@ import OdooBonusDTO from '@app/dtos/Odoo/OdooBonusDTO';
 import { Router } from '@angular/router';
 
 @Component({
-    selector: 'app-salesman-valucon-list-page',
-    templateUrl: './salesman-valucon-list-page.component.html',
-    styleUrls: ['./salesman-valucon-list-page.component.css'],
+    selector: 'app-salesman-vaculon-list-page',
+    templateUrl: './salesman-vaculon-list-page.component.html',
+    styleUrls: ['./salesman-vaculon-list-page.component.css'],
     standalone: false
 })
-export class SalesmanValuconListPageComponent implements OnInit {
+export class SalesmanVaculonListPageComponent implements OnInit {
     data: {
         salesman: OdooSalesmanDTO;
         bonuses: OdooBonusDTO[];
@@ -48,6 +48,6 @@ export class SalesmanValuconListPageComponent implements OnInit {
         salesman: OdooSalesmanDTO;
         bonuses: OdooBonusDTO[];
     }): Promise<void> {
-        await this.router.navigate([`/salesman/valucon/${data.salesman.id}`]);
+        await this.router.navigate([`/salesman/vaculon/${data.salesman.id}`]);
     }
 }

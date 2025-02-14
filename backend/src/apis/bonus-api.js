@@ -10,7 +10,7 @@ exports.recalculateSPRBonus = function (req, res){
     let evaluation = fromJSON(req.body);
 
     return bonusService.recalculateSPRBonus(db, evaluation).then(bonus => {
-        res.status(200).send({bonus: bonus});
+        res.status(200).send(bonus);
     }).catch(_ => {
         res.status(404).send(`Error recalculating bonus!`);
     });

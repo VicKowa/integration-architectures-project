@@ -25,17 +25,7 @@ exports.login = function (req, res){
  * @param res Express response
  */
 exports.logout = function (req, res) {
-    // Temporarily remove this call to see if it causes the hang:
     authService.deAuthenticate(req.session);
-
-    // req.session = null;
-    // console.log("Session cleared (set to null).");
-    //
-    // // Clear cookies (optional, depending on your configuration)
-    // res.clearCookie('session');
-    // res.clearCookie('session.sig');
-    // console.log("Cookies cleared. Sending response now.");
-
     res.send('Logout successful');
 };
 
@@ -82,9 +72,12 @@ exports.isValidUsername = function (req, res){
 
         // check if the username is a sid from a salesman stored in OrangeHRM
         return userService.isSalesman(db, username).then(exists => {
-            res.send({valid: exists});
+            res.send(exists);
         }).catch(err => {
-            res.send({valid: false});
+            res.send({
+                valid: false,
+                ohrm: false
+            });
         });
     })
 }

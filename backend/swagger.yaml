@@ -6,6 +6,8 @@ info:
 servers:
   - url: http://localhost:8080/api
     description: Local development server
+  - url: http://iar-backend.inf.h-brs.de/team_7/api
+    description: Production server
 tags:
   - name: User
     description: Endpoints for user authentication

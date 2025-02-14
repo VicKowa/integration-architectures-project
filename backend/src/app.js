@@ -49,7 +49,10 @@ app.use(cors({
     credentials: true
 }));
 
-const apiRouter = require('./routes/api-routes'); //get api-router from routes/api
+const apiRouter = require('./routes/api-routes');
+const userService = require("./services/user-service");
+const User = require("./models/User");
+const UserDTO = require("./dtos/UserDTO"); //get api-router from routes/api
 app.use('/api', apiRouter); //mount api-router at path "/api"
 // !!!! attention all middlewares, mounted after the router wont be called for any requests
 
@@ -72,18 +75,24 @@ MongoClient.connect('mongodb://' + db_credentials + environment.db.host + ':' + 
 });
 
 async function initDb(db){
-    if(await db.collection('users').count() < 1){ //if no user exists create admin user
-        const userService = require('./services/user-service');
-        const User = require("./models/User");
+    //if no user exists create admin user
+    const userService = require('./services/user-service');
+    const User = require("./models/User");
 
-        const adminPassword = environment.defaultAdminPassword;
-        await userService.add(db, new User('admin', '', 'admin', '', adminPassword, ROLES.ADMIN));
-        await userService.add(db, new User('ceo', '', 'ceo', '', adminPassword, ROLES.CEO));
-        await userService.add(db, new User('hr', '', 'hr', '', adminPassword, ROLES.HR));
+    const adminPassword = environment.defaultAdminPassword;
+    const admin = await userService.get(db, 'admin');
+    const ceo = await userService.get(db, 'ceo');
+    const hr = await userService.get(db, 'hr');
+
+    if(!admin){
+        await userService.add(db, new UserDTO('admin', '', 'Admin', '', adminPassword, ROLES.ADMIN));
+    }
+    if(!ceo){
+        await userService.add(db, new UserDTO('ceo', '', 'CEO', '', adminPassword, ROLES.CEO));
+    }
+    if(!hr){
+        await userService.add(db, new UserDTO('hr', '', 'HR', '', adminPassword, ROLES.HR));
     }
 }
-
-
-
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));

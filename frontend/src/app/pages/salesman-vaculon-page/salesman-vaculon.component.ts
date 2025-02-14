@@ -6,13 +6,13 @@ import { MatTabGroup } from '@angular/material/tabs';
 import OdooSalesmanDTO from '@app/dtos/Odoo/OdooSalesmanDTO';
 
 @Component({
-    selector: 'app-salesman-valucon',
-    templateUrl: './salesman-valucon.component.html',
-    styleUrls: ['./salesman-valucon.component.css'],
+    selector: 'app-salesman-vaculon',
+    templateUrl: './salesman-vaculon.component.html',
+    styleUrls: ['./salesman-vaculon.component.css'],
     standalone: false
 })
 
-export class SalesmanValuconComponent implements OnInit {
+export class SalesmanVaculonComponent implements OnInit {
     @ViewChild('tabGroup') tabGroup: MatTabGroup;
     odooBonuses: OdooBonusDTO[] = [];
     salesman: OdooSalesmanDTO | null = null;
