@@ -7,7 +7,7 @@ class EvaluationDTO {
      * @param {string} sid
      * @param {string} year
      * @param {string} department
-     * @param {OrderEvaluationDTO}orderEvaluation
+     * @param {OrderEvaluationDTO} orderEvaluation
      * @param {SocialPerformanceRecordDTO} socialPerformanceEvaluation
      * @param approvalStatus
      * @param comment
@@ -101,7 +101,7 @@ class EvaluationDTO {
 
 /**
  * Enum for approval status
- * @type {{SALESMAN: string, HR: string, NONE: string, CEO: string}}
+ * @type {{NONE: number, CEO: number, HR: number, SALESMAN: number}}
  */
 const approvalEnum = {
     NONE: 0,
