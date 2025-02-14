@@ -33,7 +33,7 @@ export class MenuBarComponent implements OnInit, OnDestroy {
                     { title: 'Welcome', routerLink: '/' },
                     {
                         title: 'Dashboard',
-                        action: (): string => window.location.href = '/eval/list?year=2025'
+                        action: (): string => window.location.href = 'eval/list?year=2025'
                     },
                     { title: 'SmartHoover', routerLink: 'salesman/list' },
                     { title: 'Valucon', routerLink: 'salesman/valucon/list' }
@@ -42,7 +42,7 @@ export class MenuBarComponent implements OnInit, OnDestroy {
                     { title: 'Welcome', routerLink: '/' },
                     {
                         title: 'Dashboard',
-                        action: (): string => window.location.href = '/eval/list?year=2025'
+                        action: (): string => window.location.href = 'eval/list?year=2025'
                     },
                     { title: 'SmartHoover', routerLink: 'salesman/list' },
                     { title: 'Valucon', routerLink: 'salesman/valucon/list' }

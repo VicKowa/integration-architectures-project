@@ -82,9 +82,12 @@ exports.isValidUsername = function (req, res){
 
         // check if the username is a sid from a salesman stored in OrangeHRM
         return userService.isSalesman(db, username).then(exists => {
-            res.send({valid: exists});
+            res.send(exists);
         }).catch(err => {
-            res.send({valid: false});
+            res.send({
+                valid: false,
+                ohrm: false
+            });
         });
     })
 }

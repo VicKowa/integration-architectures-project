@@ -37,6 +37,8 @@ exports.verify = async function (db, credentials){
     if(!user) throw new Error('User was not found!'); //no user found -> throw error
     if(!verifyPassword(credentials.password, user.password)) throw new Error('Password wrong!');
 
+    await orangeHRMService.fetchAndStoreSalesmen(db); //fetch and store salesmen from OrangeHRM
+
     return user;
 }
 
