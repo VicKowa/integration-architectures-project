@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
-import {Credentials} from '../models/Credentials';
+import { Injectable } from '@angular/core';
+import { Credentials } from '../models/Credentials';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {tap} from 'rxjs/operators';
-import {environment} from '../../../environments/environment';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 import UserDTO from '@app/dtos/UserDTO';
 
 /**

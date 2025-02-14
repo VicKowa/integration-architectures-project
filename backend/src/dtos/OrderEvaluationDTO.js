@@ -1,4 +1,3 @@
-
 class OrderEvaluationDTO {
     /**
      * Create a new OrderEvaluation

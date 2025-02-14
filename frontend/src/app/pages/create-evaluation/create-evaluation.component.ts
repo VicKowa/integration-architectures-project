@@ -4,10 +4,10 @@ import { BonusServiceService } from '@app/services/bonus-service.service';
 import { SalesmanDTO } from '@app/dtos/SalesmanDTO';
 import { SalesmanService } from '@app/services/salesman.service';
 import { EvaluationService } from '@app/services/evaluation.service';
-import { ApprovalEnum, EvaluationDTO} from '@app/dtos/EvaluationDTO';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Order} from '@app/dtos/OrderEvaluationDTO';
-import {Record, SocialPerformanceRecordDTO, SpecifiedRecords} from '@app/dtos/SocialPerformanceRecordDTO';
+import { ApprovalEnum, EvaluationDTO } from '@app/dtos/EvaluationDTO';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Order } from '@app/dtos/OrderEvaluationDTO';
+import { Record, SocialPerformanceRecordDTO, SpecifiedRecords } from '@app/dtos/SocialPerformanceRecordDTO';
 
 export interface OrderEvaluationData {
     name: string;
@@ -387,10 +387,10 @@ export class CreateEvaluationComponent implements OnInit {
                         (record.specifiedRecords[keys[index]] as Record).bonus.toString() ||
                         '';
                 });
+
+                this.calculateTotalBonus();
             }
         });
-
-        this.calculateTotalBonus();
     }
 
     /**

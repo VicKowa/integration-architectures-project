@@ -1,8 +1,4 @@
-const salesmanService = require('./salesman-service');
-const openCrxService = require('./open-crx-service');
-const evaluationService = require('./evaluation-service');
-
-const {calculateTotalBonus} = require("../dtos/OrderEvaluationDTO");
+const { calculateTotalBonus } = require("../dtos/OrderEvaluationDTO");
 
 /**
  * recalculates the total bonus of social performance records for a specific evaluation of a salesman
@@ -38,7 +34,7 @@ function calculateSocialPerformanceRecordBonus(spr) {
         let bonus = 0;
 
         if (actualValue >= targetValue)
-            bonus += Math.max(actualValue - targetValue, 1) * 50;
+            bonus += ((actualValue - targetValue) + 1) * 50;
         else
             bonus += 20;
 

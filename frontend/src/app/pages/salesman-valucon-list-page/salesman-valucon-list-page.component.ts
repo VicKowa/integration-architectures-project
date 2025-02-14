@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {ApiService} from '@app/services/api-service/api.service';
+import { ApiService } from '@app/services/api-service/api.service';
 import OdooSalesmanDTO from '@app/dtos/Odoo/OdooSalesmanDTO';
 import OdooBonusDTO from '@app/dtos/Odoo/OdooBonusDTO';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-salesman-valucon-list-page',

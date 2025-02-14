@@ -1,8 +1,8 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {ApiService} from '@app/services/api-service/api.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ApiService } from '@app/services/api-service/api.service';
 import OdooBonusDTO from '@app/dtos/Odoo/OdooBonusDTO';
-import {ActivatedRoute} from '@angular/router';
-import {MatTabGroup} from '@angular/material/tabs';
+import { ActivatedRoute } from '@angular/router';
+import { MatTabGroup } from '@angular/material/tabs';
 import OdooSalesmanDTO from '@app/dtos/Odoo/OdooSalesmanDTO';
 
 @Component({

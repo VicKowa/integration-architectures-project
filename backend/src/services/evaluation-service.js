@@ -1,20 +1,11 @@
 const Evaluation = require('../models/Evaluation.js');
-
-const OrderEvaluation = require('../models/OrderEvaluation.js');
 const OrderEvaluationDTO = require('../dtos/OrderEvaluationDTO.js');
-
-const SocialPerformanceRecord = require('../models/SocialPerformanceRecord.js');
 const SocialPerformanceRecordDTO= require('../dtos/SocialPerformanceRecordDTO.js');
-
 const OpenCRXService = require('./open-crx-service.js');
-const {query} = require("express");
 const EvaluationDTO = require("../dtos/EvaluationDTO");
-
 const DEPARTMENT = "Sales";
 const environment = require('../../environments/environment.js');
-
 const OrangeHRMService = require('./orange-hrm-service.js');
-
 const { calculateAllBonuses } = require('./bonus-service.js');
 const OrangeHRMBonusSalaryDTO = require("../dtos/OrangeHRM/OrangeHRMBonusSalaryDTO");
 const ApprovalEnum = environment.default.approvalEnum;
@@ -35,15 +26,17 @@ exports.createEvaluation = async function (db, sid, year){
         throw new Error('Evaluation already exists!');
     }
 
-    // get sales order from openCRX for this year and sid
-    const salesOrder = await OpenCRXService.getSales(sid, year);
-
-    // create new SocialPerformanceRecord
-    // currently with random values TODO: implement actual values
     const spr = SocialPerformanceRecordDTO.createRecordWithRandomActualValues(sid, year);
 
     // create Evaluation
-    const orderEvaluation = EvaluationDTO.fromOpenCRXSaleDTO(salesOrder);
+    let orderEvaluation = new OrderEvaluationDTO(0, []);
+
+    try {
+        const salesOrder = await OpenCRXService.getSales(sid, year);
+        orderEvaluation = EvaluationDTO.fromOpenCRXSaleDTO(salesOrder);
+    } catch (_) {
+        // do nothing
+    }
 
     const evaluationDTO = new EvaluationDTO(sid, year, DEPARTMENT, orderEvaluation, spr, environment.default.approvalEnum.NONE, '');
 
@@ -84,7 +77,7 @@ exports.getAllEvaluations = async function (db, query){
  * @returns {Promise<Evaluation>}
  */
 exports.getEvaluation = async function (db, sid, year){
-    return db.collection('eval').findOne({sid: sid, year: year});
+    return db.collection('eval').findOne({sid: sid, year: year}) || null;
 }
 
 /**

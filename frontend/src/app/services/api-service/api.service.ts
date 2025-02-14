@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {OrangeHRMSalesmanDTO} from '@app/dtos/OrangeHRM/OrangeHRMSalesmanDTO';
-import {map} from 'rxjs/operators';
-import {User} from '@app/models/User';
+import { OrangeHRMSalesmanDTO } from '@app/dtos/OrangeHRM/OrangeHRMSalesmanDTO';
+import { map } from 'rxjs/operators';
+import { User } from '@app/models/User';
 import OdooBonusDTO from '@app/dtos/Odoo/OdooBonusDTO';
 import OdooSalesmanDTO from '@app/dtos/Odoo/OdooSalesmanDTO';
 import OpenCRXSaleDTO from '@app/dtos/OpenCRX/OpenCRXSaleDTO';

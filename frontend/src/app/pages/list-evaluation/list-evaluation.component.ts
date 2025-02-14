@@ -1,13 +1,13 @@
-import {Component, Input as RoutingInput, OnInit, ViewChild} from '@angular/core';
-import {MatTableDataSource} from '@angular/material/table';
-import {Salesman} from '@app/models/Salesman';
-import {SalesmanTableComponent} from '@app/components/salesman-table/salesman-table.component';
-import {SalesmanService} from '@app/services/salesman.service';
-import {EvaluationService} from '@app/services/evaluation.service';
-import {SalesmanDTO} from '@app/dtos/SalesmanDTO';
-import {ApprovalEnum, EvaluationDTO} from '@app/dtos/EvaluationDTO';
-import {ActivatedRoute, Params, Router} from '@angular/router';
-import {ApiService} from '@app/services/api-service/api.service';
+import { Component, Input as RoutingInput, OnInit, ViewChild } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { Salesman } from '@app/models/Salesman';
+import { SalesmanTableComponent } from '@app/components/salesman-table/salesman-table.component';
+import { SalesmanService } from '@app/services/salesman.service';
+import { EvaluationService } from '@app/services/evaluation.service';
+import { SalesmanDTO } from '@app/dtos/SalesmanDTO';
+import { ApprovalEnum, EvaluationDTO } from '@app/dtos/EvaluationDTO';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ApiService } from '@app/services/api-service/api.service';
 
 @Component({
     selector: 'app-listed-bonuses-page',
@@ -134,6 +134,8 @@ export class ListEvaluationComponent implements OnInit {
     async createEvaluation(): Promise<void> {
         // get the selected salesman
         const selectedSalesman: Salesman = this.salesmenToEvaluateTable.getSelectedSalesman();
+
+        console.log('selectedSalesman:', selectedSalesman);
 
         if (!selectedSalesman) {
             return;

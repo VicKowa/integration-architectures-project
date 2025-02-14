@@ -12,16 +12,16 @@ import {
     Title,
     Tooltip
 } from 'chart.js';
-import {ActivatedRoute, Router} from '@angular/router';
-import {ApiService} from '@app/services/api-service/api.service';
-import {OrangeHRMSalesmanDTO} from '@app/dtos/OrangeHRM/OrangeHRMSalesmanDTO';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ApiService } from '@app/services/api-service/api.service';
+import { OrangeHRMSalesmanDTO } from '@app/dtos/OrangeHRM/OrangeHRMSalesmanDTO';
 import OpenCRXSaleDTO from '@app/dtos/OpenCRX/OpenCRXSaleDTO';
-import {MatTabGroup} from '@angular/material/tabs';
+import { MatTabGroup } from '@angular/material/tabs';
 import OpenCRXOrderDTO from '@app/dtos/OpenCRX/OpenCRXOrderDTO';
-import {EvaluationService} from '@app/services/evaluation.service';
-import {ApprovalEnum, EvaluationDTO} from '@app/dtos/EvaluationDTO';
-import {BehaviorSubject, Observable, of} from 'rxjs';
-import {catchError, map} from 'rxjs/operators';
+import { EvaluationService } from '@app/services/evaluation.service';
+import { ApprovalEnum, EvaluationDTO } from '@app/dtos/EvaluationDTO';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 Chart.register(BarController, BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
 
