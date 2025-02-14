@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, inject, provideAppInitializer } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 
 import { AppRouting } from './app.routing';
 import { AppComponent } from './app.component';
@@ -78,11 +78,16 @@ bootstrap: [AppComponent], imports: [BrowserModule,
     BaseChartDirective,
     CommonModule,
     NgOptimizedImage,
-    FormsModule], providers: [
-    provideAppInitializer((): Promise<HttpResponse<any>> => {
-        const initializerFn: () => Promise<HttpResponse<any>> = (initializeApp)(inject(AuthService));
-        return initializerFn();
-    }),
+    FormsModule],
+providers: [
+    {
+        provide: APP_INITIALIZER,
+        useFactory: (authService: AuthService):
+        () => Promise<HttpResponse<any>> =>
+            (): Promise<HttpResponse<any>> => authService.checkLogin().toPromise(),
+        deps: [AuthService],
+        multi: true
+    },
     provideHttpClient(withInterceptorsFromDi())
 ]
 })

@@ -39,7 +39,10 @@ export class ApiService {
      * @returns The salesman
      * */
     getSalesmanById(sid: string): Observable<OrangeHRMSalesmanDTO> {
-        return this.http.get<Partial<OrangeHRMSalesmanDTO>>(`${environment.apiEndpoint}/api/salesmanohrm/${sid}`, {withCredentials: true}).pipe(
+        return this.http.get<Partial<OrangeHRMSalesmanDTO>>(
+            `${environment.apiEndpoint}/api/salesmanohrm/${sid}`,
+            {withCredentials: true}
+        ).pipe(
             map((data: Partial<OrangeHRMSalesmanDTO>): OrangeHRMSalesmanDTO =>
                 OrangeHRMSalesmanDTO.fromJSON(data)
             )
@@ -99,7 +102,10 @@ export class ApiService {
      * @returns The salesman
      * */
     getOdooSalesman(id: string): Observable<OdooSalesmanDTO> {
-        return this.http.get<Partial<OdooSalesmanDTO>>(`${environment.apiEndpoint}/api/odoo/salesman/${id}`, { withCredentials: true }).pipe(
+        return this.http.get<Partial<OdooSalesmanDTO>>(
+            `${environment.apiEndpoint}/api/odoo/salesman/${id}`,
+            { withCredentials: true }
+        ).pipe(
             map((data: Partial<OdooSalesmanDTO>): OdooSalesmanDTO =>
                 OdooSalesmanDTO.fromJSON(data)
             )
