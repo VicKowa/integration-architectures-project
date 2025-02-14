@@ -44,7 +44,7 @@
                     <ng-container matColumnDef="bonus">
                         <th mat-header-cell *matHeaderCellDef>Bonus</th>
                         <td mat-cell *matCellDef="let element">
-                            <div *ngIf="!readOnly && (this.userRole === 'ceo' || this.userRole === 'admin')" class="input-field">
+                            <div *ngIf="!readOnly && (this.userRole === 'ceo')" class="input-field">
                                 <input [(ngModel)]="element.bonus" placeholder="Enter Value" (ngModelChange)="calculateTotalBonus()">
                             </div>
                             <div *ngIf="readOnly || (this.userRole === 'hr' || this.userRole === 'salesman')">
@@ -57,7 +57,7 @@
                     <ng-container matColumnDef="comments">
                         <th mat-header-cell *matHeaderCellDef>Comments</th>
                         <td mat-cell *matCellDef="let element">
-                            <div *ngIf="!readOnly && (this.userRole === 'ceo' || this.userRole === 'admin')" class="input-field">
+                            <div *ngIf="!readOnly && (this.userRole === 'ceo')" class="input-field">
                                 <input [(ngModel)]="element.comments" placeholder="Enter Comment">
                             </div>
                             <div *ngIf="readOnly || (this.userRole === 'hr' || this.userRole === 'salesman')">
@@ -113,7 +113,7 @@
                 <ng-container matColumnDef="bonus">
                     <th mat-header-cell *matHeaderCellDef>Bonus</th>
                     <td mat-cell *matCellDef="let element">
-                        <div *ngIf="!readOnly && (this.userRole === 'ceo' || this.userRole === 'admin')" class="input-field">
+                        <div *ngIf="!readOnly && (this.userRole === 'ceo')" class="input-field">
                             <input [(ngModel)]="element.bonus" placeholder="Enter Value" (ngModelChange)="calculateTotalBonus()">
                         </div>
                         <div *ngIf="readOnly || (this.userRole === 'hr' || this.userRole === 'salesman')">
@@ -125,7 +125,7 @@
                 <ng-container matColumnDef="comments">
                     <th mat-header-cell *matHeaderCellDef>Comments</th>
                     <td mat-cell *matCellDef="let element">
-                        <div *ngIf="!readOnly && (this.userRole === 'ceo' || this.userRole === 'admin')" class="input-field">
+                        <div *ngIf="!readOnly && (this.userRole === 'ceo')" class="input-field">
                             <input [(ngModel)]="element.comment" placeholder="Enter Comment">
                         </div>
                         <div *ngIf="readOnly || (this.userRole === 'hr' || this.userRole === 'salesman')">

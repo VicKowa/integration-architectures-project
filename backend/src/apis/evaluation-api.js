@@ -1,7 +1,5 @@
 const evaluationService = require('../services/evaluation-service');
 const EvaluationDTO = require('../dtos/EvaluationDTO.js');
-const OrderEvaluationDTO = require('../dtos/OrderEvaluationDTO.js');
-const SocialPerformanceRecordDTO = require('../dtos/SocialPerformanceRecordDTO.js');
 
 /**
  * creates a new evaluation in the database
@@ -12,7 +10,6 @@ exports.createEvaluation = function (req, res) {
     const db = req.app.get('db');
     let sid = req.params.id;
     let year = req.params.year;
-    // const evaluationDto = EvaluationDTO.fromJSON(req.body);
 
     evaluationService.createEvaluation(db, sid, year).then(_ => {
         res.status(200).send(`Evaluation with sid ${sid} created!`);

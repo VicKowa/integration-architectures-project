@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, inject, provideAppInitializer } from '@angular/core';
 
 import { AppRouting } from './app.routing';
 import { AppComponent } from './app.component';
@@ -7,7 +7,7 @@ import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { LoginComponent } from './components/login/login.component';
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 import { FormsModule } from '@angular/forms';
-import {HttpClientModule, HttpResponse} from '@angular/common/http';
+import { HttpResponse, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -32,10 +32,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 // Import for Chart.js Angular wrapper
 import { BaseChartDirective } from 'ng2-charts';
 import { SalesmanValuconListPageComponent } from './pages/salesman-valucon-list-page/salesman-valucon-list-page.component';
-import {MatChipsModule} from '@angular/material/chips';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {CommonModule, NgOptimizedImage} from '@angular/common';
-import { APP_INITIALIZER } from '@angular/core';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
+
 import { AuthService } from './services/auth.service';
 
 export const initializeApp = (authService: AuthService): (() => Promise<HttpResponse<any>>) =>
@@ -43,8 +43,7 @@ export const initializeApp = (authService: AuthService): (() => Promise<HttpResp
         loggedIn: boolean;
     }>> => authService.checkLogin().toPromise();
 
-@NgModule({
-    declarations: [
+@NgModule({ declarations: [
         AppComponent,
         LoginPageComponent,
         LoginComponent,
@@ -60,11 +59,9 @@ export const initializeApp = (authService: AuthService): (() => Promise<HttpResp
         SalesmanRegisterComponent,
         SalesmanValuconListPageComponent
     ],
-    imports: [
-        BrowserModule,
+    bootstrap: [AppComponent], imports: [BrowserModule,
         AppRouting,
         FormsModule,
-        HttpClientModule,
         BrowserAnimationsModule,
         MatInputModule,
         MatButtonModule,
@@ -81,16 +78,11 @@ export const initializeApp = (authService: AuthService): (() => Promise<HttpResp
         BaseChartDirective,
         CommonModule,
         NgOptimizedImage,
-        FormsModule
-    ],
-    providers: [
-        {
-            provide: APP_INITIALIZER,
-            useFactory: initializeApp,
-            deps: [AuthService],
-            multi: true
-        }
-    ],
-    bootstrap: [AppComponent]
-})
+        FormsModule], providers: [
+        provideAppInitializer(() => {
+        const initializerFn = (initializeApp)(inject(AuthService));
+        return initializerFn();
+      }),
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule { }

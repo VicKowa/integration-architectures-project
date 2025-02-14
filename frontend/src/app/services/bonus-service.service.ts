@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {environment} from '../../../environments/environment';
-import {Observable} from 'rxjs';
-import {SocialPerformanceRecordDTO} from '@app/dtos/SocialPerformanceRecordDTO';
-import {EvaluationDTO} from '@app/dtos/EvaluationDTO';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+import { Observable } from 'rxjs';
+import { SocialPerformanceRecordDTO } from '@app/dtos/SocialPerformanceRecordDTO';
+import { EvaluationDTO } from '@app/dtos/EvaluationDTO';
 
 @Injectable({
     providedIn: 'root'

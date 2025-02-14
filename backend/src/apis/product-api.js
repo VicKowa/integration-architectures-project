@@ -1,7 +1,7 @@
 const openCRXService = require('../services/open-crx-service');
 
 exports.getAllSales = async function (req, res){
-    const sid= req.query.salesman;
+    const sid = req.query.salesman;
     const year = req.query.year;
 
     if (sid) {

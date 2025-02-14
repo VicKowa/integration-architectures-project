@@ -6,7 +6,8 @@ import { User } from '@app/models/User';
 @Component({
     selector: 'app-landing-page',
     templateUrl: './landing-page.component.html',
-    styleUrls: ['./landing-page.component.css']
+    styleUrls: ['./landing-page.component.css'],
+    standalone: false
 })
 export class LandingPageComponent implements OnInit {
 
