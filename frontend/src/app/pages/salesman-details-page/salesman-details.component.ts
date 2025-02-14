@@ -179,14 +179,16 @@ export class SalesmanDetailsComponent implements OnInit {
     }): void {
         // redirecting depending on the approval status
         this.evaluationService.getEvaluation(this.salesman.code, bonus.year).subscribe((evaluation: EvaluationDTO): void => {
-            // redirect to the create page if the HR has approved the evaluation
-            if (evaluation.approvalStatus === ApprovalEnum.HR) {
-                void this.router.navigate([`/eval/create/${this.salesman.code}/${bonus.year}`]);
-            }
-            // redirect to the view page if the HR has not approved the evaluation
-            else {
-                void this.router.navigate([`/eval/view/${this.salesman.code}/${bonus.year}`]);
-            }
+            this.apiService.getCurrentRole().subscribe((role: string): void => {
+                // redirect to the create page if the HR has approved the evaluation
+                if (evaluation.approvalStatus === ApprovalEnum.HR && role.toLowerCase() === 'salesman') {
+                    void this.router.navigate([`/eval/create/${this.salesman.code}/${bonus.year}`]);
+                }
+                // redirect to the view page if the HR has not approved the evaluation
+                else {
+                    void this.router.navigate([`/eval/view/${this.salesman.code}/${bonus.year}`]);
+                }
+            });
         });
     }
 
