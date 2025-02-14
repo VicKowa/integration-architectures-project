@@ -4,7 +4,7 @@ const ROLES = require('../config/roles');
 // Adjust the numbers if your hierarchy changes.
 const roleHierarchy = {
     [ROLES.SALESMAN]: 1,
-    [ROLES.SALESMAN_VALUCON]: 1,
+    [ROLES.SALESMAN_VACULON]: 1,
     [ROLES.HR]: 2,
     [ROLES.CEO]: 3,
     [ROLES.ADMIN]: 4

@@ -21,9 +21,9 @@ export class MenuBarComponent implements OnInit, OnDestroy {
     private buttonMap = new class ButtonMap {
         private getButtonMap(username: string): Record<string, { title: string; routerLink?: string; action?: () => void }[]> {
             return {
-                salesman_valucon: [
+                salesman_vaculon: [
                     { title: 'Welcome', routerLink: '/' },
-                    { title: 'My Profile', routerLink: `salesman/valucon/${username}` }
+                    { title: 'My Profile', routerLink: `salesman/vaculon/${username}` }
                 ],
                 salesman: [
                     { title: 'Welcome', routerLink: '/' },
@@ -36,7 +36,7 @@ export class MenuBarComponent implements OnInit, OnDestroy {
                         action: (): string => window.location.href = 'eval/list?year=2025'
                     },
                     { title: 'SmartHoover', routerLink: 'salesman/list' },
-                    { title: 'Valucon', routerLink: 'salesman/valucon/list' }
+                    { title: 'Vaculon', routerLink: 'salesman/vaculon/list' }
                 ],
                 hr: [
                     { title: 'Welcome', routerLink: '/' },
@@ -45,12 +45,12 @@ export class MenuBarComponent implements OnInit, OnDestroy {
                         action: (): string => window.location.href = 'eval/list?year=2025'
                     },
                     { title: 'SmartHoover', routerLink: 'salesman/list' },
-                    { title: 'Valucon', routerLink: 'salesman/valucon/list' }
+                    { title: 'Vaculon', routerLink: 'salesman/vaculon/list' }
                 ],
                 admin: [
                     { title: 'Welcome', routerLink: '/' },
                     { title: 'SmartHoover', routerLink: 'salesman/list' },
-                    { title: 'Valucon', routerLink: 'salesman/valucon/list' }
+                    { title: 'Vaculon', routerLink: 'salesman/vaculon/list' }
                 ],
             };
         }

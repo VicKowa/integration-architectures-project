@@ -1,5 +1,5 @@
 const Roles = Object.freeze({
-    SALESMAN_VALUCON: 'salesman_valucon',
+    SALESMAN_VACULON: 'salesman_vaculon',
     SALESMAN: 'salesman',
     HR: 'hr',
     CEO: 'ceo',

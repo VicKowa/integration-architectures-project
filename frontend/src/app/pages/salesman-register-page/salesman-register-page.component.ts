@@ -83,7 +83,7 @@ export class SalesmanRegisterComponent implements OnInit {
 
         // Register user
         const user: UserDTO = this.registerForm.value as UserDTO;
-        user.role = this.salesmanData.ohrm ? 'salesman' : 'salesman_valucon';
+        user.role = this.salesmanData.ohrm ? 'salesman' : 'salesman_vaculon';
 
         this.authService.register(user)
             .pipe(first())
