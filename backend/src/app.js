@@ -51,7 +51,8 @@ app.use(cors({
 
 const apiRouter = require('./routes/api-routes');
 const userService = require("./services/user-service");
-const User = require("./models/User"); //get api-router from routes/api
+const User = require("./models/User");
+const UserDTO = require("./dtos/UserDTO"); //get api-router from routes/api
 app.use('/api', apiRouter); //mount api-router at path "/api"
 // !!!! attention all middlewares, mounted after the router wont be called for any requests
 
@@ -82,14 +83,15 @@ async function initDb(db){
     const admin = await userService.get(db, 'admin');
     const ceo = await userService.get(db, 'ceo');
     const hr = await userService.get(db, 'hr');
-    if(admin){
-        await userService.add(db, new User('admin', '', 'admin', '', adminPassword, ROLES.ADMIN));
+
+    if(!admin){
+        await userService.add(db, new UserDTO('admin', '', 'Admin', '', adminPassword, ROLES.ADMIN));
     }
-    if(ceo){
-        await userService.add(db, new User('ceo', '', 'ceo', '', adminPassword, ROLES.CEO));
+    if(!ceo){
+        await userService.add(db, new UserDTO('ceo', '', 'CEO', '', adminPassword, ROLES.CEO));
     }
-    if(hr){
-        await userService.add(db, new User('hr', '', 'hr', '', adminPassword, ROLES.HR));
+    if(!hr){
+        await userService.add(db, new UserDTO('hr', '', 'HR', '', adminPassword, ROLES.HR));
     }
 }
 
