@@ -7,7 +7,7 @@ import { User } from '@app/models/User';
 import OdooBonusDTO from '@app/dtos/Odoo/OdooBonusDTO';
 import OdooSalesmanDTO from '@app/dtos/Odoo/OdooSalesmanDTO';
 import OpenCRXSaleDTO from '@app/dtos/OpenCRX/OpenCRXSaleDTO';
-import {environment} from "../../../../environments/environment";
+import {environment} from '../../../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
