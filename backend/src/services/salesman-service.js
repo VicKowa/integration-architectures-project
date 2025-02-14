@@ -1,5 +1,3 @@
-const Salesman = require('../models/Salesman.js');
-
 /**
  * gets all salesmen from the database
  * @param db source database

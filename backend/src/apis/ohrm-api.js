@@ -1,6 +1,4 @@
 const ohrmService = require('../services/orange-hrm-service');
-const evaluationService = require("../services/evaluation-service");
-const OrangeHRMBonusSalaryDTO = require("../dtos/OrangeHRM/OrangeHRMBonusSalaryDTO");
 
 /**
  * Get all salesmen from the HRM system

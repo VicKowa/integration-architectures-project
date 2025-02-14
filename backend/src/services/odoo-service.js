@@ -1,5 +1,4 @@
 const Odoo = require('async-odoo-xmlrpc');
-const Salesman = require("../models/Salesman");
 const OdooSalesmanDTO = require("../dtos/Odoo/OdooSalesmanDTO");
 const OdooBonusDTO = require("../dtos/Odoo/OdooBonusDTO");
 

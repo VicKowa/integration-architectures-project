@@ -6,15 +6,16 @@ import {
     Output,
     ViewChild
 } from '@angular/core';
-import {MatTable, MatTableDataSource} from '@angular/material/table';
-import {MatSort} from '@angular/material/sort';
-import {MatPaginator} from '@angular/material/paginator';
-import {SalesmanDTO} from '@app/dtos/SalesmanDTO';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
+import { SalesmanDTO } from '@app/dtos/SalesmanDTO';
 
 @Component({
     selector: 'app-salesman-table',
     templateUrl: './salesman-table.component.html',
     styleUrls: ['./salesman-table.component.css'],
+    standalone: false
 })
 export class SalesmanTableComponent implements AfterViewInit {
     @Input() salesmenDataSource: MatTableDataSource<SalesmanDTO> = null;

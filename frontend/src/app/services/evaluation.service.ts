@@ -20,7 +20,6 @@ export class EvaluationService {
      * @param year - The year of performance
      * */
     createEvaluation(sid: string, year: string): Observable<boolean> {
-        console.log(sid, year);
         return this.http.post(
             `${environment.apiEndpoint}/api/eval/${sid}/${year}`,
             null, // no request body

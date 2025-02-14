@@ -1,5 +1,4 @@
 const salesmanService = require('../services/salesman-service.js');
-const Salesman = require('../models/Salesman.js');
 
 /**
  * gets all salesmen from the database

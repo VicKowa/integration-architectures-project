@@ -1,8 +1,6 @@
 const OrderEvaluationDTO = require('./OrderEvaluationDTO');
-const SocialPerformanceRecordDTO = require('./SocialPerformanceRecordDTO');
 
 class EvaluationDTO {
-
     /**
      * Create a new EvaluationDTO
      *
