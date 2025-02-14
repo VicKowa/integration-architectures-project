@@ -9,10 +9,10 @@ exports.recalculateSPRBonus = function (req, res){
     const db = req.app.get('db');
     let evaluation = fromJSON(req.body);
 
-    return bonusService.getSPRBonus(db, sid, year).then(bonus => {
+    return bonusService.recalculateSPRBonus(db, evaluation).then(bonus => {
         res.status(200).send({bonus: bonus});
     }).catch(_ => {
-        res.status(404).send(`No bonus for ${sid} and ${year} found!`);
+        res.status(404).send(`Error recalculating bonus!`);
     });
 }
 

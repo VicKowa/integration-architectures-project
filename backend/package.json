@@ -8,7 +8,8 @@
     "start_production": "set NODE_ENV=production&& node ./src/app.js",
     "test_unit": "mocha",
     "coverage": "nyc --all --reporter=cobertura --reporter=text-summary npm run test_unit",
-    "coverage-sevices": "nyc --all --include=unit-tests/services --reporter=cobertura --reporter=text-summary npm run test_unit"
+    "coverage-sevices": "nyc --all --include=unit-tests/services --reporter=cobertura --reporter=text-summary npm run test_unit",
+    "coverage-apis": "nyc --all --include=unit-tests/apis --reporter=cobertura --reporter=text-summary npm run test_unit"
   },
   "mocha": {
     "exit": true,
