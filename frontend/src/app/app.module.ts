@@ -43,46 +43,47 @@ export const initializeApp = (authService: AuthService): (() => Promise<HttpResp
         loggedIn: boolean;
     }>> => authService.checkLogin().toPromise();
 
-@NgModule({ declarations: [
-        AppComponent,
-        LoginPageComponent,
-        LoginComponent,
-        LandingPageComponent,
-        MenuBarComponent,
-        NotFoundPageComponent,
-        SalesmanListPageComponent,
-        SalesmanDetailsComponent,
-        CreateEvaluationComponent,
-        SalesmanValuconComponent,
-        SalesmanTableComponent,
-        ListEvaluationComponent,
-        SalesmanRegisterComponent,
-        SalesmanValuconListPageComponent
-    ],
-    bootstrap: [AppComponent], imports: [BrowserModule,
-        AppRouting,
-        FormsModule,
-        BrowserAnimationsModule,
-        MatInputModule,
-        MatButtonModule,
-        MatCardModule,
-        MatToolbarModule,
-        MatIconModule,
-        MatTableModule,
-        MatTabsModule,
-        MatSortModule,
-        MatFormFieldModule,
-        ReactiveFormsModule,
-        MatPaginatorModule,
-        MatChipsModule,
-        BaseChartDirective,
-        CommonModule,
-        NgOptimizedImage,
-        FormsModule], providers: [
-        provideAppInitializer(() => {
-        const initializerFn = (initializeApp)(inject(AuthService));
+@NgModule({declarations: [
+    AppComponent,
+    LoginPageComponent,
+    LoginComponent,
+    LandingPageComponent,
+    MenuBarComponent,
+    NotFoundPageComponent,
+    SalesmanListPageComponent,
+    SalesmanDetailsComponent,
+    CreateEvaluationComponent,
+    SalesmanValuconComponent,
+    SalesmanTableComponent,
+    ListEvaluationComponent,
+    SalesmanRegisterComponent,
+    SalesmanValuconListPageComponent
+],
+bootstrap: [AppComponent], imports: [BrowserModule,
+    AppRouting,
+    FormsModule,
+    BrowserAnimationsModule,
+    MatInputModule,
+    MatButtonModule,
+    MatCardModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatTableModule,
+    MatTabsModule,
+    MatSortModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatPaginatorModule,
+    MatChipsModule,
+    BaseChartDirective,
+    CommonModule,
+    NgOptimizedImage,
+    FormsModule], providers: [
+    provideAppInitializer((): Promise<HttpResponse<any>> => {
+        const initializerFn: () => Promise<HttpResponse<any>> = (initializeApp)(inject(AuthService));
         return initializerFn();
-      }),
-        provideHttpClient(withInterceptorsFromDi())
-    ] })
+    }),
+    provideHttpClient(withInterceptorsFromDi())
+]
+})
 export class AppModule { }

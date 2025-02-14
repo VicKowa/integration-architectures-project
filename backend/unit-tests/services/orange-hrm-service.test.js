@@ -2,25 +2,28 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const axios = require('axios');
 const SalesmanService = require('../../src/services/salesman-service');
+const openCRXService = require('../../src/services/open-crx-service');
 
 let hrmService;
 
 describe('orange-hrm-service unit-tests', function () {
     // Stubs for axios methods and SalesmanService functions
     let postStub, getStub;
-    let salesmanGetStub, salesmanCreateStub;
+    let salesmanGetStub, salesmanCreateStub, salesmanGetAllStub;
 
     // Before each test, clear the cache for Service
     beforeEach(function () {
         // Remove the cached instance
         delete require.cache[require.resolve('../../src/services/orange-hrm-service')];
-        hrmService = require('../../src/services/orange-hrm-service');
 
         postStub = sinon.stub(axios, 'post');
         getStub = sinon.stub(axios, 'get');
 
+        hrmService = require('../../src/services/orange-hrm-service');
+
         salesmanGetStub = sinon.stub(SalesmanService, 'getSalesman');
         salesmanCreateStub = sinon.stub(SalesmanService, 'createSalesman');
+        salesmanGetAllStub = sinon.stub(openCRXService, 'getAllSalesmen');
     });
 
     afterEach(function () {
@@ -37,8 +40,6 @@ describe('orange-hrm-service unit-tests', function () {
                 }
             };
 
-            postStub.resolves(fakeTokenResponse);
-
             // Simulate the GET call that returns a list of employees
             const fakeEmployeeResponse = {
                 data: {
@@ -50,17 +51,27 @@ describe('orange-hrm-service unit-tests', function () {
                 }
             };
 
+            const fakeCRXEmployeeResponse = [
+                { governmentId: '9001' },
+                { governmentId: '9002' }
+            ];
+
             // When getSalesmen() makes a GET call to the employee search URL, return fake data.
             getStub.withArgs(
                 sinon.match('https://sepp-hrm.inf.h-brs.de/symfony/web/index.php/api/v1/employee/search'),
                 sinon.match.any
             ).resolves(fakeEmployeeResponse);
 
+            // Stub für openCRXService.getAllSalesmen
+            salesmanGetAllStub.resolves(fakeCRXEmployeeResponse);
+
+            postStub.resolves(fakeTokenResponse);
+
             // Act
             const salesmen = await hrmService.getSalesmen();
 
             // Assert
-            expect(salesmen).to.be.an('array').with.lengthOf(2);
+            expect(salesmen).to.be.an('array').with.lengthOf(1);
             salesmen.forEach((s) => {
                 expect(s.jobTitle).to.equal('Senior Salesman');
             });
@@ -100,6 +111,13 @@ describe('orange-hrm-service unit-tests', function () {
                 sinon.match('https://sepp-hrm.inf.h-brs.de/symfony/web/index.php/api/v1/employee/search'),
                 sinon.match.any
             ).resolves(fakeEmployeeResponse);
+
+            const fakeCRXEmployeeResponse = [
+                { governmentId: '9002' }
+            ]
+
+            // Stub für openCRXService.getAllSalesmen
+            salesmanGetAllStub.resolves(fakeCRXEmployeeResponse);
 
             // Act
             const salesman = await hrmService.getSalesmanByCode('9002');
@@ -178,7 +196,7 @@ describe('orange-hrm-service unit-tests', function () {
             const fakeEmployeeResponse = {
                 data: {
                     data: [
-                        { firstName: 'Eve', lastName: 'Adams', middleName: '', code: '9010', jobTitle: 'Senior Salesman', employeeId: '10' }
+                        { firstName: 'Eve', lastName: 'Adams', middleName: '', code: '9010', jobTitle: 'Senior Salesman', employeeId: '9010' }
                     ]
                 }
             };
@@ -197,6 +215,13 @@ describe('orange-hrm-service unit-tests', function () {
                 sinon.match.object
             ).resolves(bonusSalaryResponse);
 
+            const fakeCRXEmployeeResponse = [
+                { governmentId: '9010' }
+            ]
+
+            // Stub für openCRXService.getAllSalesmen
+            salesmanGetAllStub.resolves(fakeCRXEmployeeResponse);
+
             // Act
             const bonusData = await hrmService.createBonusSalary('9010', { year: '2023', value: '5000' });
 
@@ -205,7 +230,6 @@ describe('orange-hrm-service unit-tests', function () {
 
             // Verify that the payload sent to the bonus salary endpoint is correct.
             const expectedPayload = {
-                id: 10,      // parseInt('10')
                 year: 2023,  // parseInt('2023')
                 value: 5000  // parseInt('5000')
             };
@@ -241,6 +265,14 @@ describe('orange-hrm-service unit-tests', function () {
                 sinon.match('https://sepp-hrm.inf.h-brs.de/symfony/web/index.php/api/v1/employee/search'),
                 sinon.match.any
             ).resolves(fakeEmployeeResponse);
+
+            // Stub for openCRXService.getAllSalesmen
+            const fakeCRXEmployeeResponse = [
+                { governmentId: '9000' },
+                { governmentId: '9001' }
+            ]
+
+            salesmanGetAllStub.resolves(fakeCRXEmployeeResponse);
 
             // For SalesmanService:
             // Assume that for salesman with sid 9000, getSalesman returns null

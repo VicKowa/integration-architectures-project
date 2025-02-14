@@ -27,7 +27,7 @@ const environment = {
     },
     /**
      * Enum for approval status
-     * @type {{SALESMAN: string, HR: string, NONE: string, CEO: string}}
+     * @type {{SALESMAN: number, HR: number, NONE: number, CEO: number}}
      */
     approvalEnum: {
         NONE: 0,
