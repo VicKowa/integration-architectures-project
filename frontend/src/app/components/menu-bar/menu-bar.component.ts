@@ -89,7 +89,6 @@ export class MenuBarComponent implements OnInit, OnDestroy {
      * Logout the current user.
      */
     handleLogout(): void {
-        console.log('Logging out...');
         this.authService.logout().subscribe({
             next: (): void => {
                 // Clear the local state immediately after a successful logout.

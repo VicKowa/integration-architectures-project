@@ -25,17 +25,7 @@ exports.login = function (req, res){
  * @param res Express response
  */
 exports.logout = function (req, res) {
-    // Temporarily remove this call to see if it causes the hang:
     authService.deAuthenticate(req.session);
-
-    // req.session = null;
-    // console.log("Session cleared (set to null).");
-    //
-    // // Clear cookies (optional, depending on your configuration)
-    // res.clearCookie('session');
-    // res.clearCookie('session.sig');
-    // console.log("Cookies cleared. Sending response now.");
-
     res.send('Logout successful');
 };
 

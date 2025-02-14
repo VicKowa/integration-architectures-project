@@ -62,7 +62,6 @@ export class AuthService {
             responseType: 'text'
         }).pipe(
             tap((response: HttpResponse<any>): void => {
-                console.log(response);
                 if (response.status === 200) {
 
                     this.setLoginState(false);
