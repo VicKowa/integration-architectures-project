@@ -50,3 +50,7 @@ Different roles grant access to specific functionalities. Here is a brief overvi
 - **Person Information**: Can see the performance for the current year. 
 
 ---
+
+## Additional Information
+
+A few salesmen accounts might have already been created. If that's the case, the password should be equal to the username, which is equal to the corresponding ceo/governmentId or odoo id!
