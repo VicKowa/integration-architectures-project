@@ -54,3 +54,9 @@ Different roles grant access to specific functionalities. Here is a brief overvi
 ## Additional Information
 
 A few salesmen accounts might have already been created. If that's the case, the password should be equal to the username, which is equal to the corresponding ceo/governmentId or odoo id!
+
+---
+
+## Links
+
+**[SwaggerUi](http://iar-backend.inf.h-brs.de/team_7/api-docs/)**
