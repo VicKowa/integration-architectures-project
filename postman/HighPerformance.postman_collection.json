@@ -1,0 +1,2163 @@
+{
+	"info": {
+		"_postman_id": "2fef4c93-a07a-4fbf-8de0-5d4b08261cd1",
+		"name": "HighPerformance Api documentation",
+		"description": "Documentation of the REST API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39415979",
+		"_collection_link": "https://integration-architectures.postman.co/workspace/Integration-Architectures-Works~b73b100b-ee28-44c2-8e7c-c22f8ccc0caf/collection/38809930-2fef4c93-a07a-4fbf-8de0-5d4b08261cd1?action=share&source=collection_link&creator=39415979"
+	},
+	"item": [
+		{
+			"name": "login",
+			"item": [
+				{
+					"name": "User login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "text/plain"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"admin\",\n    \"password\":\"5$c3inw%\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"login"
+							]
+						},
+						"description": "Login with username and password"
+					},
+					"response": [
+						{
+							"name": "Login successful",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": "<string>"
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Check if user is logged in",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"admin\",\n    \"password\":\"5$c3inw%\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "User is logged in",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"loggedIn\": \"<boolean>\"\n}"
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "User logout",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "text/plain"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"admin\",\n    \"password\":\"5$c3inw%\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"login"
+							]
+						},
+						"description": "Logout the current user"
+					},
+					"response": [
+						{
+							"name": "Logout successful",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": "<string>"
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "register",
+			"item": [
+				{
+					"name": "Register a new user",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"postmantest\",\n  \"firstname\": \"postman\",\n  \"lastname\": \"test\",\n  \"email\": \"tes@s.de\",\n  \"password\": \"postmantest\",\n  \"role\": \"test\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"register"
+							]
+						},
+						"description": "Register a new user with username and password"
+					},
+					"response": [
+						{
+							"name": "User registered successfully",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"<string>\",\n  \"firstname\": \"<string>\",\n  \"lastname\": \"<string>\",\n  \"email\": \"<string>\",\n  \"password\": \"<string>\",\n  \"role\": \"<string>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"register"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Bad request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"<string>\",\n  \"firstname\": \"<string>\",\n  \"lastname\": \"<string>\",\n  \"email\": \"<string>\",\n  \"password\": \"<string>\",\n  \"role\": \"<string>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"register"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "checkUsername",
+			"item": [
+				{
+					"name": "Check if username is valid",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/checkUsername?username=90123",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"checkUsername"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "90123",
+									"description": "(Required) "
+								}
+							]
+						},
+						"description": "Checks if the username is registerd in either OpenCRX or Odoo"
+					},
+					"response": [
+						{
+							"name": "Username is valid",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/checkUsername?username=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"checkUsername"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "<string>",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"valid\": \"<boolean>\"\n}"
+						},
+						{
+							"name": "Bad request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/checkUsername?username=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"checkUsername"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "<string>",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "Get user information",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/user",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user"
+							]
+						},
+						"description": "Retrieve information about the authenticated user"
+					},
+					"response": [
+						{
+							"name": "User information retrieved successfully",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/user",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"_id\": \"<string>\",\n  \"username\": \"<string>\",\n  \"lastname\": \"<string>\",\n  \"role\": \"<string>\",\n  \"firstname\": \"<string>\",\n  \"email\": \"<string>\"\n}"
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/user",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "salesman",
+			"item": [
+				{
+					"name": "{id}",
+					"item": [
+						{
+							"name": "Get a salesman by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/salesman/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"salesman",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "90123",
+											"description": "(Required) "
+										}
+									]
+								},
+								"description": "Retrieve a salesman by their ID"
+							},
+							"response": [
+								{
+									"name": "Salesman retrieved successfully",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/salesman/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"salesman",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"firstname\": \"<string>\",\n  \"lastname\": \"<string>\",\n  \"sid\": \"<string>\",\n  \"jobTitle\": \"<string>\"\n}"
+								},
+								{
+									"name": "Unauthorized",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/salesman/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"salesman",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Salesman not found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/salesman/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"salesman",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Get all salesmen",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/salesman",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"salesman"
+							],
+							"query": [
+								{
+									"key": "sid",
+									"value": "<string>",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Retrieve a list of all salesmen"
+					},
+					"response": [
+						{
+							"name": "List of salesmen retrieved successfully",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/salesman?year=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"salesman"
+									],
+									"query": [
+										{
+											"key": "year",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"firstname\": \"<string>\",\n    \"lastname\": \"<string>\",\n    \"sid\": \"<string>\",\n    \"jobTitle\": \"<string>\"\n  },\n  {\n    \"firstname\": \"<string>\",\n    \"lastname\": \"<string>\",\n    \"sid\": \"<string>\",\n    \"jobTitle\": \"<string>\"\n  }\n]"
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/salesman?year=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"salesman"
+									],
+									"query": [
+										{
+											"key": "year",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "products",
+			"item": [
+				{
+					"name": "sales",
+					"item": [
+						{
+							"name": "Get all sales",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/products/sales",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										"sales"
+									],
+									"query": [
+										{
+											"key": "sid",
+											"value": "<string>",
+											"disabled": true
+										},
+										{
+											"key": "year",
+											"value": "<string>",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Retrieve a list of all sales"
+							},
+							"response": [
+								{
+									"name": "List of sales retrieved successfully",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/products/sales?sid=<string>",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"products",
+												"sales"
+											],
+											"query": [
+												{
+													"key": "sid",
+													"value": "<string>"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"name\": \"<string>\",\n    \"activeOn\": \"<dateTime>\",\n    \"contractNumber\": \"<string>\",\n    \"priority\": \"<integer>\",\n    \"totalAmountIncludingTax\": \"<string>\",\n    \"customer\": {\n      \"name\": \"<string>\",\n      \"accountRating\": \"<integer>\"\n    },\n    \"orders\": [\n      {\n        \"crx_product\": {\n          \"name\": \"<string>\",\n          \"productNumber\": \"<integer>\"\n        },\n        \"amount\": \"<string>\",\n        \"quantity\": \"<string>\",\n        \"pricePerUnit\": \"<string>\",\n        \"amountWithTax\": \"<string>\"\n      },\n      {\n        \"crx_product\": {\n          \"name\": \"<string>\",\n          \"productNumber\": \"<integer>\"\n        },\n        \"amount\": \"<string>\",\n        \"quantity\": \"<string>\",\n        \"pricePerUnit\": \"<string>\",\n        \"amountWithTax\": \"<string>\"\n      }\n    ]\n  },\n  {\n    \"name\": \"<string>\",\n    \"activeOn\": \"<dateTime>\",\n    \"contractNumber\": \"<string>\",\n    \"priority\": \"<integer>\",\n    \"totalAmountIncludingTax\": \"<string>\",\n    \"customer\": {\n      \"name\": \"<string>\",\n      \"accountRating\": \"<integer>\"\n    },\n    \"orders\": [\n      {\n        \"crx_product\": {\n          \"name\": \"<string>\",\n          \"productNumber\": \"<integer>\"\n        },\n        \"amount\": \"<string>\",\n        \"quantity\": \"<string>\",\n        \"pricePerUnit\": \"<string>\",\n        \"amountWithTax\": \"<string>\"\n      },\n      {\n        \"crx_product\": {\n          \"name\": \"<string>\",\n          \"productNumber\": \"<integer>\"\n        },\n        \"amount\": \"<string>\",\n        \"quantity\": \"<string>\",\n        \"pricePerUnit\": \"<string>\",\n        \"amountWithTax\": \"<string>\"\n      }\n    ]\n  }\n]"
+								},
+								{
+									"name": "Unauthorized",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/products/sales?sid=<string>",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"products",
+												"sales"
+											],
+											"query": [
+												{
+													"key": "sid",
+													"value": "<string>"
+												}
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "salesmanohrm",
+			"item": [
+				{
+					"name": "{id}",
+					"item": [
+						{
+							"name": "Get salesman from OrangeHRM by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/salesmanohrm/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"salesmanohrm",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "90123",
+											"description": "(Required) "
+										}
+									]
+								},
+								"description": "Retrieve information about a specific salesman from OrangeHRM"
+							},
+							"response": [
+								{
+									"name": "Salesman information from OrangeHRM retrieved successfully",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/salesmanohrm/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"salesmanohrm",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"firstname\": \"<string>\",\n  \"lastname\": \"<string>\",\n  \"jobTitle\": \"<string>\",\n  \"middleName\": \"<string>\",\n  \"code\": \"<string>\",\n  \"employeeId\": \"<string>\"\n}"
+								},
+								{
+									"name": "Unauthorized",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/salesmanohrm/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"salesmanohrm",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Get all salesmen from OrangeHRM",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/salesmanohrm",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"salesmanohrm"
+							]
+						},
+						"description": "Retrieve a list of all salesmen from OrangeHRM"
+					},
+					"response": [
+						{
+							"name": "List of salesmen from OrangeHRM retrieved successfully",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/salesmanohrm",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"salesmanohrm"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"firstname\": \"<string>\",\n    \"lastname\": \"<string>\",\n    \"jobTitle\": \"<string>\",\n    \"middleName\": \"<string>\",\n    \"code\": \"<string>\",\n    \"employeeId\": \"<string>\"\n  },\n  {\n    \"firstname\": \"<string>\",\n    \"lastname\": \"<string>\",\n    \"jobTitle\": \"<string>\",\n    \"middleName\": \"<string>\",\n    \"code\": \"<string>\",\n    \"employeeId\": \"<string>\"\n  }\n]"
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/salesmanohrm",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"salesmanohrm"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "odoo",
+			"item": [
+				{
+					"name": "salesman",
+					"item": [
+						{
+							"name": "{id}",
+							"item": [
+								{
+									"name": "Get salesman from Odoo by ID",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/odoo/salesman/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"odoo",
+												"salesman",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "4",
+													"description": "(Required) "
+												}
+											]
+										},
+										"description": "Retrieve information about a specific salesman from Odoo"
+									},
+									"response": [
+										{
+											"name": "Salesman information from Odoo retrieved successfully",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/odoo/salesman/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"odoo",
+														"salesman",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"id\": \"<string>\",\n  \"name\": \"<string>\"\n}"
+										},
+										{
+											"name": "Unauthorized",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/odoo/salesman/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"odoo",
+														"salesman",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Unauthorized",
+											"code": 401,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Get all salesmen from Odoo",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/odoo/salesman",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"odoo",
+										"salesman"
+									]
+								},
+								"description": "Retrieve a list of all salesmen from Odoo"
+							},
+							"response": [
+								{
+									"name": "List of salesmen from Odoo retrieved successfully",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/odoo/salesman",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"odoo",
+												"salesman"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"id\": \"<string>\",\n    \"name\": \"<string>\"\n  },\n  {\n    \"id\": \"<string>\",\n    \"name\": \"<string>\"\n  }\n]"
+								},
+								{
+									"name": "Unauthorized",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/odoo/salesman",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"odoo",
+												"salesman"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "bonus",
+					"item": [
+						{
+							"name": "{id}",
+							"item": [
+								{
+									"name": "Get bonus from Odoo by ID",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/odoo/bonus/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"odoo",
+												"bonus",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "4",
+													"description": "(Required) "
+												}
+											]
+										},
+										"description": "Retrieve bonus information from Odoo by ID"
+									},
+									"response": [
+										{
+											"name": "Bonus information from Odoo retrieved successfully",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/odoo/bonus/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"odoo",
+														"bonus",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"id\": \"<integer>\",\n  \"state\": \"<string>\",\n  \"employee_id\": [\n    11288988,\n    \"esse ea fugiat\"\n  ],\n  \"bonus_reason_id\": [\n    -94626136,\n    \"id consequat dolor reprehenderit ullamco\"\n  ],\n  \"bonus_amount\": \"<number>\"\n}"
+										},
+										{
+											"name": "Unauthorized",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/odoo/bonus/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"odoo",
+														"bonus",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Unauthorized",
+											"code": 401,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "eval",
+			"item": [
+				{
+					"name": "{id}",
+					"item": [
+						{
+							"name": "{year}",
+							"item": [
+								{
+									"name": "Get evaluation by ID and year",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/eval/:id/:year",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"eval",
+												":id",
+												":year"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "90123",
+													"description": "(Required) "
+												},
+												{
+													"key": "year",
+													"value": "2015",
+													"description": "(Required) "
+												}
+											]
+										},
+										"description": "Retrieve information about a specific evaluation"
+									},
+									"response": [
+										{
+											"name": "Evaluation information retrieved successfully",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/eval/:id/:year",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"eval",
+														":id",
+														":year"
+													],
+													"variable": [
+														{
+															"key": "id"
+														},
+														{
+															"key": "year"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"sid\": \"<string>\",\n  \"year\": \"<string>\",\n  \"department\": \"<string>\",\n  \"orderEvaluation\": {\n    \"totalBonus\": \"<number>\",\n    \"orders\": [\n      {\n        \"productNumber\": \"<string>\",\n        \"productName\": \"<string>\",\n        \"clientRanking\": \"<string>\",\n        \"items\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      {\n        \"productNumber\": \"<string>\",\n        \"productName\": \"<string>\",\n        \"clientRanking\": \"<string>\",\n        \"items\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      }\n    ]\n  },\n  \"socialPerformanceEvaluation\": {\n    \"specifiedRecords\": {\n      \"leadershipCompetence\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      \"opennessToEmployee\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      \"socialBehaviorToEmployee\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      \"attitudeToClients\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      \"communicationSkills\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      \"integrityToCompany\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      }\n    },\n    \"totalBonus\": \"<number>\"\n  },\n  \"totalBonus\": \"<number>\",\n  \"approvalStatus\": \"NONE\",\n  \"comment\": \"<string>\"\n}"
+										},
+										{
+											"name": "Unauthorized",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/eval/:id/:year",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"eval",
+														":id",
+														":year"
+													],
+													"variable": [
+														{
+															"key": "id"
+														},
+														{
+															"key": "year"
+														}
+													]
+												}
+											},
+											"status": "Unauthorized",
+											"code": 401,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								},
+								{
+									"name": "Create evaluation",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"approvalStatus\": 3,\n    \"comment\": \"Hallo\",\n    \"department\": \"Sales\",\n    \"orderEvaluation\": {\n      \"orders\": [],\n      \"totalBonus\": 0\n    },\n    \"sid\": \"90123\",\n    \"socialPerformanceEvaluation\": {\n      \"specifiedRecords\": {\n        \"leadershipCompetence\": {\n          \"targetValue\": 4,\n          \"actualValue\": 1,\n          \"bonus\": \"20\",\n          \"comment\": \"\"\n        },\n        \"opennessToEmployee\": {\n          \"targetValue\": 4,\n          \"actualValue\": 2,\n          \"bonus\": \"20\",\n          \"comment\": \"\"\n        },\n        \"socialBehaviorToEmployee\": {\n          \"targetValue\": 4,\n          \"actualValue\": 1,\n          \"bonus\": \"20\",\n          \"comment\": \"\"\n        },\n        \"attitudeToClients\": {\n          \"targetValue\": 4,\n          \"actualValue\": 1,\n          \"bonus\": \"20\",\n          \"comment\": \"\"\n        },\n        \"communicationSkills\": {\n          \"targetValue\": 4,\n          \"actualValue\": 1,\n          \"bonus\": \"20\",\n          \"comment\": \"\"\n        },\n        \"integrityToCompany\": {\n          \"targetValue\": 4,\n          \"actualValue\": 4,\n          \"bonus\": \"50\",\n          \"comment\": \"\"\n        }\n      },\n      \"totalBonus\": 150\n    },\n    \"totalBonus\": 150,\n    \"year\": \"2015\"\n  }",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/eval/:id/:year",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"eval",
+												":id",
+												":year"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "90123",
+													"description": "(Required) "
+												},
+												{
+													"key": "year",
+													"value": "2015",
+													"description": "(Required) "
+												}
+											]
+										},
+										"description": "Create a new evaluation"
+									},
+									"response": [
+										{
+											"name": "Evaluation created successfully",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"sid\": \"<string>\",\n  \"year\": \"<string>\",\n  \"department\": \"<string>\",\n  \"orderEvaluation\": {\n    \"totalBonus\": \"<number>\",\n    \"orders\": [\n      {\n        \"productNumber\": \"<string>\",\n        \"productName\": \"<string>\",\n        \"clientRanking\": \"<string>\",\n        \"items\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      {\n        \"productNumber\": \"<string>\",\n        \"productName\": \"<string>\",\n        \"clientRanking\": \"<string>\",\n        \"items\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      }\n    ]\n  },\n  \"socialPerformanceEvaluation\": {\n    \"specifiedRecords\": {\n      \"leadershipCompetence\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      \"opennessToEmployee\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      \"socialBehaviorToEmployee\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      \"attitudeToClients\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      \"communicationSkills\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      \"integrityToCompany\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      }\n    },\n    \"totalBonus\": \"<number>\"\n  },\n  \"totalBonus\": \"<number>\",\n  \"approvalStatus\": \"NONE\",\n  \"comment\": \"<string>\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/eval/:id/:year",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"eval",
+														":id",
+														":year"
+													],
+													"variable": [
+														{
+															"key": "id"
+														},
+														{
+															"key": "year"
+														}
+													]
+												}
+											},
+											"status": "Created",
+											"code": 201,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Unauthorized",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"sid\": \"<string>\",\n  \"year\": \"<string>\",\n  \"department\": \"<string>\",\n  \"orderEvaluation\": {\n    \"totalBonus\": \"<number>\",\n    \"orders\": [\n      {\n        \"productNumber\": \"<string>\",\n        \"productName\": \"<string>\",\n        \"clientRanking\": \"<string>\",\n        \"items\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      {\n        \"productNumber\": \"<string>\",\n        \"productName\": \"<string>\",\n        \"clientRanking\": \"<string>\",\n        \"items\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      }\n    ]\n  },\n  \"socialPerformanceEvaluation\": {\n    \"specifiedRecords\": {\n      \"leadershipCompetence\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      \"opennessToEmployee\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      \"socialBehaviorToEmployee\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      \"attitudeToClients\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      \"communicationSkills\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      \"integrityToCompany\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      }\n    },\n    \"totalBonus\": \"<number>\"\n  },\n  \"totalBonus\": \"<number>\",\n  \"approvalStatus\": \"NONE\",\n  \"comment\": \"<string>\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/eval/:id/:year",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"eval",
+														":id",
+														":year"
+													],
+													"variable": [
+														{
+															"key": "id"
+														},
+														{
+															"key": "year"
+														}
+													]
+												}
+											},
+											"status": "Unauthorized",
+											"code": 401,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								},
+								{
+									"name": "Update evaluation",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"approvalStatus\": 3,\n    \"comment\": \"HalloTest\",\n    \"department\": \"Sales\",\n    \"orderEvaluation\": {\n      \"orders\": [],\n      \"totalBonus\": 0\n    },\n    \"sid\": \"90123\",\n    \"socialPerformanceEvaluation\": {\n      \"specifiedRecords\": {\n        \"leadershipCompetence\": {\n          \"targetValue\": 4,\n          \"actualValue\": 1,\n          \"bonus\": \"20\",\n          \"comment\": \"\"\n        },\n        \"opennessToEmployee\": {\n          \"targetValue\": 4,\n          \"actualValue\": 2,\n          \"bonus\": \"20\",\n          \"comment\": \"\"\n        },\n        \"socialBehaviorToEmployee\": {\n          \"targetValue\": 4,\n          \"actualValue\": 1,\n          \"bonus\": \"20\",\n          \"comment\": \"\"\n        },\n        \"attitudeToClients\": {\n          \"targetValue\": 4,\n          \"actualValue\": 1,\n          \"bonus\": \"20\",\n          \"comment\": \"\"\n        },\n        \"communicationSkills\": {\n          \"targetValue\": 4,\n          \"actualValue\": 1,\n          \"bonus\": \"20\",\n          \"comment\": \"\"\n        },\n        \"integrityToCompany\": {\n          \"targetValue\": 4,\n          \"actualValue\": 4,\n          \"bonus\": \"50\",\n          \"comment\": \"\"\n        }\n      },\n      \"totalBonus\": 150\n    },\n    \"totalBonus\": 150,\n    \"year\": \"2015\"\n  }",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/eval/",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"eval",
+												""
+											]
+										},
+										"description": "Update an existing evaluation"
+									},
+									"response": [
+										{
+											"name": "Evaluation updated successfully",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"sid\": \"<string>\",\n  \"year\": \"<string>\",\n  \"department\": \"<string>\",\n  \"orderEvaluation\": {\n    \"totalBonus\": \"<number>\",\n    \"orders\": [\n      {\n        \"productNumber\": \"<string>\",\n        \"productName\": \"<string>\",\n        \"clientRanking\": \"<string>\",\n        \"items\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      {\n        \"productNumber\": \"<string>\",\n        \"productName\": \"<string>\",\n        \"clientRanking\": \"<string>\",\n        \"items\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      }\n    ]\n  },\n  \"socialPerformanceEvaluation\": {\n    \"specifiedRecords\": {\n      \"leadershipCompetence\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      \"opennessToEmployee\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      \"socialBehaviorToEmployee\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      \"attitudeToClients\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      \"communicationSkills\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      \"integrityToCompany\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      }\n    },\n    \"totalBonus\": \"<number>\"\n  },\n  \"totalBonus\": \"<number>\",\n  \"approvalStatus\": \"NONE\",\n  \"comment\": \"<string>\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/eval/:id/:year",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"eval",
+														":id",
+														":year"
+													],
+													"variable": [
+														{
+															"key": "id"
+														},
+														{
+															"key": "year"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Unauthorized",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"sid\": \"<string>\",\n  \"year\": \"<string>\",\n  \"department\": \"<string>\",\n  \"orderEvaluation\": {\n    \"totalBonus\": \"<number>\",\n    \"orders\": [\n      {\n        \"productNumber\": \"<string>\",\n        \"productName\": \"<string>\",\n        \"clientRanking\": \"<string>\",\n        \"items\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      {\n        \"productNumber\": \"<string>\",\n        \"productName\": \"<string>\",\n        \"clientRanking\": \"<string>\",\n        \"items\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      }\n    ]\n  },\n  \"socialPerformanceEvaluation\": {\n    \"specifiedRecords\": {\n      \"leadershipCompetence\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      \"opennessToEmployee\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      \"socialBehaviorToEmployee\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      \"attitudeToClients\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      \"communicationSkills\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      \"integrityToCompany\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      }\n    },\n    \"totalBonus\": \"<number>\"\n  },\n  \"totalBonus\": \"<number>\",\n  \"approvalStatus\": \"NONE\",\n  \"comment\": \"<string>\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/eval/:id/:year",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"eval",
+														":id",
+														":year"
+													],
+													"variable": [
+														{
+															"key": "id"
+														},
+														{
+															"key": "year"
+														}
+													]
+												}
+											},
+											"status": "Unauthorized",
+											"code": 401,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Get all evaluations",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/eval?sid=90123&year=2015",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"eval"
+							],
+							"query": [
+								{
+									"key": "sid",
+									"value": "90123"
+								},
+								{
+									"key": "year",
+									"value": "2015"
+								},
+								{
+									"key": "approvalStatus",
+									"value": "SALESMAN",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Retrieve a list of all evaluations"
+					},
+					"response": [
+						{
+							"name": "List of evaluations retrieved successfully",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/eval?sid=<string>&year=<string>&approvalStatus=SALESMAN",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"eval"
+									],
+									"query": [
+										{
+											"key": "sid",
+											"value": "<string>"
+										},
+										{
+											"key": "year",
+											"value": "<string>"
+										},
+										{
+											"key": "approvalStatus",
+											"value": "SALESMAN"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"sid\": \"<string>\",\n    \"year\": \"<string>\",\n    \"department\": \"<string>\",\n    \"orderEvaluation\": {\n      \"totalBonus\": \"<number>\",\n      \"orders\": [\n        {\n          \"productNumber\": \"<string>\",\n          \"productName\": \"<string>\",\n          \"clientRanking\": \"<string>\",\n          \"items\": \"<number>\",\n          \"bonus\": \"<number>\",\n          \"comment\": \"<string>\"\n        },\n        {\n          \"productNumber\": \"<string>\",\n          \"productName\": \"<string>\",\n          \"clientRanking\": \"<string>\",\n          \"items\": \"<number>\",\n          \"bonus\": \"<number>\",\n          \"comment\": \"<string>\"\n        }\n      ]\n    },\n    \"socialPerformanceEvaluation\": {\n      \"specifiedRecords\": {\n        \"leadershipCompetence\": {\n          \"targetValue\": \"<number>\",\n          \"actualValue\": \"<number>\",\n          \"bonus\": \"<number>\",\n          \"comment\": \"<string>\"\n        },\n        \"opennessToEmployee\": {\n          \"targetValue\": \"<number>\",\n          \"actualValue\": \"<number>\",\n          \"bonus\": \"<number>\",\n          \"comment\": \"<string>\"\n        },\n        \"socialBehaviorToEmployee\": {\n          \"targetValue\": \"<number>\",\n          \"actualValue\": \"<number>\",\n          \"bonus\": \"<number>\",\n          \"comment\": \"<string>\"\n        },\n        \"attitudeToClients\": {\n          \"targetValue\": \"<number>\",\n          \"actualValue\": \"<number>\",\n          \"bonus\": \"<number>\",\n          \"comment\": \"<string>\"\n        },\n        \"communicationSkills\": {\n          \"targetValue\": \"<number>\",\n          \"actualValue\": \"<number>\",\n          \"bonus\": \"<number>\",\n          \"comment\": \"<string>\"\n        },\n        \"integrityToCompany\": {\n          \"targetValue\": \"<number>\",\n          \"actualValue\": \"<number>\",\n          \"bonus\": \"<number>\",\n          \"comment\": \"<string>\"\n        }\n      },\n      \"totalBonus\": \"<number>\"\n    },\n    \"totalBonus\": \"<number>\",\n    \"approvalStatus\": \"HR\",\n    \"comment\": \"<string>\"\n  },\n  {\n    \"sid\": \"<string>\",\n    \"year\": \"<string>\",\n    \"department\": \"<string>\",\n    \"orderEvaluation\": {\n      \"totalBonus\": \"<number>\",\n      \"orders\": [\n        {\n          \"productNumber\": \"<string>\",\n          \"productName\": \"<string>\",\n          \"clientRanking\": \"<string>\",\n          \"items\": \"<number>\",\n          \"bonus\": \"<number>\",\n          \"comment\": \"<string>\"\n        },\n        {\n          \"productNumber\": \"<string>\",\n          \"productName\": \"<string>\",\n          \"clientRanking\": \"<string>\",\n          \"items\": \"<number>\",\n          \"bonus\": \"<number>\",\n          \"comment\": \"<string>\"\n        }\n      ]\n    },\n    \"socialPerformanceEvaluation\": {\n      \"specifiedRecords\": {\n        \"leadershipCompetence\": {\n          \"targetValue\": \"<number>\",\n          \"actualValue\": \"<number>\",\n          \"bonus\": \"<number>\",\n          \"comment\": \"<string>\"\n        },\n        \"opennessToEmployee\": {\n          \"targetValue\": \"<number>\",\n          \"actualValue\": \"<number>\",\n          \"bonus\": \"<number>\",\n          \"comment\": \"<string>\"\n        },\n        \"socialBehaviorToEmployee\": {\n          \"targetValue\": \"<number>\",\n          \"actualValue\": \"<number>\",\n          \"bonus\": \"<number>\",\n          \"comment\": \"<string>\"\n        },\n        \"attitudeToClients\": {\n          \"targetValue\": \"<number>\",\n          \"actualValue\": \"<number>\",\n          \"bonus\": \"<number>\",\n          \"comment\": \"<string>\"\n        },\n        \"communicationSkills\": {\n          \"targetValue\": \"<number>\",\n          \"actualValue\": \"<number>\",\n          \"bonus\": \"<number>\",\n          \"comment\": \"<string>\"\n        },\n        \"integrityToCompany\": {\n          \"targetValue\": \"<number>\",\n          \"actualValue\": \"<number>\",\n          \"bonus\": \"<number>\",\n          \"comment\": \"<string>\"\n        }\n      },\n      \"totalBonus\": \"<number>\"\n    },\n    \"totalBonus\": \"<number>\",\n    \"approvalStatus\": \"SALESMAN\",\n    \"comment\": \"<string>\"\n  }\n]"
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/eval?sid=<string>&year=<string>&approvalStatus=SALESMAN",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"eval"
+									],
+									"query": [
+										{
+											"key": "sid",
+											"value": "<string>"
+										},
+										{
+											"key": "year",
+											"value": "<string>"
+										},
+										{
+											"key": "approvalStatus",
+											"value": "SALESMAN"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "bonus",
+			"item": [
+				{
+					"name": "spr",
+					"item": [
+						{
+							"name": "Recalculate SPR bonus",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"approvalStatus\": 3,\n    \"comment\": \"HalloTest\",\n    \"department\": \"Sales\",\n    \"orderEvaluation\": {\n      \"orders\": [],\n      \"totalBonus\": 0\n    },\n    \"sid\": \"90123\",\n    \"socialPerformanceEvaluation\": {\n      \"specifiedRecords\": {\n        \"leadershipCompetence\": {\n          \"targetValue\": 4,\n          \"actualValue\": 1,\n          \"bonus\": \"20\",\n          \"comment\": \"\"\n        },\n        \"opennessToEmployee\": {\n          \"targetValue\": 4,\n          \"actualValue\": 2,\n          \"bonus\": \"20\",\n          \"comment\": \"\"\n        },\n        \"socialBehaviorToEmployee\": {\n          \"targetValue\": 4,\n          \"actualValue\": 1,\n          \"bonus\": \"20\",\n          \"comment\": \"\"\n        },\n        \"attitudeToClients\": {\n          \"targetValue\": 4,\n          \"actualValue\": 1,\n          \"bonus\": \"20\",\n          \"comment\": \"\"\n        },\n        \"communicationSkills\": {\n          \"targetValue\": 4,\n          \"actualValue\": 1,\n          \"bonus\": \"20\",\n          \"comment\": \"\"\n        },\n        \"integrityToCompany\": {\n          \"targetValue\": 4,\n          \"actualValue\": 4,\n          \"bonus\": \"50\",\n          \"comment\": \"\"\n        }\n      },\n      \"totalBonus\": 150\n    },\n    \"totalBonus\": 150,\n    \"year\": \"2015\"\n  }",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/bonus/spr",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bonus",
+										"spr"
+									]
+								},
+								"description": "Recalculate the SPR bonus"
+							},
+							"response": [
+								{
+									"name": "SPR bonus recalculated successfully",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"sid\": \"<string>\",\n  \"year\": \"<string>\",\n  \"department\": \"<string>\",\n  \"orderEvaluation\": {\n    \"totalBonus\": \"<number>\",\n    \"orders\": [\n      {\n        \"productNumber\": \"<string>\",\n        \"productName\": \"<string>\",\n        \"clientRanking\": \"<string>\",\n        \"items\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      {\n        \"productNumber\": \"<string>\",\n        \"productName\": \"<string>\",\n        \"clientRanking\": \"<string>\",\n        \"items\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      }\n    ]\n  },\n  \"socialPerformanceEvaluation\": {\n    \"specifiedRecords\": {\n      \"leadershipCompetence\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      \"opennessToEmployee\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      \"socialBehaviorToEmployee\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      \"attitudeToClients\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      \"communicationSkills\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      \"integrityToCompany\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      }\n    },\n    \"totalBonus\": \"<number>\"\n  },\n  \"totalBonus\": \"<number>\",\n  \"approvalStatus\": \"NONE\",\n  \"comment\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/bonus/spr",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"bonus",
+												"spr"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"specifiedRecords\": {\n    \"leadershipCompetence\": {\n      \"targetValue\": \"<number>\",\n      \"actualValue\": \"<number>\",\n      \"bonus\": \"<number>\",\n      \"comment\": \"<string>\"\n    },\n    \"opennessToEmployee\": {\n      \"targetValue\": \"<number>\",\n      \"actualValue\": \"<number>\",\n      \"bonus\": \"<number>\",\n      \"comment\": \"<string>\"\n    },\n    \"socialBehaviorToEmployee\": {\n      \"targetValue\": \"<number>\",\n      \"actualValue\": \"<number>\",\n      \"bonus\": \"<number>\",\n      \"comment\": \"<string>\"\n    },\n    \"attitudeToClients\": {\n      \"targetValue\": \"<number>\",\n      \"actualValue\": \"<number>\",\n      \"bonus\": \"<number>\",\n      \"comment\": \"<string>\"\n    },\n    \"communicationSkills\": {\n      \"targetValue\": \"<number>\",\n      \"actualValue\": \"<number>\",\n      \"bonus\": \"<number>\",\n      \"comment\": \"<string>\"\n    },\n    \"integrityToCompany\": {\n      \"targetValue\": \"<number>\",\n      \"actualValue\": \"<number>\",\n      \"bonus\": \"<number>\",\n      \"comment\": \"<string>\"\n    }\n  },\n  \"totalBonus\": \"<number>\"\n}"
+								},
+								{
+									"name": "Unauthorized",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"sid\": \"<string>\",\n  \"year\": \"<string>\",\n  \"department\": \"<string>\",\n  \"orderEvaluation\": {\n    \"totalBonus\": \"<number>\",\n    \"orders\": [\n      {\n        \"productNumber\": \"<string>\",\n        \"productName\": \"<string>\",\n        \"clientRanking\": \"<string>\",\n        \"items\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      {\n        \"productNumber\": \"<string>\",\n        \"productName\": \"<string>\",\n        \"clientRanking\": \"<string>\",\n        \"items\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      }\n    ]\n  },\n  \"socialPerformanceEvaluation\": {\n    \"specifiedRecords\": {\n      \"leadershipCompetence\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      \"opennessToEmployee\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      \"socialBehaviorToEmployee\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      \"attitudeToClients\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      \"communicationSkills\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      },\n      \"integrityToCompany\": {\n        \"targetValue\": \"<number>\",\n        \"actualValue\": \"<number>\",\n        \"bonus\": \"<number>\",\n        \"comment\": \"<string>\"\n      }\n    },\n    \"totalBonus\": \"<number>\"\n  },\n  \"totalBonus\": \"<number>\",\n  \"approvalStatus\": \"NONE\",\n  \"comment\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/bonus/spr",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"bonus",
+												"spr"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080/api"
+		}
+	]
+}
